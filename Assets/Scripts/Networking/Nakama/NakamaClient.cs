@@ -53,9 +53,4 @@ public class NakamaClient : MonoBehaviour
         // stuff when the Ping p has finshed....
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
