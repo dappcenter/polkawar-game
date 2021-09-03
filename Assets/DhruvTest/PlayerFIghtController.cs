@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerFIghtController : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject AttackAnime;
+  
 
     public GameObject PlayerOne;
     public GameObject PlayerTwo;
@@ -46,9 +48,14 @@ public class PlayerFIghtController : MonoBehaviour
       //  PlayerOneModle.GetComponent<Animator>().Play(PlayereOneEndMoveAnimation);
         yield return new WaitForSeconds(0.2f);
         PlayerOneModle.GetComponent<Animator>().Play(PlayerOneAttackAnimation);
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.9f);
+        AttackAnime.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
         PlayerTwoModle.GetComponent<Animator>().Play(PlayerTwoDeffendAnimation);
+        yield return new WaitForSeconds(1.5f);
+        
         yield return new WaitForSeconds(3f);
+        AttackAnime.SetActive(false);
         PlayerOneModle.GetComponent<Animator>().Play(PlayerOneReturnAnimation);
         LeanTween.move(PlayerOne, PlayerOneInitialPosition, 0.50f).setDelay(0.65f);
         yield return new WaitForSeconds(2f);
