@@ -76,4 +76,32 @@ public class NakamaConnection : ScriptableObject
         Socket = Client.NewSocket();
         await Socket.ConnectAsync(Session, true);
     }
+
+    /// <summary>
+    /// Starts looking for a match with a given number of minimum players.
+    /// </summary>
+    public async Task FindMatch(int minPlayers = 2)
+    {
+        // Set some matchmaking properties to ensure we only look for games that are using the Unity client.
+        // This is not a required when using the Unity Nakama SDK, 
+        // however in this instance we are using it to differentiate different matchmaking requests across multiple platforms using the same Nakama server.
+        var matchmakingProperties = new Dictionary<string, string>
+        {
+            { "polkawar", "unity" }
+        };
+
+        // Add this client to the matchmaking pool and get a ticket.
+        var matchmakerTicket = await Socket.AddMatchmakerAsync("+properties.polkawar:unity", minPlayers, minPlayers, matchmakingProperties);
+        currentMatchmakingTicket = matchmakerTicket.Ticket;
+    }
+
+    // Perhaps just call this directly from the Socket since it's public already?
+    /// <summary>
+    /// Cancels the current matchmaking request.
+    /// </summary>
+    public async Task CancelMatchmaking()
+    {
+        await Socket.RemoveMatchmakerAsync(currentMatchmakingTicket);
+    }
+
 }
