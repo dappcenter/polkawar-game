@@ -26,36 +26,5 @@ public class NakamaClient : MonoBehaviour
 
         Debug.Log(session);
         Debug.Log(socket);
-
-        //CheckPing("http://108.160.141.74:7351/#/status");
-        //CheckPing("www.google.com");
-    }
-    public void CheckPing(string ip)
-    {
-        StartCoroutine(StartPing(ip));
-    }
-
-    IEnumerator StartPing(string ip)
-    {
-        WaitForSeconds f = new WaitForSeconds(0.05f);
-        Ping p = new Ping(ip);
-        while (p.isDone == false)
-        {
-            yield return f;
-        }
-        PingFinished(p);
-    }
-
-
-    public void PingFinished(Ping p)
-    {
-        Debug.Log(p);
-        // stuff when the Ping p has finshed....
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
