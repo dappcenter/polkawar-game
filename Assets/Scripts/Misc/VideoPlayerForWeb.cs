@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Video;
 
 [RequireComponent(typeof(VideoPlayer))]
@@ -10,6 +11,8 @@ public class VideoPlayerForWeb : MonoBehaviour
     public float delay = 0f;
     public bool playOnAwake = false;
     private VideoPlayer myVP;
+
+    public UnityEvent OnvideoEnded;
 
     private void Awake()
     {
@@ -34,5 +37,11 @@ public class VideoPlayerForWeb : MonoBehaviour
 
         myVP.url = System.IO.Path.Combine(Application.streamingAssetsPath, videoPathInStramingAsset);
         myVP.Play();
+
+        yield return null;
+
+        while (myVP.isPlaying) yield return null;
+
+        OnvideoEnded.Invoke();
     }
 }
