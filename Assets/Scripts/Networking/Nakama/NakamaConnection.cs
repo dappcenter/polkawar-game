@@ -23,6 +23,7 @@ public class NakamaConnection : ScriptableObject
     private string currentMatchmakingTicket;
     private string currentMatchId;
 
+    #region Server Connect, Auth/Session Socket
     /// <summary>
     /// Connects to the Nakama server using device authentication and opens socket for realtime communication.
     /// </summary>
@@ -76,7 +77,9 @@ public class NakamaConnection : ScriptableObject
         Socket = Client.NewSocket();
         await Socket.ConnectAsync(Session, true);
     }
+    #endregion
 
+    #region Match Making
     /// <summary>
     /// Starts looking for a match with a given number of minimum players.
     /// </summary>
@@ -103,5 +106,5 @@ public class NakamaConnection : ScriptableObject
     {
         await Socket.RemoveMatchmakerAsync(currentMatchmakingTicket);
     }
-
+    #endregion
 }
