@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
+[RequireComponent(typeof(VideoPlayer))]
 public class VideoPlayerForWeb : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float delay = 0f;
+    private VideoPlayer myVP;
+
+    private void Awake()
     {
-        
+        myVP = GetComponent<VideoPlayer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    IEnumerator Start()
     {
-        
+        yield return new WaitForSeconds(delay);
+
+        //myVP.
     }
 }
