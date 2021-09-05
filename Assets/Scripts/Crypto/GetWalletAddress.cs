@@ -106,12 +106,10 @@ public class GetWalletAddress : MonoBehaviour
         }
     }
 
-    public void OnSkip()
-    {
-        // move to next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-
+    //public void OnSkip()
+    //{
+    //    // move to next scene
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //}
 }
 #endif
