@@ -102,9 +102,6 @@ public class NakamaConnection : ScriptableObject
     /// <summary>
     /// Cancels the current matchmaking request.
     /// </summary>
-    public async Task CancelMatchmaking()
-    {
-        await Socket.RemoveMatchmakerAsync(currentMatchmakingTicket);
-    }
+    public async Task CancelMatchmaking() => await Socket.RemoveMatchmakerAsync(currentMatchmakingTicket);
     #endregion
 }
