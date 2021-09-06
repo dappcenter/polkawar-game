@@ -20,7 +20,7 @@ public class PlayerFIghtController : MonoBehaviour
     public string PlayereOneEndMoveAnimation;
     public string PlayerOneAttackAnimation;
     public string PlayerOneReturnAnimation;
-
+    public string PlayerTwoRunAnimation;
     public string PlayerTwoDeffendAnimation;
 
 
@@ -48,7 +48,11 @@ public class PlayerFIghtController : MonoBehaviour
       //  PlayerOneModle.GetComponent<Animator>().Play(PlayereOneEndMoveAnimation);
         yield return new WaitForSeconds(0.2f);
         PlayerOneModle.GetComponent<Animator>().Play(PlayerOneAttackAnimation);
-        yield return new WaitForSeconds(0.9f);
+        
+        yield return new WaitForSeconds(0.4f);
+        //PlayerTwoModle.GetComponent<Animator>().Play(PlayerTwoRunAnimation);
+        
+        yield return new WaitForSeconds(0.5f);
         AttackAnime.SetActive(true);
         yield return new WaitForSeconds(0.3f);
         PlayerTwoModle.GetComponent<Animator>().Play(PlayerTwoDeffendAnimation);
