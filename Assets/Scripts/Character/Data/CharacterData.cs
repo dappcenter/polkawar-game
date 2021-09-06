@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class CharacterData : MonoBehaviour
+[CreateAssetMenu(menuName = "Character/Data/CreateSingleCharacter")]
+public class CharacterData : BaseCharacterData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Sprite uiSprite;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [ShowInInspector]public string Name => name;
 }

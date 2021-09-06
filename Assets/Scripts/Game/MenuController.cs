@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuController : MonoBehaviour
+public class MenuController : SingletonMB<MenuController>
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject userNamePanel, mainMenuPanel, characterSelectionPanel, loadingPanel;
+
+    public void EnableCharacterSelectionPanel()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnableMainmenuPanel()
     {
-        
+        mainMenuPanel.SetActive(true);
+    }
+
+    public void EnableLoadingPanel()
+    {
+        loadingPanel.SetActive(true);
     }
 }

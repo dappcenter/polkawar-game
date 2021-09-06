@@ -1,61 +1,119 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Nakama;
+//using Nakama.TinyJson;
 using System;
+using Sirenix.OdinInspector;
 
-public class NakamaClient : MonoBehaviour
+public class NakamaClient : SingletonMB<NakamaClient>
 {
     //private readonly IClient client = new Client("http", "108.160.141.74", 7351, "defaultkey");
 
-    public string email = "imran@gmail.com";
-    public string password = "myPassword";
+    //public string email = "imran@gmail.com";
+    //public string password = "myPassword";
 
-    private ISocket socket;
+    [HideInInspector]
+    public ISocket socket;
+    [HideInInspector]
+    public ISession session;
+    [HideInInspector]
+    public IClient client;
+    [HideInInspector]
+    public IApiAccount account;
+
+    public UnityEvent OnConnected;
+
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(2f);
+
+        Login();
+    }
 
     // Start is called before the first frame update
-    async void Start()
+    async void Login()
     {
+        client = new Client("http", "108.160.141.74", 7350, "polkawar", UnityWebRequestAdapter.Instance);
 
-        IClient client = new Client("http", "108.160.141.74", 7350, "polkawar", UnityWebRequestAdapter.Instance);
-        var session = await client.AuthenticateEmailAsync(email, password);
+        session = await client.AuthenticateDeviceAsync(PlayerPrefs.GetString("Account", "imran@gmail.com"));
 
+        //session = await client.AuthenticateEmailAsync(email, password);
         socket = client.NewSocket();
-
         await socket.ConnectAsync(session, true);
-
         Debug.Log(session);
         Debug.Log(socket);
 
-        //CheckPing("http://108.160.141.74:7351/#/status");
-        //CheckPing("www.google.com");
-    }
-    public void CheckPing(string ip)
-    {
-        StartCoroutine(StartPing(ip));
-    }
-
-    IEnumerator StartPing(string ip)
-    {
-        WaitForSeconds f = new WaitForSeconds(0.05f);
-        Ping p = new Ping(ip);
-        while (p.isDone == false)
-        {
-            yield return f;
-        }
-        PingFinished(p);
-    }
+        //client.UpdateAccountAsync()
+        //client.GetUsersAsync()
+        //client.GetAccountAsync()
 
 
-    public void PingFinished(Ping p)
-    {
-        Debug.Log(p);
-        // stuff when the Ping p has finshed....
+        account = await client.GetAccountAsync(session);
+        var user = account.User;
+        Debug.LogFormat("User id '{0}' username '{1}'", user.Id, user.Username);
+        Debug.LogFormat("User wallet: '{0}'", account.Wallet);
+
+        OnConnected.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    [Button]
+    async void SaveData()
     {
+        var armySetup = "{ \"soldiers\": 50 }";
+        // "2" refers to Public Read permission
+        // "1" refers to Owner Write permission
         
+        var result = await client.WriteStorageObjectsAsync(session, new WriteStorageObject[]
+        {
+            new WriteStorageObject()
+            {
+                Collection = "Saves",
+                Key = "CharacterSelection",
+                Value = armySetup,
+                PermissionRead = 2,
+                PermissionWrite = 1
+            }
+        });
+        Debug.LogFormat("Stored objects: [{0}]", string.Join(",\n  ", result.Acks));
     }
+
+    [Button]
+    async void LoadData()
+    {
+        var result = await client.ReadStorageObjectsAsync(session, new StorageObjectId[]
+        {
+            new StorageObjectId(){
+                Collection = "Saves",
+                Key = "CharacterSelection",
+                UserId = session.UserId
+            },
+        });
+
+        Debug.LogFormat("Read objects: [{0}]", string.Join(",\n  ", result.Objects));
+        int count = 0;
+        foreach (var item in result.Objects)
+        {
+            count++;
+        }
+        if(count == 0) { Debug.Log("The objects are empty"); }
+
+    }
+
+    public void UpdateDisplayName(string newDisplayName)
+    {
+        UpdateDN(newDisplayName);
+    }
+
+    async void UpdateDN(string newDN)
+    {
+        await client.UpdateAccountAsync(session, session.Username, newDN);
+    }
+}
+
+[Serializable]
+public class CharacterServerInfo
+{
+    //public string 
 }
