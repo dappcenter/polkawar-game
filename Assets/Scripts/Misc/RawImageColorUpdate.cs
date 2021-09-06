@@ -16,6 +16,8 @@ public class RawImageColorUpdate : MonoBehaviour
 
     public void UpdateColorAlpha(float alpha)
     {
+        if (!rawImage) return;
+
         color = rawImage.color;
         color.a = alpha;
         rawImage.color = color;
