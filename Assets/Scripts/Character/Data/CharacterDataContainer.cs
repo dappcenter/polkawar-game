@@ -19,4 +19,14 @@ public class CharacterDataContainer : SingletonSO<CharacterDataContainer>
             allCharactersData.Add(characterDatas[i].Name, characterDatas[i]);
         }
     }
+
+    public CharacterData GetDataByName(string characterName)
+    {
+        if(allCharactersData.TryGetValue(characterName, out CharacterData characterData))
+        {
+            return characterData;
+        }
+
+        return null;
+    }
 }

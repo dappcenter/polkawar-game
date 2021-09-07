@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterSelection : MonoBehaviour
 {
     public static CharacterSelection Instance;
+    public CharacterData selectedCharacter;
 
     private void Awake()
     {
@@ -13,6 +14,12 @@ public class CharacterSelection : MonoBehaviour
 
     public void SelectCharacter(CharacterData characterData)
     {
+        NakamaClient.Instance.characterServerInfo.selectedCharacterName = characterData.Name;
 
+        NakamaClient.Instance.SaveCharacterInfo();
+
+
+        MenuController.Instance.DisableCharacterSelectionPanel();
+        MenuController.Instance.EnableLobbyPanel();
     }
 }

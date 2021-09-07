@@ -9,6 +9,7 @@ public class FloatTween : MonoBehaviour
     public bool playOnAwake = false;
 
     public UnityEvent<float> OnUpdate;
+    public UnityEvent OnCompleted;
 
     // Start is called before the first frame update
     void  Start()
@@ -22,6 +23,8 @@ public class FloatTween : MonoBehaviour
 
             OnUpdate.Invoke(value);
 
+        }).setOnComplete(()=> {
+            OnCompleted.Invoke();
         });
     }
 }

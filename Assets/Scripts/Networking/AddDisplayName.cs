@@ -10,8 +10,8 @@ public class AddDisplayName : MonoBehaviour
 
     public void SubmitDisplayName()
     {
-        NakamaClient.Instance.UpdateDisplayName(displayName.text);
         gameObject.SetActive(false);
         MenuController.Instance.EnableLoadingPanel();
+        NakamaClient.Instance.UpdateDisplayName(displayName.text);
     }
 }

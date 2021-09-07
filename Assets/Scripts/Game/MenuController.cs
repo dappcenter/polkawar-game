@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class MenuController : SingletonMB<MenuController>
 {
-    public GameObject userNamePanel, mainMenuPanel, characterSelectionPanel, loadingPanel;
+    public GameObject userNamePanel, mainMenuPanel, characterSelectionPanel, loadingPanel, lobbyPanel;
 
     public void EnableCharacterSelectionPanel()
     {
+        characterSelectionPanel.SetActive(true);
+    }
 
+    public void DisableCharacterSelectionPanel()
+    {
+        characterSelectionPanel.SetActive(false);
     }
 
     public void EnableMainmenuPanel()
@@ -19,5 +24,15 @@ public class MenuController : SingletonMB<MenuController>
     public void EnableLoadingPanel()
     {
         loadingPanel.SetActive(true);
+    }
+
+    public void DisableLoadingPanel()
+    {
+        loadingPanel.SetActive(false);
+    }
+
+    public void EnableLobbyPanel()
+    {
+        lobbyPanel.SetActive(true);
     }
 }

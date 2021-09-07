@@ -42,6 +42,8 @@ public class VideoPlayerForWeb : MonoBehaviour
 
         while (myVP.isPlaying) yield return null;
 
+        yield return new WaitForSeconds(delay);
+
         OnvideoEnded.Invoke();
     }
 }

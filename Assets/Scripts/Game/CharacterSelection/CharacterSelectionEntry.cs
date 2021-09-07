@@ -13,6 +13,6 @@ public class CharacterSelectionEntry : MonoBehaviour
 
     private void OnMouseUp()
     {
-        
+        CharacterSelection.Instance.SelectCharacter(mycharacter);
     }
 }

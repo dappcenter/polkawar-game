@@ -23,7 +23,9 @@ public class NakamaClient : SingletonMB<NakamaClient>
     [HideInInspector]
     public IApiAccount account;
 
-    public UnityEvent OnConnected;
+    public UnityEvent OnConnected, characterInfoAvailable, characterInfoNotAvailable;
+
+    public CharacterServerInfo characterServerInfo = null;
 
     IEnumerator Start()
     {
@@ -56,32 +58,7 @@ public class NakamaClient : SingletonMB<NakamaClient>
         Debug.LogFormat("User wallet: '{0}'", account.Wallet);
 
         OnConnected.Invoke();
-    }
 
-    [Button]
-    async void SaveData()
-    {
-        var armySetup = "{ \"soldiers\": 50 }";
-        // "2" refers to Public Read permission
-        // "1" refers to Owner Write permission
-        
-        var result = await client.WriteStorageObjectsAsync(session, new WriteStorageObject[]
-        {
-            new WriteStorageObject()
-            {
-                Collection = "Saves",
-                Key = "CharacterSelection",
-                Value = armySetup,
-                PermissionRead = 2,
-                PermissionWrite = 1
-            }
-        });
-        Debug.LogFormat("Stored objects: [{0}]", string.Join(",\n  ", result.Acks));
-    }
-
-    [Button]
-    async void LoadData()
-    {
         var result = await client.ReadStorageObjectsAsync(session, new StorageObjectId[]
         {
             new StorageObjectId(){
@@ -92,14 +69,107 @@ public class NakamaClient : SingletonMB<NakamaClient>
         });
 
         Debug.LogFormat("Read objects: [{0}]", string.Join(",\n  ", result.Objects));
-        int count = 0;
+
+        characterServerInfo = null;
+
         foreach (var item in result.Objects)
         {
-            count++;
+            switch (item.Key)
+            {
+                case "CharacterSelection":
+                    characterServerInfo = JsonUtility.FromJson<CharacterServerInfo>(item.Value);
+                    break;
+                default:
+                    break;
+            }
         }
-        if(count == 0) { Debug.Log("The objects are empty"); }
-
     }
+
+    public void SaveCharacterInfo()
+    {
+        SaveCharacterInfoAsync();
+    }
+
+    async void SaveCharacterInfoAsync()
+    {
+        var characterServInfo = JsonUtility.ToJson(characterServerInfo);
+        // "2" refers to Public Read permission
+        // "1" refers to Owner Write permission
+
+        var result = await client.WriteStorageObjectsAsync(session, new WriteStorageObject[]
+        {
+            new WriteStorageObject()
+            {
+                Collection = "Saves",
+                Key = "CharacterSelection",
+                Value = characterServInfo,
+                PermissionRead = 2,
+                PermissionWrite = 1
+            }
+        });
+    }
+
+    public void ShowCharacterSelection()
+    {
+        if (characterServerInfo == null)
+        {
+            characterServerInfo = new CharacterServerInfo();
+            characterInfoNotAvailable.Invoke();
+        }
+        else
+        {
+            if (!characterServerInfo.hasSelectedCharacter)
+            {
+                characterInfoNotAvailable.Invoke();
+            }
+            else
+            {
+                characterInfoAvailable.Invoke();
+            }
+        }
+    }
+
+    //async void SaveData()
+    //{
+    //    var armySetup = "{ \"soldiers\": 50 }";
+    //    // "2" refers to Public Read permission
+    //    // "1" refers to Owner Write permission
+        
+    //    var result = await client.WriteStorageObjectsAsync(session, new WriteStorageObject[]
+    //    {
+    //        new WriteStorageObject()
+    //        {
+    //            Collection = "Saves",
+    //            Key = "CharacterSelection",
+    //            Value = armySetup,
+    //            PermissionRead = 2,
+    //            PermissionWrite = 1
+    //        }
+    //    });
+
+    //    Debug.LogFormat("Stored objects: [{0}]", string.Join(",\n  ", result.Acks));
+    //}
+
+    //async void LoadData()
+    //{
+    //    var result = await client.ReadStorageObjectsAsync(session, new StorageObjectId[]
+    //    {
+    //        new StorageObjectId(){
+    //            Collection = "Saves",
+    //            Key = "CharacterSelection",
+    //            UserId = session.UserId
+    //        },
+    //    });
+
+    //    Debug.LogFormat("Read objects: [{0}]", string.Join(",\n  ", result.Objects));
+    //    int count = 0;
+    //    foreach (var item in result.Objects)
+    //    {
+    //        count++;
+    //    }
+    //    if(count == 0) { Debug.Log("The objects are empty"); }
+
+    //}
 
     public void UpdateDisplayName(string newDisplayName)
     {
@@ -109,11 +179,14 @@ public class NakamaClient : SingletonMB<NakamaClient>
     async void UpdateDN(string newDN)
     {
         await client.UpdateAccountAsync(session, session.Username, newDN);
+        MenuController.Instance.DisableLoadingPanel();
+        MenuController.Instance.EnableCharacterSelectionPanel();
     }
 }
 
 [Serializable]
 public class CharacterServerInfo
 {
-    //public string 
+    public bool hasSelectedCharacter = false;
+    public string selectedCharacterName = "";
 }
