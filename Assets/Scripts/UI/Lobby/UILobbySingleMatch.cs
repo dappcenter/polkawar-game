@@ -9,8 +9,8 @@ public class UILobbySingleMatch : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI nameText;
-
-    private IApiMatch myMatch;
+    [HideInInspector]
+    public IApiMatch myMatch;
 
     public void Initialize(IApiMatch apiMatch)
     {

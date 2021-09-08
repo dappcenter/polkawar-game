@@ -24,6 +24,10 @@ public class NakamaClient : SingletonMB<NakamaClient>
     public IApiAccount account;
     [HideInInspector]
     public IMatchmakerTicket matchmakerTicket;
+    [HideInInspector]
+    public IMatchmakerMatched matchmakerMatched;
+    [HideInInspector]
+    public IMatchPresenceEvent matchPresenceEvent;
 
     public UnityEvent OnConnected;
 
@@ -47,6 +51,7 @@ public class NakamaClient : SingletonMB<NakamaClient>
         Debug.Log(socket);
 
         socket.ReceivedMatchmakerMatched += Socket_ReceivedMatchmakerMatched;
+        socket.ReceivedMatchPresence += Socket_ReceivedMatchPresence;
 
         matchmakerTicket = await socket.AddMatchmakerAsync("*", 2, 2);
         
@@ -64,8 +69,23 @@ public class NakamaClient : SingletonMB<NakamaClient>
         OnConnected.Invoke();
     }
 
+    private void Socket_ReceivedMatchPresence(IMatchPresenceEvent obj)
+    {
+        matchPresenceEvent = obj;
+    }
+
+    public void StartMatch()
+    {
+        socket.JoinMatchAsync(null);
+    }
+
+    public void JoinMatch(IApiMatch apiMatch)
+    {
+        socket.JoinMatchAsync(apiMatch.MatchId);
+    }
+
     private void Socket_ReceivedMatchmakerMatched(IMatchmakerMatched obj)
     {
-        
+        matchmakerMatched = obj;
     }
 }

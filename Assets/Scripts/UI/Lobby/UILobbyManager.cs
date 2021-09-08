@@ -40,11 +40,13 @@ public class UILobbyManager : SingletonMB<UILobbyManager>
 
     public void Fight(UILobbySingleMatch uILobbySingleMatch)
     {
-
+        UIMatchManager.Instance.JoinMatch(uILobbySingleMatch.myMatch);
+        UIMatchManager.Instance.StartMatch();
     }
 
     public void CreateMatch()
     {
-
+        container.SetActive(false);
+        UIMatchManager.Instance.StartMatch();
     }
 }
