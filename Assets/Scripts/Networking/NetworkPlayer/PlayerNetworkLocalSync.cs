@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class PlayerNetworkLocalSync : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Transform playerTransform;
+    
     void Start()
     {
-        
+        playerTransform = GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
