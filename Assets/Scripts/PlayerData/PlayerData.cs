@@ -25,60 +25,62 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-
 }
 
 [Serializable]
 public class Root
 {
-    [ShowInInspector] public Character character ;
-    [ShowInInspector] public List<Item> items ;
+    [ShowInInspector] public Character character;
+    [ShowInInspector] public List<Item> items;
 }
+
 [Serializable]
 public class Properties
 {
-    [ShowInInspector] public int xp ;
-    [ShowInInspector] public int hp ;
-    [ShowInInspector] public int mp ;
-    [ShowInInspector] public int Patk ;
-    [ShowInInspector] public int Pdef ;
-    [ShowInInspector] public double speed ;
-    [ShowInInspector] public int accuracy ;
-    [ShowInInspector] public int bDam ;
-    [ShowInInspector] public int bonus ;
+    [ShowInInspector] public int xp;
+    [ShowInInspector] public int hp;
+    [ShowInInspector] public int mp;
+    [ShowInInspector] public int Patk;
+    [ShowInInspector] public int Pdef;
+    [ShowInInspector] public double speed;
+    [ShowInInspector] public int accuracy;
+    [ShowInInspector] public int bDam;
+    [ShowInInspector] public int bonus;
 }
+
 [Serializable]
 public class Character
 {
-    [ShowInInspector] public DateTime createdDate ;
-    [ShowInInspector] public string _id ;
-    [ShowInInspector] public string tokenId ;
-    [ShowInInspector] public Properties properties ;
-    [ShowInInspector] public string name ;
-    [ShowInInspector] public string username ;
-    [ShowInInspector] public string owner ;
-    [ShowInInspector] public string hashImage ;
-    [ShowInInspector] public string level ;
-    [ShowInInspector] public string description ;
-    [ShowInInspector] public int __v ;
+    [ShowInInspector] public DateTime createdDate;
+    [ShowInInspector] public string _id;
+    [ShowInInspector] public string tokenId;
+    [ShowInInspector] public Properties properties;
+    [ShowInInspector] public string name;
+    [ShowInInspector] public string username;
+    [ShowInInspector] public string owner;
+    [ShowInInspector] public string hashImage;
+    [ShowInInspector] public string level;
+    [ShowInInspector] public string description;
+    [ShowInInspector] public int __v;
 }
+
 [Serializable]
 public class Item
 {
-    [ShowInInspector] public string category ;
-    [ShowInInspector] public int level ;
-    [ShowInInspector] public int price ;
-    [ShowInInspector] public string currency ;
-    [ShowInInspector] public List<string> gallery ;
-    [ShowInInspector] public List<object> owner ;
-    [ShowInInspector] public DateTime createdDate ;
-    [ShowInInspector] public string _id ;
-    [ShowInInspector] public int id ;
-    [ShowInInspector] public string name ;
-    [ShowInInspector] public string description ;
-    [ShowInInspector] public Properties properties ;
-    [ShowInInspector] public string hashItem ;
-    [ShowInInspector] public string hashImage ;
-    [ShowInInspector] public string forCharacter ;
-    [ShowInInspector] public int __v ;
+    [ShowInInspector] public string category;
+    [ShowInInspector] public int level;
+    [ShowInInspector] public int price;
+    [ShowInInspector] public string currency;
+    [ShowInInspector] public List<string> gallery;
+    [ShowInInspector] public List<object> owner;
+    [ShowInInspector] public DateTime createdDate;
+    [ShowInInspector] public string _id;
+    [ShowInInspector] public int id;
+    [ShowInInspector] public string name;
+    [ShowInInspector] public string description;
+    [ShowInInspector] public Properties properties;
+    [ShowInInspector] public string hashItem;
+    [ShowInInspector] public string hashImage;
+    [ShowInInspector] public string forCharacter;
+    [ShowInInspector] public int __v;
 }

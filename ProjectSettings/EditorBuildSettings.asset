@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WalletLogin.unity
     guid: dc6a2700164dd4c52b78e1091162e30f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game/Gameplay.unity
     guid: cc135ad0905614df38fd14e047d8c187
+  - enabled: 1
+    path: Assets/Scenes/Test-Umair.unity
+    guid: 00e34c388861c964faeca8688a1fa426
   m_configObjects: {}

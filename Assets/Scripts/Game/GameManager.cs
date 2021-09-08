@@ -6,6 +6,8 @@ using Nakama;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     public NakamaConnection nakamaConnection;
     public GameObject NetworkLocalPlayerPrefab;
     public GameObject NetworkRemotePlayerPrefab;
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviour
     private GameObject localPlayer;
     private IMatch currentMatch;
 
+
+    private void Awake() => Instance = this;
 
     async void Start()
     {
