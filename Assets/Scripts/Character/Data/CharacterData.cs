@@ -9,4 +9,6 @@ public class CharacterData : BaseCharacterData
     public Sprite uiSprite;
 
     [ShowInInspector]public string Name => name;
+
+    public GameObject localPlayerPrefab, remotePlayerPrefab;
 }

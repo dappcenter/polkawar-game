@@ -4,25 +4,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class PlayerData : MonoBehaviour
+public class PlayerData : SingletonMB<PlayerData>
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
     public Root playerData = new Root();
 
-    IEnumerator Start()
+    public bool isLoaded = false;
+    public bool hasData = false;
+
+    public void GetDataOfWallet(string walletAddress, Action onComplete)
     {
-        string url = "https://api.polkawar.com/usercharacter/profile/0x9D7117a07fca9F22911d379A9fd5118A5FA4F448";
+        StartCoroutine(GetDataOfWalletRoutine(walletAddress, onComplete));
+    }
+
+    IEnumerator GetDataOfWalletRoutine(string walletAddress, Action onComplete)
+    {
+        string url = "https://api.polkawar.com/usercharacter/profile/" + walletAddress;
+
+        //string url = "https://api.polkawar.com/usercharacter/profile/0x9D7117a07fca9F22911d379A9fd5118A5FA4F448";
+
         WWW www = new WWW(url);
         yield return www;
-        if (www.error == null)
+        try
         {
-            // Processjson(www.data);
-            playerData = JsonUtility.FromJson<Root>(www.text);
+            if (www.error == null)
+            {
+                hasData = true;
+                // Processjson(www.data);
+                playerData = JsonUtility.FromJson<Root>(www.text);
+            }
+            else
+            {
+                Debug.Log("ERROR: " + www.error);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Debug.Log("ERROR: " + www.error);
+            Debug.Log("ERROR: " + ex.Message);
         }
+
+        
+
+        isLoaded = true;
     }
 
 }
