@@ -6,7 +6,8 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName = "Character/Data/CreateSingleCharacter")]
 public class CharacterData : BaseCharacterData
 {
-    public Sprite uiSprite;
+    [PreviewField]
+    public Sprite uiSprite, uiLobbyPortrait;
 
     [ShowInInspector]public string Name => name;
 

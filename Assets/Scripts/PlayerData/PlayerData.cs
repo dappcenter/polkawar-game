@@ -12,6 +12,11 @@ public class PlayerData : SingletonMB<PlayerData>
     public bool isLoaded = false;
     public bool hasData = false;
 
+    private void Start()
+    {
+        GetDataOfWallet(PlayerPrefs.GetString("Account", "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448"), null);
+    }
+
     public void GetDataOfWallet(string walletAddress, Action onComplete)
     {
         StartCoroutine(GetDataOfWalletRoutine(walletAddress, onComplete));
@@ -46,6 +51,7 @@ public class PlayerData : SingletonMB<PlayerData>
         
 
         isLoaded = true;
+        onComplete?.Invoke();
     }
 
 }

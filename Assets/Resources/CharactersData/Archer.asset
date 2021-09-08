@@ -34,3 +34,6 @@ MonoBehaviour:
     baseValue: 3
     effectModifiers: 
   uiSprite: {fileID: 21300000, guid: 6af99467e13d44627ab77a19012a781c, type: 3}
+  uiLobbyPortrait: {fileID: 21300000, guid: 891b756d8419f42d49971110b9029d90, type: 3}
+  localPlayerPrefab: {fileID: 0}
+  remotePlayerPrefab: {fileID: 0}

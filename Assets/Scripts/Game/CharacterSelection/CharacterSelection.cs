@@ -14,9 +14,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void SelectCharacter(CharacterData characterData)
     {
-        NakamaClient.Instance.characterServerInfo.selectedCharacterName = characterData.Name;
-
-        NakamaClient.Instance.SaveCharacterInfo();
+        selectedCharacter = characterData;
 
 
         MenuController.Instance.DisableCharacterSelectionPanel();

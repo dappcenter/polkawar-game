@@ -5,4 +5,9 @@ using UnityEngine;
 public class GameDataManager : SingletonMB<GameDataManager>
 {
     public CharacterDataContainer characterDataContainer;
+
+    public CharacterData GetMyCharacterData()
+    {
+        return characterDataContainer.GetDataByName(PlayerData.Instance.playerData.character.name);
+    }
 }

@@ -7,11 +7,4 @@ using TMPro;
 public class AddDisplayName : MonoBehaviour
 {
     public TextMeshProUGUI displayName;
-
-    public void SubmitDisplayName()
-    {
-        gameObject.SetActive(false);
-        MenuController.Instance.EnableLoadingPanel();
-        NakamaClient.Instance.UpdateDisplayName(displayName.text);
-    }
 }
