@@ -31,6 +31,18 @@ public class MenuManager : MonoBehaviour
 
         //Find  a match
         await nakamaConnection.FindMatch();
+
+        nakamaConnection.Socket.ReceivedMatchmakerMatched += Socket_ReceivedMatchmakerMatched;
+    }
+
+    private void Socket_ReceivedMatchmakerMatched(Nakama.IMatchmakerMatched obj)
+    {
+        //GameManager.Instance.
+        //// For each new user that joins, spawn a player for them.
+        //foreach (var user in matchPresenceEvent.Joins)
+        //{
+        //    SpawnPlayer(matchPresenceEvent.MatchId, user);
+        //}
     }
 
     public async void CancelMatch() => await nakamaConnection.CancelMatchmaking();

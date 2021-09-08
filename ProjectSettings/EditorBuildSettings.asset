@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Gameplay.unity
     guid: cc135ad0905614df38fd14e047d8c187
   - enabled: 1
-    path: Assets/Realistic Effects Pack V2/EffectDemoV3Mobile.unity
-    guid: 342ddcb5e798c70478b1e5c309e66f3c
+    path: Assets/Scenes/Test-Umair.unity
+    guid: 00e34c388861c964faeca8688a1fa426
   m_configObjects: {}

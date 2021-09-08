@@ -77,6 +77,20 @@ public class NakamaConnection : ScriptableObject
         Socket = Client.NewSocket();
         await Socket.ConnectAsync(Session, true);
     }
+
+    #endregion
+
+    #region Testing Group
+    async public void CreateGroup()
+    {
+        // Filter for group names which start with "heroes"
+        //const string nameFilter = "heroes%";
+        var result = await Client.ListGroupsAsync(Session, null, 20);
+        foreach (var g in result.Groups)
+        {
+            Debug.LogFormat("Group name '{0}' count '{1}'", g.Name, g.EdgeCount);
+        }
+    }
     #endregion
 
     #region Match Making
