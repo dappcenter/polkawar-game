@@ -1,0 +1,33 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 07.09.2021 16:36:38
+
+newmtl Material__816
+	Ns 37.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8510 0.5922 0.0392
+	Kd 0.8510 0.5922 0.0392
+	Ks 0.4860 0.4860 0.4860
+	Ke 0.0000 0.0000 0.0000
+	map_Ka F:\POLKAWAR\character3\Client send\tex\upperbody-diffuse-4.jpg
+	map_Kd F:\POLKAWAR\character3\Client send\tex\upperbody-diffuse-4.jpg
+	map_bump F:\POLKAWAR\character3\Client send\tex\upperbody-normal-4.jpg
+	bump F:\POLKAWAR\character3\Client send\tex\upperbody-normal-4.jpg
+
+newmtl j03
+	Ns 37.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8510 0.5922 0.0392
+	Kd 0.8510 0.5922 0.0392
+	Ks 0.4860 0.4860 0.4860
+	Ke 0.0000 0.0000 0.0000
+	map_Ka F:\POLKAWAR\character3\Client send\tex\Object403low-dif-3.jpg
+	map_Kd F:\POLKAWAR\character3\Client send\tex\Object403low-dif-3.jpg
+	map_bump Map__38_Normal_Bump.tga

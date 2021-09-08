@@ -3043,7 +3043,7 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 1375507228}
   characterSelectionPanel: {fileID: 763639676}
   loadingPanel: {fileID: 1999464884}
-  lobbyPanel: {fileID: 0}
+  lobbyPanel: {fileID: 1119810833}
 --- !u!114 &759431664
 MonoBehaviour:
   m_ObjectHideFlags: 0
