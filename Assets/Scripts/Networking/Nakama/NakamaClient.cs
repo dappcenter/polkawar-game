@@ -33,7 +33,7 @@ public class NakamaClient : SingletonMB<NakamaClient>
 
     IEnumerator Start()
     {
-        yield return null;
+        yield return new WaitForSeconds(5f);
 
         Login();
     }
@@ -71,6 +71,7 @@ public class NakamaClient : SingletonMB<NakamaClient>
 
     private void Socket_ReceivedMatchPresence(IMatchPresenceEvent obj)
     {
+        Debug.Log("Socket_ReceivedMatchPresence");
         matchPresenceEvent = obj;
     }
 
@@ -86,6 +87,7 @@ public class NakamaClient : SingletonMB<NakamaClient>
 
     private void Socket_ReceivedMatchmakerMatched(IMatchmakerMatched obj)
     {
+        Debug.Log("Socket_ReceivedMatchmakerMatched");
         matchmakerMatched = obj;
     }
 }
