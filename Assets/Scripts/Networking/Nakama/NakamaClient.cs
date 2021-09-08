@@ -46,11 +46,70 @@ public class NakamaClient : SingletonMB<NakamaClient>
         await socket.ConnectAsync(session, true);
         Debug.Log(session);
         Debug.Log(socket);
-
+        
         //client.UpdateAccountAsync()
         //client.GetUsersAsync()
         //client.GetAccountAsync()
 
+        //IApiMatchList
+        //Task<IApiMatchList>
+
+        //var matches = await client.ListMatchesAsync(session, 2, 2, 2, false, null, null);
+        
+        //foreach (var item in matches.Matches)
+        //{
+            
+        //}
+
+        const string groupName = "Fighters";
+        const string nameFilter = "Fighters";
+
+        Debug.Log("1");
+        //var group = await client.CreateGroupAsync(session, name);
+        var result2 = await client.ListUserGroupsAsync(session, session.UserId);
+        bool isInGroup = false;
+        foreach (var ug in result2.UserGroups)
+        {
+            Debug.Log(ug.Group.Name);
+            if (ug.Group.Name == groupName)
+            {
+                isInGroup = true;
+            }
+        }
+
+
+
+        //await client.JoinGroupAsync(session, groupName);
+        Debug.Log("2");
+
+        //var groupsies = await client.ListGroupsAsync(session, nameFilter);
+        //bool groupExist = false;
+        //Debug.Log("1");
+        //foreach (var g in groupsies.Groups)
+        //{
+        //    Debug.Log(g.Name);
+        //    if(g.Name == groupName)
+        //    {
+        //        groupExist = true;
+        //    }
+        //}
+        //Debug.Log("2");
+        //if (groupExist)
+        //{
+        //    Debug.Log("3");
+        //    await client.JoinGroupAsync(session, groupName);
+        //}
+        //else
+        //{
+        //    Debug.Log("4");
+        //    var group = await client.CreateGroupAsync(session, name);
+        //    await client.JoinGroupAsync(session, groupName);
+        //}
+
+        var matchmakerTicket = await socket.AddMatchmakerAsync();
+
+
+        Debug.Log("5");
 
         account = await client.GetAccountAsync(session);
         var user = account.User;
