@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     }
 
 
+
+
     [Button]
     public void TestingThis(string str)
     {
@@ -55,6 +57,16 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     }
 
 
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        
+    }
 
     public override void OnCreatedRoom()
     {
