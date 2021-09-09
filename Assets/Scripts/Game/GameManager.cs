@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-//using Photon.Pun;
-//using Photon.Realtime;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class GameManager : MonoBehaviour//MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//, IConnectionCallbacks
+public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//, IConnectionCallbacks
 {
     public static GameManager Instance;
 
@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour//MonoBehaviourPunCallbacks//, IMatchmak
     {
         Instance = this;
     }
-    /*
+    
     IEnumerator Start()
     {
         yield return new WaitForSeconds(3);
@@ -135,5 +135,5 @@ public class GameManager : MonoBehaviour//MonoBehaviourPunCallbacks//, IMatchmak
     {
         Debug.Log("OnCustomAuthenticationFailed");
     }
-    */
+    
 }

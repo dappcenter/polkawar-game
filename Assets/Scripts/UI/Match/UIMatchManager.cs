@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Photon.Realtime;
+using Photon.Realtime;
 
 public class UIMatchManager : SingletonMB<UIMatchManager>
 {
@@ -12,13 +12,13 @@ public class UIMatchManager : SingletonMB<UIMatchManager>
     public void JoinMatch(UILobbySingleMatch uILobbySingleMatch)
     {
         container.SetActive(true);
-        //GameManager.Instance.JoinRoom(uILobbySingleMatch.myRoom.Name);
+        GameManager.Instance.JoinRoom(uILobbySingleMatch.myRoom.Name);
     }
 
     public void StartMatch()
     {
         container.SetActive(true);
-        //GameManager.Instance.CreateRoom();
+        GameManager.Instance.CreateRoom();
     }
 
     public void MatchJoined()

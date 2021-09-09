@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Photon.Pun;
-//using Photon.Realtime;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class UILobbyManager : SingletonMB<UILobbyManager>
 {
@@ -22,7 +22,7 @@ public class UILobbyManager : SingletonMB<UILobbyManager>
         base.Awake();
         uILobbySingleMatches = new EasyPool<UILobbySingleMatch>(singleMatchPrefab, matchesParent);
     }
-    /*
+    
     public void Initialize(List<RoomInfo> roomList)
     {
         UILoadingPanel.Instance.HideLoading();
@@ -40,7 +40,7 @@ public class UILobbyManager : SingletonMB<UILobbyManager>
             uILobbySingleMatches.Get().Initialize(roomList[i]);
         }
     }
-    */
+    
     public void Fight(UILobbySingleMatch uILobbySingleMatch)
     {
         UIMatchManager.Instance.JoinMatch(uILobbySingleMatch);
