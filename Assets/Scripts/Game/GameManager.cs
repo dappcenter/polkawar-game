@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
+using Sirenix.OdinInspector;
 
 public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//, IConnectionCallbacks
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     private void Awake()
     {
         Instance = this;
+        
     }
     
     IEnumerator Start()
@@ -39,11 +41,18 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     }
 
 
+    [Button]
+    public void TestingThis(string str)
+    {
+        photonView.RPC("SendString", RpcTarget.All, str);
+    }
 
 
-
-
-
+    [PunRPC]
+    public void SendString(string str)
+    {
+        Debug.Log(str);
+    }
 
 
 

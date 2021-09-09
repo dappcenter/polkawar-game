@@ -11,5 +11,5 @@ public class CharacterData : BaseCharacterData
 
     [ShowInInspector]public string Name => name;
 
-    public GameObject localPlayerPrefab, remotePlayerPrefab;
+    public GameObject characterPrefab;
 }
