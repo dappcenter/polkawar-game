@@ -7,10 +7,6 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//, IConnectionCallbacks
 {
-    public GameObject NetworkLocalPlayerPrefab;
-    public GameObject NetworkRemotePlayerPrefab;
-    public Transform[] spawnPoints;
-
     private void Start()
     {
         PhotonNetwork.GameVersion = "0.01";
