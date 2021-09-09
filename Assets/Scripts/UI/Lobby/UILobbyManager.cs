@@ -25,6 +25,8 @@ public class UILobbyManager : SingletonMB<UILobbyManager>
 
     public void Initialize(List<RoomInfo> roomList)
     {
+        UILoadingPanel.Instance.HideLoading();
+
         mainPortrait.sprite = GameDataManager.Instance.GetMyCharacterData().uiLobbyPortrait;
 
         uILobbySingleMatches.ReturnAll();

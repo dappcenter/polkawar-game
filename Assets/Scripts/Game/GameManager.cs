@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
         Instance = this;
     }
 
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(3);
+
         PhotonNetwork.GameVersion = "0.01";
 
         PhotonNetwork.ConnectUsingSettings();
@@ -48,7 +50,6 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     public override void OnCreatedRoom()
     {
         Debug.Log("OnCreatedRoom");
-        UIMatchManager.Instance.MatchJoined();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

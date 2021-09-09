@@ -12,15 +12,17 @@ public class UIMatchManager : SingletonMB<UIMatchManager>
     public void JoinMatch(UILobbySingleMatch uILobbySingleMatch)
     {
         container.SetActive(true);
+        GameManager.Instance.JoinRoom(uILobbySingleMatch.myRoom.Name);
     }
 
     public void StartMatch()
     {
         container.SetActive(true);
+        GameManager.Instance.CreateRoom();
     }
 
     public void MatchJoined()
     {
-
+        Debug.Log("MatchJoined");
     }
 }
