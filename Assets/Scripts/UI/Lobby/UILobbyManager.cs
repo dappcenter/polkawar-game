@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Nakama;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class UILobbyManager : SingletonMB<UILobbyManager>
 {
@@ -22,25 +23,25 @@ public class UILobbyManager : SingletonMB<UILobbyManager>
         uILobbySingleMatches = new EasyPool<UILobbySingleMatch>(singleMatchPrefab, matchesParent);
     }
 
-    public void Initialize(List<IApiMatch> apiMatches)
+    public void Initialize(List<RoomInfo> roomList)
     {
         mainPortrait.sprite = GameDataManager.Instance.GetMyCharacterData().uiLobbyPortrait;
 
         uILobbySingleMatches.ReturnAll();
-        noMatchPanel.SetActive(apiMatches.Count == 0);
+        noMatchPanel.SetActive(roomList.Count == 0);
         container.SetActive(true);
 
-        if(apiMatches.Count == 0) return;
+        if(roomList.Count == 0) return;
 
-        for (int i = 0; i < apiMatches.Count; i++)
+        for (int i = 0; i < roomList.Count; i++)
         {
-            uILobbySingleMatches.Get().Initialize(apiMatches[i]);
+            uILobbySingleMatches.Get().Initialize(roomList[i]);
         }
     }
 
     public void Fight(UILobbySingleMatch uILobbySingleMatch)
     {
-        UIMatchManager.Instance.JoinMatch(uILobbySingleMatch.myMatch);
+        UIMatchManager.Instance.JoinMatch(uILobbySingleMatch);
         container.SetActive(false);
     }
 

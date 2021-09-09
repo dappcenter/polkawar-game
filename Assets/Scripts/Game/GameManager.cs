@@ -7,17 +7,48 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//, IConnectionCallbacks
 {
+    public static GameManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         PhotonNetwork.GameVersion = "0.01";
 
         PhotonNetwork.ConnectUsingSettings();
-
     }
+
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
+    public void CreateRoom()
+    {
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = 2;
+        roomOptions.IsOpen = true;
+
+        PhotonNetwork.CreateRoom(PlayerData.Instance.playerData.character.username, roomOptions);
+    }
+
+
+
+
+
+
+
+
+
 
     public override void OnCreatedRoom()
     {
         Debug.Log("OnCreatedRoom");
+        UIMatchManager.Instance.MatchJoined();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -33,6 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+        UIMatchManager.Instance.MatchJoined();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -64,22 +96,13 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     public override void OnJoinedLobby()
     {
         Debug.Log("OnJoinedLobby");
-        //PhotonNetwork.GetCustomRoomList(TypedLobby.Default, "*");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log("OnRoomListUpdate " + roomList.Count);
 
-        if(roomList.Count == 0)
-        {
-            RoomOptions roomOptions = new RoomOptions();
-            roomOptions.IsVisible = true;
-            roomOptions.MaxPlayers = 2;
-            roomOptions.IsOpen = true;
-
-            PhotonNetwork.CreateRoom(null, roomOptions);
-        }
+        UILobbyManager.Instance.Initialize(roomList);
     }
 
     public override void OnLeftLobby()

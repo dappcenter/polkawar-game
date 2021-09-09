@@ -4,18 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Nakama;
 using TMPro;
+using Photon.Realtime;
 
 public class UILobbySingleMatch : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI nameText;
     [HideInInspector]
-    public IApiMatch myMatch;
+    public RoomInfo myRoom;
 
-    public void Initialize(IApiMatch apiMatch)
+    public void Initialize(RoomInfo roomInfo)
     {
-        myMatch = apiMatch;
-        nameText.text = myMatch.Label;
+        myRoom = roomInfo;
+        nameText.text = myRoom.Name;
     }
 
     public void Fight()

@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Nakama;
+using Photon.Realtime;
 
 public class UIMatchManager : SingletonMB<UIMatchManager>
 {
     public GameObject container;
     public GameObject waitingForOpponentPanel;
 
-    public void JoinMatch(IApiMatch apiMatch)
+    public void JoinMatch(UILobbySingleMatch uILobbySingleMatch)
     {
-        NakamaClient.Instance.JoinMatch(apiMatch);
         container.SetActive(true);
-        waitingForOpponentPanel.SetActive(true);
     }
 
     public void StartMatch()
     {
-        NakamaClient.Instance.StartMatch();
         container.SetActive(true);
-        waitingForOpponentPanel.SetActive(true);
+    }
+
+    public void MatchJoined()
+    {
+
     }
 }

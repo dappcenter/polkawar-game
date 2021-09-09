@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 
 public class NakamaClient : SingletonMB<NakamaClient>
 {
+    /*
     //private readonly IClient client = new Client("http", "108.160.141.74", 7351, "defaultkey");
 
     //public string email = "imran@gmail.com";
@@ -90,4 +91,6 @@ public class NakamaClient : SingletonMB<NakamaClient>
         Debug.Log("Socket_ReceivedMatchmakerMatched");
         matchmakerMatched = obj;
     }
+
+    */
 }
