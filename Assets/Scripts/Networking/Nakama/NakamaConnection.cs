@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using Nakama;
+//using Nakama;
 
 [Serializable]
 [CreateAssetMenu]
 public class NakamaConnection : ScriptableObject
 {
+    /*
     public string Scheme = "http";
     public string Host = "localhost";
     public int Port = 7350;
@@ -118,4 +119,6 @@ public class NakamaConnection : ScriptableObject
     /// </summary>
     public async Task CancelMatchmaking() => await Socket.RemoveMatchmakerAsync(currentMatchmakingTicket);
     #endregion
+
+    */
 }

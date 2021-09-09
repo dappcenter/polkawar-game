@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Nakama;
+//using Nakama;
 //using Nakama.TinyJson;
 using System;
 using Sirenix.OdinInspector;

@@ -1,4 +1,4 @@
-using Nakama;
+//using Nakama;
 
 /// <summary>
 /// Stores relevent network data about a player.
@@ -6,5 +6,5 @@ using Nakama;
 public class RemotePlayerNetworkData
 {
     public string MatchId;
-    public IUserPresence User;
+    //public IUserPresence User;
 }

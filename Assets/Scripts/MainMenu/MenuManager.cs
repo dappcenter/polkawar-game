@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
     async void Start()
     {
         // Connect to the Nakama server.
-        await nakamaConnection.Connect();
+        //await nakamaConnection.Connect();
 
         // Enables the Find Match button.
         findMatchButton.interactable = true;
@@ -30,20 +30,20 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetString("Name", nameField.text);
 
         //Find  a match
-        await nakamaConnection.FindMatch();
+        //await nakamaConnection.FindMatch();
 
-        nakamaConnection.Socket.ReceivedMatchmakerMatched += Socket_ReceivedMatchmakerMatched;
+        //nakamaConnection.Socket.ReceivedMatchmakerMatched += Socket_ReceivedMatchmakerMatched;
     }
 
-    private void Socket_ReceivedMatchmakerMatched(Nakama.IMatchmakerMatched obj)
-    {
-        //GameManager.Instance.
-        //// For each new user that joins, spawn a player for them.
-        //foreach (var user in matchPresenceEvent.Joins)
-        //{
-        //    SpawnPlayer(matchPresenceEvent.MatchId, user);
-        //}
-    }
+    //private void Socket_ReceivedMatchmakerMatched(Nakama.IMatchmakerMatched obj)
+    //{
+    //    //GameManager.Instance.
+    //    //// For each new user that joins, spawn a player for them.
+    //    //foreach (var user in matchPresenceEvent.Joins)
+    //    //{
+    //    //    SpawnPlayer(matchPresenceEvent.MatchId, user);
+    //    //}
+    //}
 
-    public async void CancelMatch() => await nakamaConnection.CancelMatchmaking();
+    //public async void CancelMatch() => await nakamaConnection.CancelMatchmaking();
 }

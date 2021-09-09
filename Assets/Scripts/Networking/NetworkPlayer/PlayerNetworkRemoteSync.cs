@@ -1,4 +1,4 @@
-using Nakama;
+//using Nakama;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,9 +31,9 @@ public class PlayerNetworkRemoteSync : MonoBehaviour
     /// Passes execution of the event handler to the main unity thread so that we can interact with GameObjects.
     /// </summary>
     /// <param name="matchState">The incoming match state data.</param>
-    private void EnqueueOnReceivedMatchState(IMatchState matchState)
-    {
-        //var mainThread = UnityMainThreadDispatcher.Instance();
-        //mainThread.Enqueue(() => OnReceivedMatchState(matchState));
-    }
+    //private void EnqueueOnReceivedMatchState(IMatchState matchState)
+    //{
+    //    //var mainThread = UnityMainThreadDispatcher.Instance();
+    //    //mainThread.Enqueue(() => OnReceivedMatchState(matchState));
+    //}
 }
