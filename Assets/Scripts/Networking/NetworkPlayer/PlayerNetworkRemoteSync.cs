@@ -17,14 +17,14 @@ public class PlayerNetworkRemoteSync : MonoBehaviour
         playerTransform = GetComponent<Transform>();
        
         // Add an event listener to handle incoming match state data.
-        GameManager.Instance.nakamaConnection.Socket.ReceivedMatchState += EnqueueOnReceivedMatchState;
+        //GameManager.Instance.nakamaConnection.Socket.ReceivedMatchState += EnqueueOnReceivedMatchState;
     }
 
     private void OnDestroy()
     {
         // Renove an event listener to handle incoming match state data.
-        if (GameManager.Instance != null)
-            GameManager.Instance.nakamaConnection.Socket.ReceivedMatchState -= EnqueueOnReceivedMatchState;
+        //if (GameManager.Instance != null)
+            //GameManager.Instance.nakamaConnection.Socket.ReceivedMatchState -= EnqueueOnReceivedMatchState;
     }
 
     /// <summary>

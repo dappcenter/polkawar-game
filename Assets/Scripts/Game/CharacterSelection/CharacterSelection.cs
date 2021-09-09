@@ -15,9 +15,5 @@ public class CharacterSelection : MonoBehaviour
     public void SelectCharacter(CharacterData characterData)
     {
         selectedCharacter = characterData;
-
-
-        MenuController.Instance.DisableCharacterSelectionPanel();
-        MenuController.Instance.EnableLobbyPanel();
     }
 }
