@@ -11,6 +11,11 @@ public class UiStatsViewer : MonoBehaviour
         if (playerNameText == null)
             GetComponentInChildren<TMP_Text>();
 
+        playerNameText.text = "PLAYER";
+
+        if (!PlayerData.Instance)
+            return;
+
         playerNameText.text = PlayerData.Instance.name;
 
         foreach (var player in players)
