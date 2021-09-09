@@ -40,32 +40,36 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
         PhotonNetwork.CreateRoom(PlayerData.Instance.playerData.character.username, roomOptions);
     }
 
-
-
-
-    [Button]
-    public void TestingThis(string str)
-    {
-        photonView.RPC("SendString", RpcTarget.All, str);
-    }
-
-
     [PunRPC]
-    public void SendString(string str)
+    public void ShareCharacterName(string charName)
     {
-        Debug.Log(str);
+        UIMatchManager.Instance.SpawnCharacterOnOpponentside(charName);
     }
 
+    public void SpawnPlayer()
+    {
+        photonView.RPC("ShareCharacterName", RpcTarget.Others, PlayerData.Instance.playerData.character.name);
+        UIMatchManager.Instance.SpawnCharacterOnMyside();
+    }
 
+    private void CheckIfHaveTwoPlayers()
+    {
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            UIMatchManager.Instance.StartFight();
+        }
+    }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        
+        Debug.Log("OnPlayerEnteredRoom");
+        CheckIfHaveTwoPlayers();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        
+        Debug.Log("OnPlayerLeftRoom");
+        CheckIfHaveTwoPlayers();
     }
 
     public override void OnCreatedRoom()
