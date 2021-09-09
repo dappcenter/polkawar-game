@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class MenuController : SingletonMB<MenuController>
 {
-    public GameObject userNamePanel, mainMenuPanel, characterSelectionPanel, loadingPanel, lobbyPanel;
+    public GameObject userNamePanel, mainMenuPanel, loadingPanel, lobbyPanel;
 
 }

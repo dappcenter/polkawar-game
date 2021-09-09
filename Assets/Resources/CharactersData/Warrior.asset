@@ -35,5 +35,4 @@ MonoBehaviour:
     effectModifiers: 
   uiSprite: {fileID: 21300000, guid: 8d3fcea4dafaa420d988bb1593ef02c6, type: 3}
   uiLobbyPortrait: {fileID: 21300000, guid: 03b5e182102a542618ab206840636b29, type: 3}
-  localPlayerPrefab: {fileID: 0}
-  remotePlayerPrefab: {fileID: 0}
+  characterPrefab: {fileID: 3850500929260166518, guid: c9119812eabb74ad5b041d3ebacc086c, type: 3}
