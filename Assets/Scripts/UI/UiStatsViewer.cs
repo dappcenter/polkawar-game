@@ -22,15 +22,15 @@ public class UiStatsViewer : MonoBehaviour
         {
             player.SetActive(false);
         }
-        if (PlayerData.Instance.name == "Warrior")
+        if (PlayerData.Instance.playerData.character.name == "Warrior")
         {
             players[0].SetActive(true);
         }
-        else if (PlayerData.Instance.name == "Archer")
+        else if (PlayerData.Instance.playerData.character.name == "Archer")
         {
             players[1].SetActive(true);
         }
-        else if (PlayerData.Instance.name == "Magician")
+        else if (PlayerData.Instance.playerData.character.name == "Magician")
         {
             players[2].SetActive(true);
         }
