@@ -335,6 +335,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3858753563563177052, guid: 8078ac2943430f04e8669abc1c580d35, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d43523e2015d51f4bbd8292634736075, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8078ac2943430f04e8669abc1c580d35, type: 3}
 --- !u!4 &316838740 stripped
@@ -402,6 +406,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6536322907653276962, guid: ccfa5abebe234ef4a8cbe6f20479b163, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9df4e61eb9b6ee848a2db9d43f5f5ed2, type: 2}
+    - target: {fileID: 6536322907653276962, guid: ccfa5abebe234ef4a8cbe6f20479b163, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
@@ -411,7 +419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8721209702985689564, guid: ccfa5abebe234ef4a8cbe6f20479b163, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8721209702985689565, guid: ccfa5abebe234ef4a8cbe6f20479b163, type: 3}
       propertyPath: m_RootOrder
@@ -972,6 +980,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6188726359978092442, guid: e04c634c60b7c2744ab6dabb3f2098f7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d7a61cc886fa4a74f8ac6cb9cf0700bc, type: 2}
     - target: {fileID: 6817267634028803397, guid: e04c634c60b7c2744ab6dabb3f2098f7, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
