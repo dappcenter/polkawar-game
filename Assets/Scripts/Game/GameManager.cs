@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviourPunCallbacks//, IMatchmakingCallbacks//,
     {
         Debug.Log("OnJoinedRoom");
         UIMatchManager.Instance.MatchJoined();
+
+        CheckIfHaveTwoPlayers();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
