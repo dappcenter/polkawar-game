@@ -11,6 +11,8 @@ public class UIMatchManager : SingletonMB<UIMatchManager>
 
     public Transform playerPosRot, opponentPosRot;
 
+    public Transform prefansParent;
+
     public void JoinMatch(UILobbySingleMatch uILobbySingleMatch)
     {
         container.SetActive(true);
@@ -37,12 +39,12 @@ public class UIMatchManager : SingletonMB<UIMatchManager>
     public void SpawnCharacterOnMyside()
     {
         GameObject prefab = CharacterDataContainer.Instance.GetDataByName(PlayerData.Instance.playerData.character.name).characterPrefab;
-        Instantiate(prefab, playerPosRot.position, playerPosRot.rotation, transform);
+        Instantiate(prefab, playerPosRot.position, playerPosRot.rotation, prefansParent);
     }
 
     public void SpawnCharacterOnOpponentside(string chracterName)
     {
         GameObject prefab = CharacterDataContainer.Instance.GetDataByName(chracterName).characterPrefab;
-        Instantiate(prefab, opponentPosRot.position, opponentPosRot.rotation, transform);
+        Instantiate(prefab, opponentPosRot.position, opponentPosRot.rotation, prefansParent);
     }
 }

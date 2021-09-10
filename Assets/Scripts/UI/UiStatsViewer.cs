@@ -16,7 +16,7 @@ public class UiStatsViewer : MonoBehaviour
         if (!PlayerData.Instance)
             return;
 
-        playerNameText.text = PlayerData.Instance.name;
+        playerNameText.text = PlayerData.Instance.playerData.character.name;
 
         foreach (var player in players)
         {
