@@ -8,6 +8,7 @@ public class CombatController : MonoBehaviour
     public GameObject[] playerAttackFx, enemyAttackFx;
     public Button playerAttackButton, enemyAttackButton;
 
+    public Transform frontPos, initialPos;
     private Animator playerAnimator, enemyAnimator;
     private int playerAttackIndex, enemyAttackIndex;
 
@@ -24,17 +25,18 @@ public class CombatController : MonoBehaviour
     #region Player Attack
     public void AttackOnEnemy()
     {
-        playerAnimator.Play("Attack");
-        StartCoroutine(AttackOnEnemyRoutine(0.1f));
+        playerAnimator.Play("WalkFront");
+        StartCoroutine(AttackOnEnemyRoutine(0.01f));
     }
     IEnumerator AttackOnEnemyRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-
+        LeanTween.move(player, frontPos, 1f);
         if (playerAttackFx[playerAttackIndex])
         {
             playerAttackFx[playerAttackIndex].SetActive(true);
-
+            //yield return new WaitForSeconds(2f);
+            //playerAnimator.Play("Attack");
             if (playerAttackIndex == 0)
                 damageDelay = 4.25f;
             else
