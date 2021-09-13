@@ -32,6 +32,7 @@ public class CombatController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         LeanTween.move(player, frontPos, 1f);
+
         if (playerAttackFx[playerAttackIndex])
         {
             playerAttackFx[playerAttackIndex].SetActive(true);
@@ -62,10 +63,10 @@ public class CombatController : MonoBehaviour
         {
             enemyAnimator.Play("TakeDamage");
            
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             playerAnimator.Play("Jump");
           
-            LeanTween.move(player, initialPos, 1f);
+            LeanTween.move(player, initialPos, 0.9f);
             yield return new WaitForSeconds(1f);
             playerAnimator.Play("Idle");
             playerAttackFx[playerAttackIndex].SetActive(false);
@@ -80,7 +81,7 @@ public class CombatController : MonoBehaviour
     #region EnemyAttack
     public void AttackOnPlayer()
     {
-        StartCoroutine(AttackOnPlayerRoutine(0.1f));
+        StartCoroutine(AttackOnPlayerRoutine(2f));
     }
 
     IEnumerator AttackOnPlayerRoutine(float delay)
@@ -100,6 +101,11 @@ public class CombatController : MonoBehaviour
             else
                 damageDelay = 2f;
 
+            PlayerTakeDamage(damageDelay);
+        }
+        else
+        {
+            damageDelay = 1.5f;
             PlayerTakeDamage(damageDelay);
         }
     }
