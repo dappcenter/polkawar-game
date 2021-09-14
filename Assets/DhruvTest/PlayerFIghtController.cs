@@ -306,24 +306,44 @@ public class PlayerFIghtController : MonoBehaviour
 
     public IEnumerator MeleeAttackToMagic()
     {
-        
-        LeanTween.move(SwordMan, new Vector3(Magician.transform.position.x, Magician.transform.position.y, Magician.transform.position.z + SwordManJumpOffset), 0.3f).setDelay(0.2f);
-        if(SwordManStartMoveAnimation!= "")
-        {
-            SwordManModle.GetComponent<Animator>().Play(SwordManStartMoveAnimation);
-        }
-        
+
+        //LeanTween.move(SwordMan, new Vector3(Magician.transform.position.x, Magician.transform.position.y, Magician.transform.position.z + SwordManJumpOffset), 0.3f).setDelay(0.2f);
+        //if(SwordManStartMoveAnimation!= "")
+        //{
+        //    SwordManModle.GetComponent<Animator>().Play(SwordManStartMoveAnimation);
+        //}
+
         //yield return new WaitForSeconds(2f);
         //  PlayerOneModle.GetComponent<Animator>().Play(PlayereOneEndMoveAnimation);
-        yield return new WaitForSeconds(0.5f);
-        if (SwordManAttackAnimation != "")
-        {
-            SwordManModle.GetComponent<Animator>().Play(SwordManAttackAnimation);
-        }
-        yield return new WaitForSeconds(0.4f);
-        //PlayerTwoModle.GetComponent<Animator>().Play(PlayerTwoRunAnimation);
 
-        //  yield return new WaitForSeconds(0.5f);
+        if (MagicianReturnAnimation != "")
+        {
+            MagicianModle.GetComponent<Animator>().Play(MagicianReturnAnimation);
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        if (AttackAnimeBeem != null)
+        {
+            AttackAnimeBeem.SetActive(true);
+        }
+        yield return new WaitForSeconds(0.2f);
+
+        if (SwordManDeffendAnimation != "")
+        {
+            SwordManModle.GetComponent<Animator>().Play(SwordManDeffendAnimation);
+        }
+        yield return new WaitForSeconds(1f);
+        if (SwordManTakeDammageAnimation != "")
+        {
+            SwordManModle.GetComponent<Animator>().Play(SwordManTakeDammageAnimation);
+        }
+        
+
+        if (MagicianTakeDammageAnimation != "")
+        {
+            MagicianModle.GetComponent<Animator>().Play(MagicianTakeDammageAnimation);
+        }
+        yield return new WaitForSeconds(1f);
         if (MagicianDeffendAnimation != "")
         {
             if (DeffendAnimeFire != null)
@@ -331,32 +351,59 @@ public class PlayerFIghtController : MonoBehaviour
                 DeffendAnimeFire.SetActive(true);
             }
         }
+        yield return new WaitForSeconds(1f);
+        if (SwordManReturnAnimation != "")
+        {
+            SwordManModle.GetComponent<Animator>().Play(SwordManReturnAnimation);
+        }
         
-        yield return new WaitForSeconds(0.3f);
+        //PlayerTwoModle.GetComponent<Animator>().Play(PlayerTwoRunAnimation);
+
+        //  yield return new WaitForSeconds(0.5f);
+
+
+        yield return new WaitForSeconds(0.5f);
         if (MagicianDeffendAnimation != "")
         {
             MagicianModle.GetComponent<Animator>().Play(MagicianDeffendAnimation);
         }
-        if (MagicianTakeDammageAnimation != "")
+        yield return new WaitForSeconds(3f);
+        if (MagicianAttackAnimation != "")
         {
-            MagicianModle.GetComponent<Animator>().Play(MagicianTakeDammageAnimation);
+            MagicianModle.GetComponent<Animator>().Play(MagicianAttackAnimation);
         }
+        yield return new WaitForSeconds(1f);
+        if (AttackAnimeFireOnSwardMan != null)
+        {
+            AttackAnimeFireOnSwardMan.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        if (SwordManAttackAnimation != "")
+        {
+            SwordManModle.GetComponent<Animator>().Play(SwordManAttackAnimation);
+        }
+        //if (MagicianTakeDammageAnimation != "")
+        //{
+        //    MagicianModle.GetComponent<Animator>().Play(MagicianTakeDammageAnimation);
+        //}
+        yield return new WaitForSeconds(1f);
         if (MagicianDieAnimation != "")
         {
             MagicianModle.GetComponent<Animator>().Play(MagicianDieAnimation);
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
 
         yield return new WaitForSeconds(3f);
         if (DeffendAnimeFire != null)
         {
             DeffendAnimeFire.SetActive(false);
         }
-        if (SwordManReturnAnimation != "")
-        {
-            SwordManModle.GetComponent<Animator>().Play(SwordManReturnAnimation);
-        }
-        LeanTween.move(SwordMan, SwordManInitialPosition, 0.3f).setDelay(0f);
+        //if (SwordManReturnAnimation != "")
+        //{
+        //    SwordManModle.GetComponent<Animator>().Play(SwordManReturnAnimation);
+        //}
+       // LeanTween.move(SwordMan, SwordManInitialPosition, 0.3f).setDelay(0f);
         yield return new WaitForSeconds(0.5f);
         SwordManModle.GetComponent<Animator>().Play("Idle");
     }
