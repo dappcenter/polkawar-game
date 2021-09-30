@@ -1,0 +1,17 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 26.09.2021 15:18:42
+
+newmtl j03
+	Ns 37.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8510 0.5922 0.0392
+	Kd 0.8510 0.5922 0.0392
+	Ks 0.4860 0.4860 0.4860
+	Ke 0.0000 0.0000 0.0000
+	map_Ka fashion girl\textures\Object403low-dif-3.jpg
+	map_Kd fashion girl\textures\Object403low-dif-3.jpg
+	map_bump fashion girl\textures\Map__38_Normal Bump.tga
