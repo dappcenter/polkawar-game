@@ -19,14 +19,6 @@ namespace BlueOakBridge
         {
             if (AreEventsRegistered) return;
 
-            GameInput.OnMoveEvent += OnMoveInput;
-            GameInput.OnInteractEvent += OnInteractInput;
-            GameInput.OnConfirmEvent += OnConfirmInput;
-            GameInput.OnCancelEvent += OnCancelInput;
-            GameInput.OnNavigateLeftEvent += OnNavigationLeftInput;
-            GameInput.OnNavigateRightEvent += OnNavigationRightInput;
-            GameInput.OnPageUpEvent += OnPageUpInput;
-            GameInput.OnPageDownEvent += OnPageDownInput;
 
             AreEventsRegistered = true;
         }
@@ -35,14 +27,14 @@ namespace BlueOakBridge
         {
             if (!AreEventsRegistered) return;
 
-            GameInput.OnMoveEvent -= OnMoveInput;
-            GameInput.OnInteractEvent -= OnInteractInput;
-            GameInput.OnConfirmEvent -= OnConfirmInput;
-            GameInput.OnCancelEvent -= OnCancelInput;
-            GameInput.OnNavigateLeftEvent -= OnNavigationLeftInput;
-            GameInput.OnNavigateRightEvent -= OnNavigationRightInput;
-            GameInput.OnPageUpEvent -= OnPageUpInput;
-            GameInput.OnPageDownEvent -= OnPageDownInput;
+            //GameInput.OnMoveEvent -= OnMoveInput;
+            //GameInput.OnInteractEvent -= OnInteractInput;
+            //GameInput.OnConfirmEvent -= OnConfirmInput;
+            //GameInput.OnCancelEvent -= OnCancelInput;
+            //GameInput.OnNavigateLeftEvent -= OnNavigationLeftInput;
+            //GameInput.OnNavigateRightEvent -= OnNavigationRightInput;
+            //GameInput.OnPageUpEvent -= OnPageUpInput;
+            //GameInput.OnPageDownEvent -= OnPageDownInput;
 
             AreEventsRegistered = false;
         }
