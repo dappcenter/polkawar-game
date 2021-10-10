@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 343979912}
   - component: {fileID: 343979910}
   - component: {fileID: 343979911}
+  - component: {fileID: 343979913}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -236,6 +237,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &343979913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343979909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65bb9aa87c294b14baa97ecbba1ab890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 426831885}
+  offset: {x: 0, y: 1, z: -2.5}
+  speed: 0
+  distanceMargin: 0
 --- !u!1 &426831885
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +366,19 @@ MonoBehaviour:
     m_ActionId: c76f5f63-07c4-4743-9c72-0e520b604f3a
     m_ActionName: PlayerControls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 426831890}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f44c0366-10d4-4a48-88e1-507b9f2955d3
     m_ActionName: PlayerControls/Run[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
@@ -490,6 +519,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 0f4ff8b4ac5f4b44eb5efb1f11b5f17e, type: 2}
+    - target: {fileID: 5866666021909216657, guid: b2815e6acbe454e40bedbbe0ab1fee93, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2815e6acbe454e40bedbbe0ab1fee93, type: 3}
 --- !u!1 &1949823331 stripped

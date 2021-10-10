@@ -22,16 +22,9 @@ public class PlayerAnimationBehaviour : MonoBehaviour
         playerAttackAnimationID = Animator.StringToHash("Attack");
     }
 
-    public void UpdateMovementAnimation(float movementBlendValue)
-    {
-        Debug.Log("movment valuse  " + movementBlendValue);
-        playerAnimator.SetFloat(playerMovementAnimationID, movementBlendValue);
-    }
+    public void UpdateMovementAnimation(float movementBlendValue) => playerAnimator.SetFloat("Movement", movementBlendValue);
 
-    public void PlayAttackAnimation()
-    {
-        playerAnimator.SetTrigger(playerAttackAnimationID);
-    }
+    public void PlayAttackAnimation() => playerAnimator.SetTrigger("Attack");
 
 
 }

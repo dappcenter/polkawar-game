@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "InputActions_Player",
     "maps": [
         {
             "name": "PlayerControls",
@@ -22,12 +22,12 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Run",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "f44c0366-10d4-4a48-88e1-507b9f2955d3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -100,11 +100,11 @@
                 {
                     "name": "",
                     "id": "3c1b0ac8-635e-408a-8fdf-5672cb954cb7",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "Press",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Run",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
