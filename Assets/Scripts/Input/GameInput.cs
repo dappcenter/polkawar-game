@@ -28,7 +28,6 @@ namespace Polkawar
 
         #region Input
 
-
         public void OnMove(InputAction.CallbackContext ctx)
         {
             //Log.RawData("OnMove");
