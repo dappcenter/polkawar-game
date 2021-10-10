@@ -56,7 +56,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 8;
         roomOptions.IsVisible = true;
-
+        
         //PhotonNetwork.JoinOrCreateRoom("ThisIsMyRoom" + Random.Range(Random.Range(-99999, 99999), Random.Range(-99999, 99999)), roomOptions, TypedLobby.Default);
         PhotonNetwork.JoinRandomOrCreateRoom(roomName: "ThisIsMyRoom" + Random.Range(Random.Range(-99999, 99999), Random.Range(-99999, 99999)),
             roomOptions: roomOptions, typedLobby: TypedLobby.Default
