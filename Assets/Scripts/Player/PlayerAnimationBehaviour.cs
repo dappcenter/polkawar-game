@@ -24,6 +24,7 @@ public class PlayerAnimationBehaviour : MonoBehaviour
 
     public void UpdateMovementAnimation(float movementBlendValue)
     {
+        Debug.Log("movment valuse  " + movementBlendValue);
         playerAnimator.SetFloat(playerMovementAnimationID, movementBlendValue);
     }
 
