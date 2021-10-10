@@ -15,6 +15,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
+
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnConnected()
@@ -50,6 +52,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("OnJoinedLobby");
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 8;
+        roomOptions.IsVisible = true;
+
+        //PhotonNetwork.JoinOrCreateRoom("ThisIsMyRoom" + Random.Range(Random.Range(-99999, 99999), Random.Range(-99999, 99999)), roomOptions, TypedLobby.Default);
+        PhotonNetwork.JoinRandomOrCreateRoom(roomName: "ThisIsMyRoom" + Random.Range(Random.Range(-99999, 99999), Random.Range(-99999, 99999)),
+            roomOptions: roomOptions, typedLobby: TypedLobby.Default
+            );
     }
 
     public override void OnJoinedRoom()
