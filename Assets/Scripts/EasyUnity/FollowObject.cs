@@ -3,7 +3,7 @@
 public class FollowObject : MonoBehaviour
 {
     [Tooltip("The target object to be followed")]
-    [SerializeField] protected GameObject target;
+    [SerializeField] protected GameObject positionTarget, lookAtTarget;
     [Tooltip("An offset from the target in world position")]
     [SerializeField] protected Vector3 offset;
     [Tooltip("The maximum speed this object can go (0 disables this)")]
@@ -14,7 +14,7 @@ public class FollowObject : MonoBehaviour
     /// <summary>
     /// The target object to be followed
     /// </summary>
-    public GameObject Target { get => target; set => target = value; }
+    public GameObject Target { get => positionTarget; set => positionTarget = value; }
     /// <summary>
     /// An offset from the target in world position
     /// </summary>
@@ -31,16 +31,18 @@ public class FollowObject : MonoBehaviour
     /// <summary>
     /// Our calculated target world position considering our target object and offset settings
     /// </summary>
-    public Vector3 TargetOffsetPosition => target.transform.position + offset;
+    public Vector3 TargetOffsetPosition => positionTarget.transform.position + offset;
 
     protected virtual void FixedUpdate()
     {
-        if (target)
+        if (positionTarget)
         {
             if (speed > 0 && Vector3.Distance(TargetOffsetPosition, transform.position) > distanceMargin)
                 transform.position += (TargetOffsetPosition - transform.position).normalized * speed * Time.fixedDeltaTime;
             else
-                transform.position = target.transform.position + offset;
+                transform.position = positionTarget.transform.position + offset;
+
+            transform.LookAt(lookAtTarget.transform);
         }
     }
 }
