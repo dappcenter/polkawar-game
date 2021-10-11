@@ -37,18 +37,30 @@ namespace MenteBacata.ScivoloCharacterControllerDemo
         
         private List<MoveContact> moveContacts = new List<MoveContact>(CharacterMover.MaxContactsCount);
 
+        private void OnEnable()
+        {
+            EventManager.OnMovementStart.AddListener(MovementStarted);
+        }
 
+        private void OnDisable()
+        {
+            EventManager.OnMovementStart.RemoveListener(MovementStarted);
+        }
         private void Start()
         {
             cameraTransform = Camera.main.transform;
             mover.canClimbSteepSlope = true;
+            EventManager.OnMovementStart.Dispatch();
         }
 
         private void Update()
         {
             UpdateMovement(GetMovementDirection(), Time.deltaTime);
         }
-
+        public void MovementStarted()
+        {
+            Debug.Log("Moving");
+        }
         private void UpdateMovement(Vector3 moveDirection, float deltaTime)
         {
             Vector3 velocity = moveSpeed * moveDirection;

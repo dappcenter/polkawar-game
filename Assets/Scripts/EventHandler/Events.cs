@@ -43,16 +43,7 @@ public class Events : AbstractEvent
         }
     }
 
-    
-
-    /// <summary>
-    /// Can be dispatched and listened to, with up to three parameters of given types.
-    /// </summary>
-
-    /// <summary>
-    /// Can be dispatched and listened to, with up to three parameters of given types.
-    /// </summary>
-    /// <typeparam name="T">Type of the first parameter.</typeparam>
+   
     public class Events<T> : AbstractEvent
     {
         private System.Action<T> onTrigger;
@@ -83,8 +74,6 @@ public class Events : AbstractEvent
         }
     }
 
-    /// <typeparam name="T">Type of the first parameter.</typeparam>
-    /// <typeparam name="U">Type of the second parameter.</typeparam>
     public class Events<T, U> : AbstractEvent
     {
         private System.Action<T, U> onTrigger;
@@ -115,12 +104,6 @@ public class Events : AbstractEvent
         }
     }
 
-    /// <summary>
-    /// Can be dispatched and listened to, with up to three parameters of given types.
-    /// </summary>
-    /// <typeparam name="T">Type of the first parameter.</typeparam>
-    /// <typeparam name="U">Type of the second parameter.</typeparam>
-    /// <typeparam name="I">Type of the third parameter.</typeparam>
     public class Events<T, U, I> : AbstractEvent
     {
         private System.Action<T, U, I> onTrigger;
