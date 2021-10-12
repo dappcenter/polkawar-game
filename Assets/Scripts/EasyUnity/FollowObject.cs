@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FollowObject : MonoBehaviour
+public class FollowObject : SingletonMB<FollowObject>
 {
     [Tooltip("The target object to be followed")]
     [SerializeField] protected GameObject positionTarget, lookAtTarget;
@@ -15,6 +15,8 @@ public class FollowObject : MonoBehaviour
     /// The target object to be followed
     /// </summary>
     public GameObject Target { get => positionTarget; set => positionTarget = value; }
+
+    public GameObject LookAt { get => lookAtTarget; set => lookAtTarget = value; }
     /// <summary>
     /// An offset from the target in world position
     /// </summary>
@@ -42,6 +44,7 @@ public class FollowObject : MonoBehaviour
             else
                 transform.position = positionTarget.transform.position + offset;
 
+            if(lookAtTarget)
             transform.LookAt(lookAtTarget.transform);
         }
     }
