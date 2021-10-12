@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     //Player ID
     private int playerID;
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnMovement(InputAction.CallbackContext value)
     {
+        if (!photonView.IsMine) return;
+
         Vector2 inputMovement = value.ReadValue<Vector2>();
         rawInputMovement = new Vector3(inputMovement.x, 0, inputMovement.y);
     }
@@ -56,6 +59,8 @@ public class PlayerController : MonoBehaviour
     //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
     public void OnAttack(InputAction.CallbackContext value)
     {
+        if (!photonView.IsMine) return;
+
         if (value.started)
         {
             playerAnimationBehaviour.PlayAttackAnimation();
@@ -65,6 +70,8 @@ public class PlayerController : MonoBehaviour
     //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
     public void OnTogglePause(InputAction.CallbackContext value)
     {
+        if (!photonView.IsMine) return;
+
         if (value.started)
         {
             // GameManager.Instance.TogglePauseState(this);
@@ -77,6 +84,7 @@ public class PlayerController : MonoBehaviour
     //(IE: Keyboard -> Xbox Controller)
     public void OnControlsChanged()
     {
+        if (!photonView.IsMine) return;
 
         if (playerInput.currentControlScheme != currentControlScheme)
         {
@@ -114,6 +122,8 @@ public class PlayerController : MonoBehaviour
     //Update Loop - Used for calculating frame-based data
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         CalculateMovementInputSmoothing();
         UpdatePlayerMovement();
         UpdatePlayerAnimationMovement();
@@ -124,13 +134,13 @@ public class PlayerController : MonoBehaviour
 
     void CalculateMovementInputSmoothing()
     {
-
         smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
 
     }
 
     void UpdatePlayerMovement()
     {
+
         playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
     }
 
@@ -142,6 +152,8 @@ public class PlayerController : MonoBehaviour
 
     public void SetInputActiveState(bool gameIsPaused)
     {
+        if (!photonView.IsMine) return;
+
         switch (gameIsPaused)
         {
             case true:
