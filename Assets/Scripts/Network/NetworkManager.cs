@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 
+[DefaultExecutionOrder(-100)]
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    public static NetworkManager Instance;
+
+    public UnityEvent OnRoomJoinedEvent;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         PhotonNetwork.GameVersion = "0.0.1";
@@ -66,6 +77,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
+        OnRoomJoinedEvent.Invoke();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
