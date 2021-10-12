@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMovementBehaviour : MonoBehaviour
+public class PlayerMovementBehaviour : MonoBehaviourPun
 {
+
+    public GameObject targetForCamera, lookAtTargetForCamera;
 
     [Header("Component References")]
     public Rigidbody playerRigidbody;
@@ -13,8 +16,18 @@ public class PlayerMovementBehaviour : MonoBehaviour
     public float turnSpeed = 0.1f;
 
 
+    private void Awake()
+    {
+        if (photonView.IsMine)
+        {
+            mainCamera = FollowObject.Instance.GetComponent<Camera>();
+            FollowObject.Instance.Target = targetForCamera;
+            FollowObject.Instance.LookAt = lookAtTargetForCamera;
+        }
+    }
+
     //Stored Values
-   
+
     [SerializeField] private Camera mainCamera;
     private Vector3 movementDirection;
 
@@ -36,6 +49,8 @@ public class PlayerMovementBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+
         MoveThePlayer();
         TurnThePlayer();
     }
