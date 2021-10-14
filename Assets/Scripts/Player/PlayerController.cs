@@ -17,7 +17,13 @@ public class PlayerController : MonoBehaviourPun
 
     [Header("Input Settings")]
     public PlayerInput playerInput;
-    public float movementSmoothingSpeed = 1f;
+    public float movementSmoothingSpeed = 1f; // How fast Player movement is smoothen out
+    public float maxForwardSpeed = 8f;        // How fast Player can run.
+    public float gravity = 9.81f;               // How fast Player accelerates downwards when airborne.
+    public float jumpSpeed = 10f;             // How fast Player takes off when jumping.
+    public float minTurnSpeed = 400f;         // How fast Player turns when moving at maximum speed.
+    public float maxTurnSpeed = 1200f;        // How fast Player turns when stationary.
+
     private Vector3 rawInputMovement;
     private Vector3 smoothInputMovement;
 
@@ -27,7 +33,6 @@ public class PlayerController : MonoBehaviourPun
 
     //Current Control Scheme
     private string currentControlScheme;
-
 
     //This is called from the GameManager; when the game is being setup.
     public void SetupPlayer(int newPlayerID)
@@ -171,38 +176,18 @@ public class PlayerController : MonoBehaviourPun
         InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
     }
 
-
-
     //Switching Action Maps ----
+    public void EnableGameplayControls() => playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
 
-
-
-    public void EnableGameplayControls()
-    {
-        playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
-    }
-
-    public void EnablePauseMenuControls()
-    {
-        playerInput.SwitchCurrentActionMap(actionMapMenuControls);
-    }
+    public void EnablePauseMenuControls() => playerInput.SwitchCurrentActionMap(actionMapMenuControls);
 
 
     //Get Data ----
-    public int GetPlayerID()
-    {
-        return playerID;
-    }
+    public int GetPlayerID() => playerID;
 
-    public InputActionAsset GetActionAsset()
-    {
-        return playerInput.actions;
-    }
+    public InputActionAsset GetActionAsset() => playerInput.actions;
 
-    public PlayerInput GetPlayerInput()
-    {
-        return playerInput;
-    }
+    public PlayerInput GetPlayerInput() => playerInput;
 
 
 }
