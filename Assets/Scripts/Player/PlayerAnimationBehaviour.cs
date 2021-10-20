@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerAnimationBehaviour : MonoBehaviour
+using Photon.Pun;
+public class PlayerAnimationBehaviour : MonoBehaviourPun
 {
     [Header("Component References")]
     public Animator playerAnimator;
@@ -22,8 +22,12 @@ public class PlayerAnimationBehaviour : MonoBehaviour
         playerAttackAnimationID = Animator.StringToHash("Attack");
     }
 
-    public void UpdateMovementAnimation(float movementBlendValue) => playerAnimator.SetFloat("Movement", movementBlendValue);
+    public void UpdateMovementAnimation(float movementBlendValue)
+    {
+        if (!photonView.IsMine) return;
 
+        playerAnimator.SetFloat("Movement", movementBlendValue);
+    }
     public void PlayAttackAnimation() => playerAnimator.SetTrigger("Attack");
 
 
