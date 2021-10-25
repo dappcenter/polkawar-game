@@ -65,9 +65,31 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "up",
+                    "id": "da2b2e21-653b-45cd-910d-4336163ad71e",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "down",
                     "id": "d6d87963-67d2-420a-bbd3-9b37d42bd2ae",
                     "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ef289b16-cae7-4378-8b86-c1f316734067",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -87,9 +109,31 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "left",
+                    "id": "a4b0bd49-5214-48f1-b9ef-145a9a97741d",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "right",
                     "id": "687ccdad-9774-406e-98bb-07bb276336c7",
                     "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "a5503ae2-2780-4bef-878e-c0fc63a6425d",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",

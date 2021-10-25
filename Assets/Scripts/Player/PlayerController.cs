@@ -119,11 +119,6 @@ public class PlayerController : MonoBehaviourPun
         // playerVisualsBehaviour.UpdatePlayerVisuals();
     }
 
-
-
-
-
-
     //Update Loop - Used for calculating frame-based data
     void Update()
     {
@@ -135,25 +130,14 @@ public class PlayerController : MonoBehaviourPun
     }
 
     //Input's Axes values are raw
+    void CalculateMovementInputSmoothing() => smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
 
+    void UpdatePlayerMovement() => playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
 
-    void CalculateMovementInputSmoothing()
-    {
-        smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
+    void UpdatePlayerAnimationMovement() => playerAnimationBehaviour.UpdateMovementAnimation(smoothInputMovement.magnitude);
 
-    }
-
-    void UpdatePlayerMovement()
-    {
-
-        playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
-    }
-
-    void UpdatePlayerAnimationMovement()
-    {
-        playerAnimationBehaviour.UpdateMovementAnimation(smoothInputMovement.magnitude);
-    }
-
+    void CalculateVerticalMovement()
+    { }
 
     public void SetInputActiveState(bool gameIsPaused)
     {

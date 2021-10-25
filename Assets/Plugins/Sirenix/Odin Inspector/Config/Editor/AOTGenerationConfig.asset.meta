@@ -1,6 +1,12 @@
 fileFormatVersion: 2
-guid: 3f54923eeb27a5f4eac897ef10173502
+<<<<<<< HEAD:Assets/Plugins/Sirenix/Odin Inspector/Config/Editor/AOTGenerationConfig.asset.meta
+guid: b5c97b3743cfb4242928f8e4452464be
 NativeFormatImporter:
+=======
+guid: a499684bf608eea42a677d197ea4a91f
+folderAsset: yes
+DefaultImporter:
+>>>>>>> 0b33d3d6f17c1e7eb8050a586be4ca13846536a0:Assets/Prefabs/MainMenu.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 
