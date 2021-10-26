@@ -159,6 +159,8 @@ MonoBehaviour:
   jumpSpeed: 5
   minTurnSpeed: 400
   maxTurnSpeed: 1200
+  playerNameDisplayer: {fileID: 6277639309219042205}
+  playerHealth: {fileID: 8476649205494234568}
 --- !u!114 &3211950848565997025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +295,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3211950848565997028}
+  - {fileID: 7650528595966535554}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -506,3 +509,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5102788588800686089, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
   m_PrefabInstance: {fileID: 3707487946907387332}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8476649205494234568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+  m_PrefabInstance: {fileID: 3707487946907387332}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5320fa82336ec61468bb1af2d3264f1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6277639309219042205 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7236443569185265241, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+  m_PrefabInstance: {fileID: 3707487946907387332}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78537fc6dfcce4721870575eb36b608b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
