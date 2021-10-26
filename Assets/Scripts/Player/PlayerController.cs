@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviourPun
     public float minTurnSpeed = 400f;         // How fast Player turns when moving at maximum speed.
     public float maxTurnSpeed = 1200f;        // How fast Player turns when stationary.
 
+    public PlayerNameDisplayer playerNameDisplayer;
+    public Health playerHealth;
+
     private Vector3 rawInputMovement;
     private Vector3 smoothInputMovement;
 
@@ -44,6 +47,31 @@ public class PlayerController : MonoBehaviourPun
         playerMovementBehaviour.SetupBehaviour();
         playerAnimationBehaviour.SetupBehaviour();
         //  playerVisualsBehaviour.SetupBehaviour(playerID, playerInput);
+    }
+
+    public void SetPlayerName(string newName)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("SetPlayerNameRPC", RpcTarget.AllBuffered, newName);
+        }
+    }
+
+    [PunRPC]
+    public void SetPlayerNameRPC(string newName)
+    {
+        playerNameDisplayer.SetName(newName);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        photonView.RPC("TakeDamageRPC", RpcTarget.AllBuffered, damage);
+    }
+
+    [PunRPC]
+    public void TakeDamageRPC(int damage)
+    {
+        playerHealth.TakeDamage(damage);
     }
 
 
