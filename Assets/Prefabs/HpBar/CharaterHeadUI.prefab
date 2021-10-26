@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5102788588800686091}
   - component: {fileID: 5102788588800686088}
   - component: {fileID: 5102788588800686092}
+  - component: {fileID: 7236443569185265241}
   m_Layer: 0
   m_Name: CharaterHeadUI
   m_TagString: Untagged
@@ -117,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foregroundImage: {fileID: 5102788590146471373}
   updateSpeedSeconds: 0.5
+  health: {fileID: 0}
 --- !u!114 &5102788588800686092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,9 +132,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 100
   OnCharaterDie:
     m_PersistentCalls:
       m_Calls: []
+  isAlive: 1
+--- !u!114 &7236443569185265241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5102788588800686086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78537fc6dfcce4721870575eb36b608b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 5102788589110437041}
 --- !u!1 &5102788589110437039
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +162,7 @@ GameObject:
   - component: {fileID: 5102788589110437040}
   - component: {fileID: 5102788589110437041}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: NameTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
