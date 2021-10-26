@@ -41,7 +41,7 @@ public class Health : MonoBehaviour, IDamagable
         float currentHealthPct = (float)currentHealth / (float)maxHealth;
         OnHealthPctChanged();
 
-        if (currentHealth == 0)
+        if (currentHealth <= 0)
         {
             isAlive = false;
             Debug.Log("Died");
