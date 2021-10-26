@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField, ReadOnly]
     private int index = 0;
 
+    public string playerName;
+
     public GameObject player = null;
 
     private void Start()
@@ -20,6 +22,9 @@ public class GameManager : MonoBehaviour
     public void OnRoomJoined()
     {
         player = PhotonNetwork.Instantiate("Warrior0", spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
+
+        player.GetComponent<PlayerController>()?.SetPlayerName(playerName);
+
         index++;
     }
 }
