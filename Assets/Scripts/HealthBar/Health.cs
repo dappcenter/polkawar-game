@@ -17,7 +17,7 @@ public class Health : MonoBehaviour, IDamagable
     public int CurrentHealth => currentHealth;
 
     public event Action OnHealthPctChanged = delegate { };
-    public UnityEvent OnCharaterDie;
+    public UnityEvent OnCharacterDie;
 
     [SerializeField, ReadOnly]
     private bool isAlive = true;
@@ -45,8 +45,14 @@ public class Health : MonoBehaviour, IDamagable
         {
             isAlive = false;
             Debug.Log("Died");
-            OnCharaterDie.Invoke();
+            Die();
+            OnCharacterDie.Invoke();
         }
+    }
+
+    private void Die()
+    {
+        throw new NotImplementedException();
     }
 }
 
