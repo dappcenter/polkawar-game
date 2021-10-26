@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using System;
 
 public class PlayerController : MonoBehaviourPun
 {
@@ -101,8 +102,29 @@ public class PlayerController : MonoBehaviourPun
         {
             if (attackCooldown <= 0)
             {
+                AttackOnOpponent();
                 playerAnimationBehaviour.PlayAttackAnimation();
                 attackCooldown = 1f / attackSpeed;
+            }
+        }
+    }
+
+    private void AttackOnOpponent()
+    {
+        var raycastHit = Physics.SphereCastAll(transform.position, 1f, transform.forward, 1f);
+
+        for (int i = 0; i < raycastHit.Length; i++)
+        {
+            if (raycastHit[i].collider.gameObject != gameObject)
+            {
+                PlayerController tempController = raycastHit[i].collider.gameObject.GetComponent<PlayerController>();
+
+                if (tempController != null)
+                {
+                    Debug.Log(" Attacked the opponent");
+                    tempController.TakeDamage(10);
+                    break;
+                }
             }
         }
     }
@@ -119,6 +141,7 @@ public class PlayerController : MonoBehaviourPun
     }
 
     //INPUT SYSTEM AUTOMATIC CALLBACKS --------------
+    #region Input Systenm Callbacks
 
     //This is automatically called from PlayerInput, when the input device has changed
     //(IE: Keyboard -> Xbox Controller)
@@ -154,6 +177,7 @@ public class PlayerController : MonoBehaviourPun
         // playerVisualsBehaviour.UpdatePlayerVisuals();
     }
 
+    #endregion
     void Update()
     {
         if (!photonView.IsMine) return;
@@ -191,10 +215,7 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    void RemoveAllBindingOverrides()
-    {
-        InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
-    }
+    void RemoveAllBindingOverrides() => InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
 
     //Switching Action Maps ----
     public void EnableGameplayControls() => playerInput.SwitchCurrentActionMap(actionMapPlayerControls);
