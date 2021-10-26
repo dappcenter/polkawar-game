@@ -24,13 +24,16 @@ public class PlayerController : MonoBehaviourPun
     public float minTurnSpeed = 400f;         // How fast Player turns when moving at maximum speed.
     public float maxTurnSpeed = 1200f;        // How fast Player turns when stationary.
 
+    [SerializeField] private float attackSpeed = 1f;         //How fast Player can attack
+    [SerializeField] private float attackCooldown = 0f;      //How much time it should wait to cool down and re-attack and avoid attack button spamming 
+
     public PlayerNameDisplayer playerNameDisplayer;
     public Health playerHealth;
 
     private Vector3 rawInputMovement;
     private Vector3 smoothInputMovement;
 
-    //Action Maps
+    [Header("Action Maps")]
     private string actionMapPlayerControls = "Player Controls";
     private string actionMapMenuControls = "Menu Controls";
 
@@ -96,7 +99,11 @@ public class PlayerController : MonoBehaviourPun
 
         if (value.started)
         {
-            playerAnimationBehaviour.PlayAttackAnimation();
+            if (attackCooldown <= 0)
+            {
+                playerAnimationBehaviour.PlayAttackAnimation();
+                attackCooldown = 1f / attackSpeed;
+            }
         }
     }
 
@@ -147,10 +154,11 @@ public class PlayerController : MonoBehaviourPun
         // playerVisualsBehaviour.UpdatePlayerVisuals();
     }
 
-    //Update Loop - Used for calculating frame-based data
     void Update()
     {
         if (!photonView.IsMine) return;
+
+        attackCooldown -= Time.deltaTime;
 
         CalculateMovementInputSmoothing();
         UpdatePlayerMovement();

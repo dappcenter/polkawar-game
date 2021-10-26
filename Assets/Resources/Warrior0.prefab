@@ -34,6 +34,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Attack
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsDead
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsHit
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
