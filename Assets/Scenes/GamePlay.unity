@@ -513,6 +513,7 @@ MonoBehaviour:
   - {fileID: 780296033}
   - {fileID: 1344202079}
   index: 0
+  playerName: Imran Bin Azhar
   player: {fileID: 3211950848565997053, guid: 7e18422ffe57249468560cf2d0b18b07, type: 3}
 --- !u!1 &1634648429
 GameObject:
