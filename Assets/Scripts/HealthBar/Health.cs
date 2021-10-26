@@ -3,43 +3,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDamagable
 {
     // Start is called before the first frame update
     [SerializeField]
     private int maxHealth = 100;
-    private int currentHealth;
+    [SerializeField, ReadOnly]
+    private int currentHealth = 100;
 
+    public int MaxHealth => maxHealth;
+    public int CurrentHealth => currentHealth;
 
-    public event Action<float> OnHealthPctChanged = delegate { };
-    //public event Action<int> OnCharaterDie = delegate { };
+    public event Action OnHealthPctChanged = delegate { };
     public UnityEvent OnCharaterDie;
 
+    [SerializeField, ReadOnly]
+    private bool isAlive = true;
+
     private void OnEnable()
+    {
+        Reset();
+    }
+
+    public void Reset()
     {
         currentHealth = maxHealth;
     }
 
-    public void ModifyHealth(int amount)
+    public void TakeDamage(int damage)
     {
-        currentHealth += amount;
+        if (!isAlive) return;
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, currentHealth - damage);
+
         float currentHealthPct = (float)currentHealth / (float)maxHealth;
-        OnHealthPctChanged(currentHealthPct);
-        if (currentHealth < 1)
+        OnHealthPctChanged();
+
+        if (currentHealth == 0)
         {
-            Debug.Log("Die");
+            isAlive = false;
+            Debug.Log("Died");
             OnCharaterDie.Invoke();
         }
     }
+}
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ModifyHealth(-10);
-        }
-    }
+public interface IDamagable
+{
+    public void TakeDamage(int damage);
 }
