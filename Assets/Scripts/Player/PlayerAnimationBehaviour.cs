@@ -30,5 +30,9 @@ public class PlayerAnimationBehaviour : MonoBehaviourPun
     }
     public void PlayAttackAnimation() => playerAnimator.SetTrigger("Attack");
 
+    public void PlayDeathAnimation() => playerAnimator.SetTrigger("IsDead");
+
+    public void PlayOnHitAnimation() => playerAnimator.SetTrigger("IsHit");
+
 
 }
