@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviourPun
 
         currentControlScheme = playerInput.currentControlScheme;
 
-        playerMovementBehaviour.SetupBehaviour();
-        playerAnimationBehaviour.SetupBehaviour();
+        //playerMovementBehaviour.SetupBehaviour();
+        // playerAnimationBehaviour.SetupBehaviour();
         //  playerVisualsBehaviour.SetupBehaviour(playerID, playerInput);
     }
 
@@ -192,8 +192,23 @@ public class PlayerController : MonoBehaviourPun
     //Input's Axes values are raw
     void CalculateMovementInputSmoothing() => smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
 
-    void UpdatePlayerMovement() => playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
+    void UpdatePlayerMovement()
+    {
+        if (IsAnimationPlaying("Attack"))
+            return;
 
+        playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
+    }
+
+    bool IsAnimationPlaying()
+    {
+        return playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).length >
+            playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+    bool IsAnimationPlaying(string name)
+    {
+        return IsAnimationPlaying() && playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(name);
+    }
     void UpdatePlayerAnimationMovement() => playerAnimationBehaviour.UpdateMovementAnimation(smoothInputMovement.magnitude);
 
     void CalculateVerticalMovement()
@@ -229,6 +244,5 @@ public class PlayerController : MonoBehaviourPun
     public InputActionAsset GetActionAsset() => playerInput.actions;
 
     public PlayerInput GetPlayerInput() => playerInput;
-
 
 }
