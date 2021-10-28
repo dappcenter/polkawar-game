@@ -1430,7 +1430,7 @@ MonoBehaviour:
   lookAtTargetForCamera: {fileID: 3211950846946921065}
   playerRigidbody: {fileID: 3211950848565997055}
   movementSpeed: 5
-  turnSpeed: 0.05
+  turnSpeed: 0.25
   mainCamera: {fileID: 0}
 --- !u!114 &3211950848565997029
 MonoBehaviour:
