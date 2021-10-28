@@ -165,6 +165,8 @@ MonoBehaviour:
   jumpSpeed: 5
   minTurnSpeed: 400
   maxTurnSpeed: 1200
+  attackSpeed: 1
+  attackCooldown: 0
   playerNameDisplayer: {fileID: 6277639309219042205}
   playerHealth: {fileID: 8476649205494234568}
 --- !u!114 &3211950848565997025
