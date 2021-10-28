@@ -44,16 +44,4 @@ public class HealthBar : MonoBehaviour
 
         foregroundImage.fillAmount = newPct;
     }
-
-    public void FrontFacingHealthBar()
-    {
-        transform.LookAt(Camera.main.transform);
-        transform.Rotate(0, 180, 0);
-    }
-
-    private void Update()
-    {
-        FrontFacingHealthBar();
-    }
-
 }
