@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class PlayerMovementBehaviour : MonoBehaviourPun
 {
-
     public GameObject targetForCamera, lookAtTargetForCamera;
 
     [Header("Component References")]
@@ -14,7 +13,6 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
     [Header("Movement Settings")]
     public float movementSpeed = 3f;
     public float turnSpeed = 0.1f;
-
 
     private void Awake()
     {
@@ -27,25 +25,17 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
     }
 
     //Stored Values
-
     [SerializeField] private Camera mainCamera;
     private Vector3 movementDirection;
 
-
-    public void SetupBehaviour()
-    {
-        SetGameplayCamera();
-    }
+    public void SetupBehaviour() => SetGameplayCamera();
 
     void SetGameplayCamera()
     {
         //mainCamera = CameraManager.Instance.GetGameplayCamera();
     }
 
-    public void UpdateMovementData(Vector3 newMovementDirection)
-    {
-        movementDirection = newMovementDirection;
-    }
+    public void UpdateMovementData(Vector3 newMovementDirection) => movementDirection = newMovementDirection;
 
     void FixedUpdate()
     {
@@ -65,13 +55,11 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
     {
         if(movementDirection.sqrMagnitude > 0.01f)
         {
-
              Quaternion rotation = Quaternion.Slerp(playerRigidbody.rotation,
                                                   Quaternion.LookRotation (CameraDirection(movementDirection)),
                                                   turnSpeed);
 
             playerRigidbody.MoveRotation(rotation);
-
         }
     }
 
@@ -84,8 +72,7 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
         cameraForward.y = 0f;
         cameraRight.y = 0f;
         
-        return cameraForward * movementDirection.z + cameraRight * movementDirection.x; 
-   
+        return cameraForward * movementDirection.z + cameraRight * movementDirection.x;  
     }
 
 }

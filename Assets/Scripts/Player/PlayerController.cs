@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviourPun
     [Header("Sub Behaviours")]
     public PlayerMovementBehaviour playerMovementBehaviour;
     public PlayerAnimationBehaviour playerAnimationBehaviour;
+    public PlayerCombatBehaviour playerCombatBehaviour;
     //public PlayerVisualsBehaviour playerVisualsBehaviour;
 
     [Header("Input Settings")]
@@ -128,11 +129,16 @@ public class PlayerController : MonoBehaviourPun
                 if (tempController != null)
                 {
                     Debug.Log(" Attacked the opponent");
-                    tempController.TakeDamage(10);
+                    tempController.TakeDamage(playerCombatBehaviour.damage);
                     break;
                 }
             }
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(playerCombatBehaviour.attackPoint.position, 1f);
     }
 
     //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
@@ -201,12 +207,7 @@ public class PlayerController : MonoBehaviourPun
     //Input's Axes values are raw
     void CalculateMovementInputSmoothing() => smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
 
-    void UpdatePlayerMovement()
-    {
-
-
-        playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
-    }
+    void UpdatePlayerMovement() => playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
 
     //bool IsAnimationPlaying()
     //{
