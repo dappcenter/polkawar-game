@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.581405, g: 0.64546496, b: 0.7735849, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubtractiveShadowColor: {r: 0.48510733, g: 0.542722, b: 0.6886792, a: 1}
+  m_SkyboxMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43975756, g: 0.48818135, b: 0.56840026, a: 1}
+  m_Sun: {fileID: 2098812848}
+  m_IndirectSpecularColor: {r: 0.5254071, g: 0.5254071, b: 0.6416234, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -575,6 +575,25 @@ Transform:
   m_Father: {fileID: 1368075807}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1911237245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -9070748969904699067, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+  m_PrefabInstance: {fileID: 1966850616}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1911237249
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911237245}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1595783810130990727, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
 --- !u!1001 &1966850616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -694,6 +713,22 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: -6762212321594668648, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.78526014
+      objectReference: {fileID: 0}
+    - target: {fileID: -6762212321594668648, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8311979
+      objectReference: {fileID: 0}
+    - target: {fileID: -6762212321594668648, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.78526014
+      objectReference: {fileID: 0}
+    - target: {fileID: -6762212321594668648, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: -6569057146450049104, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -713,6 +748,10 @@ PrefabInstance:
     - target: {fileID: -6276477674939755674, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -6239948685223243551, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6239948685223243551, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -825,6 +864,10 @@ PrefabInstance:
     - target: {fileID: -1690753903947367394, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -1468662180276524799, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1308154924754892956, guid: 82a4a0418925d49d999e357ef33048fe, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1279,7 +1322,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.7039751, b: 0.41147497, a: 1}
+  m_Color: {r: 0.9433962, g: 0.8142419, b: 0.62893075, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
