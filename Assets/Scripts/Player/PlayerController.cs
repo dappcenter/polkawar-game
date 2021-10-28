@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviourPun
     public PlayerNameDisplayer playerNameDisplayer;
     public Health playerHealth;
 
-    private Vector3 rawInputMovement;
-    private Vector3 smoothInputMovement;
+    [SerializeField] private Vector3 rawInputMovement;
+    [SerializeField] private Vector3 smoothInputMovement;
 
     [Header("Action Maps")]
     private string actionMapPlayerControls = "Player Controls";
@@ -89,8 +89,13 @@ public class PlayerController : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        Vector2 inputMovement = value.ReadValue<Vector2>();
-        rawInputMovement = new Vector3(inputMovement.x, 0, inputMovement.y);
+        if (attackCooldown <= 0)
+        {
+            Vector2 inputMovement = value.ReadValue<Vector2>();
+            rawInputMovement = new Vector3(inputMovement.x, 0, inputMovement.y);
+        }
+        else
+            rawInputMovement = Vector3.zero;
     }
 
     //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviourPun
         {
             if (attackCooldown <= 0)
             {
+                rawInputMovement = Vector3.zero;
                 AttackOnOpponent();
                 playerAnimationBehaviour.PlayAttackAnimation();
                 attackCooldown = 1f / attackSpeed;
@@ -184,12 +190,12 @@ public class PlayerController : MonoBehaviourPun
 
         attackCooldown -= Time.deltaTime;
 
-        if (!IsAnimationPlaying("Attack"))
-        {
-            CalculateMovementInputSmoothing();
-            UpdatePlayerMovement();
-        }
-            UpdatePlayerAnimationMovement();
+        //if (!IsAnimationPlaying("Attack"))
+        //{
+        CalculateMovementInputSmoothing();
+        UpdatePlayerMovement();
+        UpdatePlayerAnimationMovement();
+        // }
     }
 
     //Input's Axes values are raw
@@ -197,20 +203,20 @@ public class PlayerController : MonoBehaviourPun
 
     void UpdatePlayerMovement()
     {
-            
+
 
         playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
     }
 
-    bool IsAnimationPlaying()
-    {
-        return playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).length >
-            playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-    }
-    bool IsAnimationPlaying(string name)
-    {
-        return IsAnimationPlaying() && playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(name);
-    }
+    //bool IsAnimationPlaying()
+    //{
+    //    return playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).length >
+    //        playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    //}
+    //bool IsAnimationPlaying(string name)
+    //{
+    //    return IsAnimationPlaying() && playerAnimationBehaviour.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(name);
+    //}
     void UpdatePlayerAnimationMovement() => playerAnimationBehaviour.UpdateMovementAnimation(smoothInputMovement.magnitude);
 
     void CalculateVerticalMovement()
