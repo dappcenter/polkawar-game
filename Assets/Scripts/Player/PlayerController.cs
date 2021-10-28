@@ -184,9 +184,12 @@ public class PlayerController : MonoBehaviourPun
 
         attackCooldown -= Time.deltaTime;
 
-        CalculateMovementInputSmoothing();
-        UpdatePlayerMovement();
-        UpdatePlayerAnimationMovement();
+        if (!IsAnimationPlaying("Attack"))
+        {
+            CalculateMovementInputSmoothing();
+            UpdatePlayerMovement();
+        }
+            UpdatePlayerAnimationMovement();
     }
 
     //Input's Axes values are raw
@@ -194,8 +197,7 @@ public class PlayerController : MonoBehaviourPun
 
     void UpdatePlayerMovement()
     {
-        if (IsAnimationPlaying("Attack"))
-            return;
+            
 
         playerMovementBehaviour.UpdateMovementData(smoothInputMovement);
     }
