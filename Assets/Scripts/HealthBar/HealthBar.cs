@@ -33,7 +33,8 @@ public class HealthBar : MonoBehaviour
             LeanTween.cancel(fillAmountTween.uniqueId);
         }
 
-        fillAmountTween = LeanTween.value(foregroundImage.fillAmount, health.CurrentHealth / health.MaxHealth, 0.25f).setOnUpdate((float val) =>
+
+        fillAmountTween = LeanTween.value(foregroundImage.fillAmount, (float)health.CurrentHealth / health.MaxHealth, 0.25f).setOnUpdate((float val) =>
         {
             foregroundImage.fillAmount = val;
         }).setOnComplete(()=> { fillAmountTween = null; });
