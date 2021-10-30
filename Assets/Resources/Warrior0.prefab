@@ -1307,7 +1307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 3211950848565997054}
   playerAnimationBehaviour: {fileID: 3211950847035272342}
-  playerCombatBehaviour: {fileID: 0}
+  playerCombatBehaviour: {fileID: 1024866542530837037}
   playerInput: {fileID: 3211950848565997025}
   movementSmoothingSpeed: 5
   maxForwardSpeed: 8
