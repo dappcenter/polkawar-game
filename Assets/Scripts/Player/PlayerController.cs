@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviourPun
     {
         playerHealth.TakeDamage(damage);
         playerAnimationBehaviour.PlayOnHitAnimation();
+        rawInputMovement = Vector3.zero; //disable the input for that particular instance of being hit by the attacker
     }
 
 
@@ -137,7 +138,7 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected() //Draw a sphere around the attack point of the character
     {
         Gizmos.DrawSphere(playerCombatBehaviour.attackPoint.position, 1f);
     }
@@ -197,12 +198,9 @@ public class PlayerController : MonoBehaviourPun
 
         attackCooldown -= Time.deltaTime;
 
-        //if (!IsAnimationPlaying("Attack"))
-        //{
         CalculateMovementInputSmoothing();
         UpdatePlayerMovement();
         UpdatePlayerAnimationMovement();
-        // }
     }
 
     //Input's Axes values are raw
