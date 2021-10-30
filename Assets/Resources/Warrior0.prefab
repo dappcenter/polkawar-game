@@ -1519,7 +1519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  attackPoint: {fileID: 0}
+  attackPoint: {fileID: 2494940496536890167}
 --- !u!1 &3354062680357088980
 GameObject:
   m_ObjectHideFlags: 0
