@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviourPun
     public void TakeDamageRPC(int damage)
     {
         playerHealth.TakeDamage(damage);
+        playerAnimationBehaviour.PlayOnHitAnimation();
     }
 
 
