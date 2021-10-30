@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
@@ -22,6 +23,9 @@ public class Health : MonoBehaviour, IDamagable
     [SerializeField, ReadOnly]
     private bool isAlive = true;
 
+
+    [SerializeField]
+    private TextMeshProUGUI decreasingHP;
     private void OnEnable()
     {
         Reset();
@@ -48,7 +52,18 @@ public class Health : MonoBehaviour, IDamagable
             Die();
             OnCharacterDie.Invoke();
         }
+        decreasingHP.enabled = true;
+        decreasingHP.text = damage.ToString();
+        decreasingHP.GetComponent<Animator>().Play("DecresingHp");
+        StartCoroutine(DisableDecreasingHp());
     }
+    private IEnumerator DisableDecreasingHp()
+    {
+        yield return new WaitForSeconds(2);
+        decreasingHP.enabled = false;
+
+    }
+
 
     private void Die()
     {
