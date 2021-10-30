@@ -1317,6 +1317,7 @@ MonoBehaviour:
   maxTurnSpeed: 1200
   attackSpeed: 1
   attackCooldown: 0
+  attackRadius: 0.5
   playerNameDisplayer: {fileID: 6277639309219042205}
   playerHealth: {fileID: 8476649205494234568}
   rawInputMovement: {x: 0, y: 0, z: 0}
@@ -1382,6 +1383,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f44c0366-10d4-4a48-88e1-507b9f2955d3
     m_ActionName: PlayerControls/Run[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b27bf37b-25ea-43bf-8c56-a0e30e048b6a
+    m_ActionName: PlayerControls/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4b2e379c-bc88-4bd0-88bb-4bb57d955efc
+    m_ActionName: PlayerControls/Fire[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: PlayerControls
@@ -1520,6 +1529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   attackPoint: {fileID: 2494940496536890167}
+  SwordSlashParticle: {fileID: 0}
+  BloodParticle: {fileID: 0}
 --- !u!1 &3354062680357088980
 GameObject:
   m_ObjectHideFlags: 0
