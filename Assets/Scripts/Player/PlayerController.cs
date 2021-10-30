@@ -254,4 +254,9 @@ public class PlayerController : MonoBehaviourPun
 
     public PlayerInput GetPlayerInput() => playerInput;
 
+    public void DeactivatePlayerInput()
+    {
+        playerInput.DeactivateInput();
+    }
+
 }
