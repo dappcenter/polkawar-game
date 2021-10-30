@@ -2865,6 +2865,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3211950847035272342}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3211950848565997025}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayDeathAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DeactivateInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerAnimationBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
 --- !u!224 &8476649205494234573 stripped
