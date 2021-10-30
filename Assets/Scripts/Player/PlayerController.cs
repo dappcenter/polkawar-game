@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviourPun
 
     [SerializeField] private float attackSpeed = 1f;         //How fast Player can attack
     [SerializeField] private float attackCooldown = 0f;      //How much time it should wait to cool down and re-attack and avoid attack button spamming 
+    [SerializeField] private float attackRadius = 0.5f;       //How far player can attack
 
     public PlayerNameDisplayer playerNameDisplayer;
     public Health playerHealth;
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviourPun
 
     private void AttackOnOpponent()
     {
-        var raycastHit = Physics.SphereCastAll(transform.position, 1f, transform.forward, 1f);
+        var raycastHit = Physics.SphereCastAll(transform.position, attackRadius, transform.forward, 1f);
 
         for (int i = 0; i < raycastHit.Length; i++)
         {
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviourPun
 
     void OnDrawGizmosSelected() //Draw a sphere around the attack point of the character
     {
-        Gizmos.DrawSphere(playerCombatBehaviour.attackPoint.position, 1f);
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 
     //This is called from Player Input, when a button has been pushed, that correspons with the 'TogglePause' action
