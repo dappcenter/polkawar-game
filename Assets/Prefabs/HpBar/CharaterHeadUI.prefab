@@ -75,7 +75,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278192127
+    rgba: 2047
   m_fontColor: {r: 1, g: 0.027645167, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5102788588800686091
 MonoBehaviour:
   m_ObjectHideFlags: 0
