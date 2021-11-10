@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using ExplosiveLLC;
 
 //Example implementation of the SuperStateMachine and SuperCharacterController
 [RequireComponent(typeof(SuperCharacterController))]
