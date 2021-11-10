@@ -384,6 +384,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f44c0366-10d4-4a48-88e1-507b9f2955d3
     m_ActionName: PlayerControls/Run[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b27bf37b-25ea-43bf-8c56-a0e30e048b6a
+    m_ActionName: PlayerControls/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4b2e379c-bc88-4bd0-88bb-4bb57d955efc
+    m_ActionName: PlayerControls/Fire[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: PlayerControls
@@ -403,8 +411,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovementBehaviour: {fileID: 426831886}
   playerAnimationBehaviour: {fileID: 1949823334}
+  playerCombatBehaviour: {fileID: 0}
   playerInput: {fileID: 426831889}
   movementSmoothingSpeed: 5
+  maxForwardSpeed: 8
+  gravity: 9.81
+  jumpSpeed: 10
+  minTurnSpeed: 400
+  maxTurnSpeed: 1200
+  attackSpeed: 1
+  attackCooldown: 0
+  attackRadius: 0.5
+  playerNameDisplayer: {fileID: 0}
+  playerHealth: {fileID: 0}
+  rawInputMovement: {x: 0, y: 0, z: 0}
+  smoothInputMovement: {x: 0, y: 0, z: 0}
 --- !u!4 &426831891
 Transform:
   m_ObjectHideFlags: 0
@@ -438,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &969788279
 MonoBehaviour:
   m_ObjectHideFlags: 0
