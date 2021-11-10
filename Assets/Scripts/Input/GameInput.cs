@@ -3,8 +3,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Polkawar
-{
+//namespace Polkawar
+//{
     [DefaultExecutionOrder(-100)]
     public class GameInput : SingletonMB<GameInput>
     {
@@ -85,5 +85,5 @@ namespace Polkawar
         }
     }
     
-}
+//}
 
