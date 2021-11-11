@@ -6,22 +6,19 @@ using Sirenix.OdinInspector;
 
 public class GameManager : MonoBehaviour
 {
+    public string playerName;
+    public GameObject player = null;
     public List<GameObject> spawnPositions = new List<GameObject>();
+    
     [SerializeField, ReadOnly]
     private int index = 0;
 
-    public string playerName;
 
-    public GameObject player = null;
-
-    private void Start()
-    {
-        NetworkManager.Instance.OnRoomJoinedEvent.AddListener(OnRoomJoined);
-    }
+    private void Start() => NetworkManager.Instance.OnRoomJoinedEvent.AddListener(OnRoomJoined);
 
     public void OnRoomJoined()
     {
-        player = PhotonNetwork.Instantiate("Warrior0", spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
+        player = PhotonNetwork.Instantiate("RPG-Character", spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
 
         player.GetComponent<PlayerController>()?.SetPlayerName(playerName);
 

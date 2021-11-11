@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Photon.Pun;
 
 namespace RPGCharacterAnims
 {
@@ -16,9 +17,14 @@ namespace RPGCharacterAnims
         Roll = 8
     }
 
-    public class RPGCharacterMovementController:SuperStateMachine
+    public class RPGCharacterMovementController : SuperStateMachine
     {
         public RPGCharacterState rpgCharacterState;
+
+        [Header("Camera Target")]
+        [SerializeField] private Camera mainCamera;
+        public GameObject targetForCamera;
+        public GameObject lookAtTargetForCamera;
 
         //Components.
         [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
@@ -34,61 +40,71 @@ namespace RPGCharacterAnims
         [HideInInspector] public bool isKnockback;
         public float knockbackMultiplier = 1f;
 
-		[Header("Jumping")]
+        [Header("Jumping")]
         public float gravity = 25.0f;
         public float jumpAcceleration = 5.0f;
         public float jumpHeight = 3.0f;
         public float doubleJumpHeight = 4f;
         private bool doublejumped = false;
-		[HideInInspector] public bool canJump;
+        [HideInInspector] public bool canJump;
         [HideInInspector] public bool canDoubleJump = false;
 
-		[Header("Movement")]
+        [Header("Movement")]
         public float movementAcceleration = 90.0f;
         public float walkSpeed = 3.5f;
         public float runSpeed = 6f;
         public float sprintSpeed = 12;
         private readonly float rotationSpeed = 40f;
         public float groundFriction = 50f;
-		[HideInInspector] public Vector3 currentVelocity;
+        [HideInInspector] public Vector3 currentVelocity;
         [HideInInspector] public bool isMoving = false;
         [HideInInspector] public bool canMove = true;
         [HideInInspector] public bool crouch;
         [HideInInspector] public bool isSprinting;
 
-		[Header("Rolling")]
+        [Header("Rolling")]
         public float rollSpeed = 8;
         public float rollduration = 0.35f;
         private int rollNumber;
-		[HideInInspector] public bool isRolling = false;
+        [HideInInspector] public bool isRolling = false;
 
-		[Header("Air Control")]
-		public float inAirSpeed = 6f;
+        [Header("Air Control")]
+        public float inAirSpeed = 6f;
 
-		[Header("Swimming")]
-		public float swimSpeed = 4f;
+        [Header("Swimming")]
+        public float swimSpeed = 4f;
         public float waterFriction = 3f;
+
+        private void Awake()
+        {
+            // if (photonView.IsMine)
+            {
+                //mainCamera = FollowObject.Instance.GetComponent<Camera>();
+                //FollowObject.Instance.Target = targetForCamera;
+                //FollowObject.Instance.LookAt = lookAtTargetForCamera;
+            }
+        }
 
         private void Start()
         {
-			//Get other RPG Character components.
+            //Get other RPG Character components.
             superCharacterController = GetComponent<SuperCharacterController>();
             rpgCharacterController = GetComponent<RPGCharacterController>();
             rpgCharacterInputController = GetComponent<RPGCharacterInputController>();
             navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-			//Check if Animator exists, otherwise pause script.
+            //Check if Animator exists, otherwise pause script.
             animator = GetComponentInChildren<Animator>();
-			if(animator == null)
-			{
-				Destroy(this);
-				return;
-			}
+            if (animator == null)
+            {
+                Destroy(this);
+                return;
+            }
 
-			//Setup Collider and Rigidbody for collisions.
+            //Setup Collider and Rigidbody for collisions.
             capCollider = GetComponent<CapsuleCollider>();
             rb = GetComponent<Rigidbody>();
-            if(rb != null)
+            if (rb != null)
             {
                 //Set restraints on startup if using Rigidbody.
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -98,12 +114,12 @@ namespace RPGCharacterAnims
             currentState = RPGCharacterState.Idle;
             rpgCharacterState = RPGCharacterState.Idle;
 
-			SwitchCollisionOn();
+            SwitchCollisionOn();
         }
 
-		#region Updates
+        #region Updates
 
-		/*
+        /*
 		Update is normally run once on every frame update. We won't be using it in this case, since the SuperCharacterController component sends a callback Update called SuperUpdate. 
 		SuperUpdate is recieved by the SuperStateMachine, and then fires further callbacks depending on the state
 		void Update() 
@@ -111,8 +127,8 @@ namespace RPGCharacterAnims
 		}
 		*/
 
-		//Put any code in here you want to run BEFORE the state's update function. This is run regardless of what state you're in.
-		protected override void EarlyGlobalSuperUpdate()
+        //Put any code in here you want to run BEFORE the state's update function. This is run regardless of what state you're in.
+        protected override void EarlyGlobalSuperUpdate()
         {
         }
 
@@ -122,16 +138,16 @@ namespace RPGCharacterAnims
             //Move the player by our velocity every frame.
             transform.position += currentVelocity * superCharacterController.deltaTime;
             //If using Navmesh nagivation, update values.
-            if(navMeshAgent != null)
+            if (navMeshAgent != null)
             {
-                if(useMeshNav)
+                if (useMeshNav)
                 {
-					isSprinting = false;
-                    if(navMeshAgent.velocity.sqrMagnitude > 0)
+                    isSprinting = false;
+                    if (navMeshAgent.velocity.sqrMagnitude > 0)
                     {
-						animator.SetBool("Moving", true);
+                        animator.SetBool("Moving", true);
                         animator.SetFloat("Velocity Z", navMeshAgent.velocity.magnitude);
-						return;
+                        return;
                     }
                     else
                     {
@@ -140,14 +156,14 @@ namespace RPGCharacterAnims
                 }
             }
             //If alive and is moving, set animator.
-            if(!useMeshNav && !rpgCharacterController.isDead && canMove)
+            if (!useMeshNav && !rpgCharacterController.isDead && canMove)
             {
-                if(currentVelocity.magnitude > 0 && rpgCharacterInputController.HasMoveInput())
+                if (currentVelocity.magnitude > 0 && rpgCharacterInputController.HasMoveInput())
                 {
                     isMoving = true;
                     animator.SetBool("Moving", true);
                     //Swimming.
-                    if(rpgCharacterState == RPGCharacterState.Swim)
+                    if (rpgCharacterState == RPGCharacterState.Swim)
                     {
                         animator.SetFloat("Velocity Z", transform.InverseTransformDirection(currentVelocity).z);
                     }
@@ -163,7 +179,7 @@ namespace RPGCharacterAnims
                     animator.SetBool("Moving", false);
                 }
                 //Sprinting.
-                if(isSprinting)
+                if (isSprinting)
                 {
                     animator.SetBool("Sprint", true);
                 }
@@ -173,35 +189,35 @@ namespace RPGCharacterAnims
                 }
             }
             //Aiming.
-            if(rpgCharacterController.isFacing && !isSprinting)
+            if (rpgCharacterController.isFacing && !isSprinting)
             {
                 Facing();
             }
             else
             {
-				//Rotate towards movement direction.
-				if(!rpgCharacterController.isTargeting || rpgCharacterController.injured || isSprinting)
-				{
-					if(rpgCharacterInputController.HasMoveInput() && canMove)
-					{
-						RotateTowardsMovementDir();
-					}
-				}
-				//Otherwise rotate towards Target. (strafing)
-				else
-				{
-					RotateTowardsTarget(rpgCharacterController.target.transform.position);
-				}
-			}
+                //Rotate towards movement direction.
+                if (!rpgCharacterController.isTargeting || rpgCharacterController.injured || isSprinting)
+                {
+                    if (rpgCharacterInputController.HasMoveInput() && canMove)
+                    {
+                        RotateTowardsMovementDir();
+                    }
+                }
+                //Otherwise rotate towards Target. (strafing)
+                else
+                {
+                    RotateTowardsTarget(rpgCharacterController.target.transform.position);
+                }
+            }
 
-			//Update animator with local movement values.
-			animator.SetFloat("Velocity X", transform.InverseTransformDirection(currentVelocity).x);
-			animator.SetFloat("Velocity Z", transform.InverseTransformDirection(currentVelocity).z);
-		}
+            //Update animator with local movement values.
+            animator.SetFloat("Velocity X", transform.InverseTransformDirection(currentVelocity).x);
+            animator.SetFloat("Velocity Z", transform.InverseTransformDirection(currentVelocity).z);
+        }
 
-		#endregion
+        #endregion
 
-		private bool AcquiringGround()
+        private bool AcquiringGround()
         {
             return superCharacterController.currentGround.IsGrounded(false, 0.01f);
         }
@@ -222,10 +238,10 @@ namespace RPGCharacterAnims
             return Mathf.Sqrt(2 * jumpHeight * gravity);
         }
 
-		#region States
+        #region States
 
-		//Below are the state functions. Each one is called based on the name of the state, so when currentState = Idle, we call Idle_EnterState. If currentState = Jump, we call Jump_SuperUpdate()
-		private void Idle_EnterState()
+        //Below are the state functions. Each one is called based on the name of the state, so when currentState = Idle, we call Idle_EnterState. If currentState = Jump, we call Jump_SuperUpdate()
+        private void Idle_EnterState()
         {
             superCharacterController.EnableSlopeLimit();
             superCharacterController.EnableClamping();
@@ -239,19 +255,19 @@ namespace RPGCharacterAnims
         private void Idle_SuperUpdate()
         {
             //If Jump.
-            if(rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
+            if (rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
             {
                 currentState = RPGCharacterState.Jump;
                 rpgCharacterState = RPGCharacterState.Jump;
                 return;
             }
-            if(!MaintainingGround())
+            if (!MaintainingGround())
             {
                 currentState = RPGCharacterState.Fall;
                 rpgCharacterState = RPGCharacterState.Fall;
                 return;
             }
-            if(rpgCharacterInputController.HasMoveInput() && canMove)
+            if (rpgCharacterInputController.HasMoveInput() && canMove)
             {
                 currentState = RPGCharacterState.Move;
                 rpgCharacterState = RPGCharacterState.Move;
@@ -269,41 +285,41 @@ namespace RPGCharacterAnims
         private void Move_SuperUpdate()
         {
             //If Jump.
-            if(rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
+            if (rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
             {
                 currentState = RPGCharacterState.Jump;
                 rpgCharacterState = RPGCharacterState.Jump;
                 return;
             }
-			//Falling.
-            if(!MaintainingGround())
+            //Falling.
+            if (!MaintainingGround())
             {
                 currentState = RPGCharacterState.Fall;
                 rpgCharacterState = RPGCharacterState.Fall;
                 return;
             }
             //Set speed determined by movement type.
-            if(rpgCharacterInputController.HasMoveInput() && canMove)
+            if (rpgCharacterInputController.HasMoveInput() && canMove)
             {
                 //Keep strafing animations from playing.
                 animator.SetFloat("Velocity X", 0F);
                 //Injured limp.
-                if(rpgCharacterController.injured)
+                if (rpgCharacterController.injured)
                 {
                     currentVelocity = Vector3.MoveTowards(currentVelocity, rpgCharacterInputController.moveInput * 1.35f, movementAcceleration * superCharacterController.deltaTime);
                     return;
                 }
                 //Sprinting.
-                if(isSprinting)
+                if (isSprinting)
                 {
                     currentVelocity = Vector3.MoveTowards(currentVelocity, rpgCharacterInputController.moveInput * sprintSpeed, movementAcceleration * superCharacterController.deltaTime);
                     return;
                 }
                 //Strafing or Walking.
-                if(rpgCharacterController.isTargeting)
+                if (rpgCharacterController.isTargeting)
                 {
                     currentVelocity = Vector3.MoveTowards(currentVelocity, rpgCharacterInputController.moveInput * walkSpeed, movementAcceleration * superCharacterController.deltaTime);
-                    if(rpgCharacterController.weapon != Weapon.RELAX)
+                    if (rpgCharacterController.weapon != Weapon.RELAX)
                     {
                         RotateTowardsTarget(rpgCharacterController.target.transform.position);
                     }
@@ -312,7 +328,7 @@ namespace RPGCharacterAnims
                 //Run.
                 currentVelocity = Vector3.MoveTowards(currentVelocity, rpgCharacterInputController.moveInput * runSpeed, movementAcceleration * superCharacterController.deltaTime);
             }
-			//No movement, go to Idle state.
+            //No movement, go to Idle state.
             else
             {
                 currentState = RPGCharacterState.Idle;
@@ -331,24 +347,24 @@ namespace RPGCharacterAnims
             animator.SetTrigger("JumpTrigger");
         }
 
-		private void Jump_SuperUpdate()
-		{
-			Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(superCharacterController.up, currentVelocity);
-			Vector3 verticalMoveDirection = currentVelocity - planarMoveDirection;
-			//Falling.
-			if(currentVelocity.y < 0)
-			{
-				currentVelocity = planarMoveDirection;
-				currentState = RPGCharacterState.Fall;
-				rpgCharacterState = RPGCharacterState.Fall;
-				return;
-			}
-			planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, rpgCharacterInputController.moveInput * inAirSpeed, jumpAcceleration * superCharacterController.deltaTime);
-			verticalMoveDirection -= superCharacterController.up * gravity * superCharacterController.deltaTime;
-			currentVelocity = planarMoveDirection + verticalMoveDirection;
-		}
+        private void Jump_SuperUpdate()
+        {
+            Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(superCharacterController.up, currentVelocity);
+            Vector3 verticalMoveDirection = currentVelocity - planarMoveDirection;
+            //Falling.
+            if (currentVelocity.y < 0)
+            {
+                currentVelocity = planarMoveDirection;
+                currentState = RPGCharacterState.Fall;
+                rpgCharacterState = RPGCharacterState.Fall;
+                return;
+            }
+            planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, rpgCharacterInputController.moveInput * inAirSpeed, jumpAcceleration * superCharacterController.deltaTime);
+            verticalMoveDirection -= superCharacterController.up * gravity * superCharacterController.deltaTime;
+            currentVelocity = planarMoveDirection + verticalMoveDirection;
+        }
 
-		private void DoubleJump_EnterState()
+        private void DoubleJump_EnterState()
         {
             currentVelocity += superCharacterController.up * CalculateJumpSpeed(doubleJumpHeight, gravity);
             canDoubleJump = false;
@@ -364,11 +380,11 @@ namespace RPGCharacterAnims
 
         private void DoubleJump()
         {
-            if(!doublejumped)
+            if (!doublejumped)
             {
                 canDoubleJump = true;
             }
-            if(rpgCharacterInputController.inputJump && canDoubleJump && !doublejumped)
+            if (rpgCharacterInputController.inputJump && canDoubleJump && !doublejumped)
             {
                 currentState = RPGCharacterState.DoubleJump;
                 rpgCharacterState = RPGCharacterState.DoubleJump;
@@ -377,7 +393,7 @@ namespace RPGCharacterAnims
 
         private void Fall_EnterState()
         {
-            if(!doublejumped)
+            if (!doublejumped)
             {
                 canDoubleJump = true;
             }
@@ -390,7 +406,7 @@ namespace RPGCharacterAnims
 
         private void Fall_SuperUpdate()
         {
-            if(AcquiringGround())
+            if (AcquiringGround())
             {
                 currentVelocity = Math3d.ProjectVectorOnPlane(superCharacterController.up, currentVelocity);
                 currentState = RPGCharacterState.Idle;
@@ -403,31 +419,31 @@ namespace RPGCharacterAnims
 
         private void Swim_EnterState()
         {
-			superCharacterController.DisableClamping();
-			superCharacterController.DisableSlopeLimit();
-			rpgCharacterController.isTargeting = false;
-			rpgCharacterController.isFacing = false;
-			rpgCharacterController.canAction = false;
-			animator.SetBool("Targeting", false);
-			animator.SetBool("Facing", false);
-			animator.SetTrigger("SwimTrigger");
-			animator.SetBool("Swimming", true);
-			if(rpgCharacterController.rpgCharacterWeaponController != null)
-			{
-				StartCoroutine(rpgCharacterController.rpgCharacterWeaponController._HideAllWeapons(false, true));
-			}
+            superCharacterController.DisableClamping();
+            superCharacterController.DisableSlopeLimit();
+            rpgCharacterController.isTargeting = false;
+            rpgCharacterController.isFacing = false;
+            rpgCharacterController.canAction = false;
+            animator.SetBool("Targeting", false);
+            animator.SetBool("Facing", false);
+            animator.SetTrigger("SwimTrigger");
+            animator.SetBool("Swimming", true);
+            if (rpgCharacterController.rpgCharacterWeaponController != null)
+            {
+                StartCoroutine(rpgCharacterController.rpgCharacterWeaponController._HideAllWeapons(false, true));
+            }
 
-			//Scale collider to match position of character.
-			superCharacterController.radius = 1.5f;
-			if(capCollider != null)
-			{
-				capCollider.radius = 1.5f;
-			}
-		}
+            //Scale collider to match position of character.
+            superCharacterController.radius = 1.5f;
+            if (capCollider != null)
+            {
+                capCollider.radius = 1.5f;
+            }
+        }
 
         private void Swim_ExitState()
         {
-            if(capCollider != null)
+            if (capCollider != null)
             {
                 capCollider.radius = 0.6f;
             }
@@ -443,46 +459,46 @@ namespace RPGCharacterAnims
             //Apply friction to slow character to a halt on vertical axis.
             currentVelocity = Vector3.MoveTowards(currentVelocity, new Vector3(currentVelocity.x, 0, currentVelocity.z), (waterFriction * 5) * superCharacterController.deltaTime);
 
-            if(rpgCharacterInputController.inputJump && (!rpgCharacterInputController.inputTarget || !rpgCharacterInputController.HasBlockInput()))
+            if (rpgCharacterInputController.inputJump && (!rpgCharacterInputController.inputTarget || !rpgCharacterInputController.HasBlockInput()))
             {
                 SwimDescent();
             }
-            else if(rpgCharacterInputController.inputJump)
+            else if (rpgCharacterInputController.inputJump)
             {
                 SwimAscend();
             }
         }
 
-		private void ClimbLadder_EnterState()
-		{
-			if(capCollider != null)
-			{
-				capCollider.center = new Vector3(0, 0.75f, 0);
-			}
-		}
+        private void ClimbLadder_EnterState()
+        {
+            if (capCollider != null)
+            {
+                capCollider.center = new Vector3(0, 0.75f, 0);
+            }
+        }
 
-		private void ClimbLadder_ExitState()
-		{
-			if(capCollider != null)
-			{
-				capCollider.center = new Vector3(0, 1.25f, 0);
-			}
-		}
+        private void ClimbLadder_ExitState()
+        {
+            if (capCollider != null)
+            {
+                capCollider.center = new Vector3(0, 1.25f, 0);
+            }
+        }
 
-		#endregion
+        #endregion
 
-		public void SwimAscend()
+        public void SwimAscend()
         {
             currentVelocity += superCharacterController.up * CalculateJumpSpeed(1, gravity);
-			animator.SetInteger("Action", 1);
+            animator.SetInteger("Action", 1);
             animator.SetTrigger("JumpTrigger");
         }
 
         public void SwimDescent()
         {
             currentVelocity -= superCharacterController.up * CalculateJumpSpeed(1, gravity);
-			animator.SetInteger("Action", 2);
-			animator.SetTrigger("JumpTrigger");
+            animator.SetInteger("Action", 2);
+            animator.SetTrigger("JumpTrigger");
         }
 
         public void DirectionalRoll()
@@ -495,19 +511,19 @@ namespace RPGCharacterAnims
             //Angle in 0-360.
             float angle360 = (signed_angle + 180) % 360;
             //Deternime the animation to play based on the angle.
-            if(angle360 > 315 || angle360 < 45)
+            if (angle360 > 315 || angle360 < 45)
             {
                 StartCoroutine(_Roll(1));
             }
-            if(angle360 > 45 && angle360 < 135)
+            if (angle360 > 45 && angle360 < 135)
             {
                 StartCoroutine(_Roll(2));
             }
-            if(angle360 > 135 && angle360 < 225)
+            if (angle360 > 135 && angle360 < 225)
             {
                 StartCoroutine(_Roll(3));
             }
-            if(angle360 > 225 && angle360 < 315)
+            if (angle360 > 225 && angle360 < 315)
             {
                 StartCoroutine(_Roll(4));
             }
@@ -530,8 +546,8 @@ namespace RPGCharacterAnims
             animator.SetInteger("Action", rollNumber);
             animator.SetTrigger("RollTrigger");
             isRolling = true;
-			rpgCharacterController.Lock(true, true, true, 0, 0.5f);
-			yield return new WaitForSeconds(rollduration);
+            rpgCharacterController.Lock(true, true, true, 0, 0.5f);
+            yield return new WaitForSeconds(rollduration);
             isRolling = false;
 
             currentState = RPGCharacterState.Idle;
@@ -543,7 +559,7 @@ namespace RPGCharacterAnims
             canMove = false;
             superCharacterController.enabled = false;
             animator.applyRootMotion = true;
-            if(rb != null)
+            if (rb != null)
             {
                 rb.isKinematic = false;
             }
@@ -554,7 +570,7 @@ namespace RPGCharacterAnims
             canMove = true;
             superCharacterController.enabled = true;
             animator.applyRootMotion = false;
-            if(rb != null)
+            if (rb != null)
             {
                 rb.isKinematic = true;
             }
@@ -562,57 +578,57 @@ namespace RPGCharacterAnims
 
         private void RotateTowardsMovementDir()
         {
-			if(rpgCharacterInputController.moveInput != Vector3.zero)
-			{
-				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rpgCharacterInputController.moveInput), Time.deltaTime * rotationSpeed);
-			}
-		}
+            if (rpgCharacterInputController.moveInput != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rpgCharacterInputController.moveInput), Time.deltaTime * rotationSpeed);
+            }
+        }
 
         private void RotateTowardsTarget(Vector3 targetPosition)
         {
-			Quaternion targetRotation = Quaternion.LookRotation(targetPosition - new Vector3(transform.position.x, 0, transform.position.z));
-			transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, (rotationSpeed * Time.deltaTime) * rotationSpeed);
-		}
+            Quaternion targetRotation = Quaternion.LookRotation(targetPosition - new Vector3(transform.position.x, 0, transform.position.z));
+            transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, (rotationSpeed * Time.deltaTime) * rotationSpeed);
+        }
 
         private void Facing()
         {
-			//If right joystick is moved, use that for facing.
-			if(rpgCharacterInputController.HasFacingInput())
-			{
-				Vector3 joyDirection = new Vector3(rpgCharacterInputController.inputFacing.x, 0, -rpgCharacterInputController.inputFacing.y);
-				Quaternion joyRotation = Quaternion.LookRotation(joyDirection.normalized);
-				transform.rotation = joyRotation;
-			}
-			//Otherwise, look at mouse pointer.
-			else
-			{
-				// Generate a plane that intersects the transform's position with an upwards normal.
-				Plane playerPlane = new Plane(Vector3.up, transform.position);
+            //If right joystick is moved, use that for facing.
+            if (rpgCharacterInputController.HasFacingInput())
+            {
+                Vector3 joyDirection = new Vector3(rpgCharacterInputController.inputFacing.x, 0, -rpgCharacterInputController.inputFacing.y);
+                Quaternion joyRotation = Quaternion.LookRotation(joyDirection.normalized);
+                transform.rotation = joyRotation;
+            }
+            //Otherwise, look at mouse pointer.
+            else
+            {
+                // Generate a plane that intersects the transform's position with an upwards normal.
+                Plane playerPlane = new Plane(Vector3.up, transform.position);
 
-				// Generate a ray from the cursor position
-				Ray ray = Camera.main.ScreenPointToRay(rpgCharacterInputController.inputMouseFacing);
+                // Generate a ray from the cursor position
+                Ray ray = Camera.main.ScreenPointToRay(rpgCharacterInputController.inputMouseFacing);
 
-				// Determine the point where the cursor ray intersects the plane.
-				// This will be the point that the object must look towards to be looking at the mouse.
-				// Raycasting to a Plane object only gives us a distance, so we'll have to take the distance,
-				// then find the point along that ray that meets that distance.  This will be the point
-				// to look at.
-				float hitdist = 0.0f;
+                // Determine the point where the cursor ray intersects the plane.
+                // This will be the point that the object must look towards to be looking at the mouse.
+                // Raycasting to a Plane object only gives us a distance, so we'll have to take the distance,
+                // then find the point along that ray that meets that distance.  This will be the point
+                // to look at.
+                float hitdist = 0.0f;
 
-				// If the ray is parallel to the plane, Raycast will return false.
-				if(playerPlane.Raycast(ray, out hitdist))
-				{
-					// Get the point along the ray that hits the calculated distance.
-					Vector3 targetPoint = ray.GetPoint(hitdist);
+                // If the ray is parallel to the plane, Raycast will return false.
+                if (playerPlane.Raycast(ray, out hitdist))
+                {
+                    // Get the point along the ray that hits the calculated distance.
+                    Vector3 targetPoint = ray.GetPoint(hitdist);
 
-					//Convert the point to a Vector2 along the ground plane.
-					//// Determine the target rotation.  This is the rotation if the transform looks at the target point.
-					Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+                    //Convert the point to a Vector2 along the ground plane.
+                    //// Determine the target rotation.  This is the rotation if the transform looks at the target point.
+                    Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
 
-					//// Rotate towards the target point.
-					transform.rotation = targetRotation;
-				}
-			}
+                    //// Rotate towards the target point.
+                    transform.rotation = targetRotation;
+                }
+            }
         }
 
         public IEnumerator _Knockback(Vector3 knockDirection, int knockBackAmount, int variableAmount)
@@ -625,7 +641,7 @@ namespace RPGCharacterAnims
 
         private IEnumerator _KnockbackForce(Vector3 knockDirection, int knockBackAmount, int variableAmount)
         {
-            while(isKnockback)
+            while (isKnockback)
             {
                 rb.AddForce(knockDirection * ((knockBackAmount + Random.Range(-variableAmount, variableAmount)) * (knockbackMultiplier * 10)), ForceMode.Impulse);
                 yield return null;
@@ -635,22 +651,22 @@ namespace RPGCharacterAnims
         private void OnTriggerEnter(Collider collide)
         {
             //Entering a water volume.
-            if(collide.gameObject.layer == 4)
+            if (collide.gameObject.layer == 4)
             {
                 currentState = RPGCharacterState.Swim;
                 rpgCharacterState = RPGCharacterState.Swim;
             }
             //Near a ladder.
-            else if(collide.transform.parent != null)
+            else if (collide.transform.parent != null)
             {
-                if(collide.transform.parent.name.Contains("Ladder"))
+                if (collide.transform.parent.name.Contains("Ladder"))
                 {
                     rpgCharacterController.isNearLadder = true;
                     rpgCharacterController.ladder = collide.gameObject;
                 }
             }
             //Near a cliff.
-            else if(collide.transform.name.Contains("Cliff"))
+            else if (collide.transform.name.Contains("Cliff"))
             {
                 rpgCharacterController.isNearCliff = true;
                 rpgCharacterController.cliff = collide.gameObject;
@@ -660,23 +676,23 @@ namespace RPGCharacterAnims
         private void OnTriggerExit(Collider collide)
         {
             //Leaving a water volume.
-            if(collide.gameObject.layer == 4)
+            if (collide.gameObject.layer == 4)
             {
                 animator.SetBool("Swimming", false);
                 currentState = RPGCharacterState.Jump;
                 rpgCharacterState = RPGCharacterState.Jump;
             }
             //Leaving a ladder.
-            else if(collide.transform.parent != null)
+            else if (collide.transform.parent != null)
             {
-                if(collide.transform.parent.name.Contains("Ladder"))
+                if (collide.transform.parent.name.Contains("Ladder"))
                 {
                     rpgCharacterController.isNearLadder = false;
                     rpgCharacterController.ladder = null;
                 }
             }
             //leaving a cliff.
-            else if(collide.transform.name.Contains("Cliff"))
+            else if (collide.transform.name.Contains("Cliff"))
             {
                 rpgCharacterController.isNearCliff = false;
                 rpgCharacterController.cliff = null;
@@ -686,7 +702,7 @@ namespace RPGCharacterAnims
         //Keep character from moving.
         public void LockMovement()
         {
-			canMove = false;
+            canMove = false;
             animator.SetBool("Moving", false);
             animator.applyRootMotion = true;
             currentVelocity = new Vector3(0, 0, 0);
