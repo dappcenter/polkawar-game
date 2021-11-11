@@ -253,8 +253,8 @@ namespace RPGCharacterAnims
                     ""id"": ""444d5689-a373-4ff8-bc62-5a0435ff4833"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""InvertVector2(invertX=false),StickDeadzone(min=0.125,max=0.925)"",
-                    ""groups"": ""Gamepad"",
+                    ""processors"": ""InvertVector2,StickDeadzone(min=0.125,max=0.925)"",
+                    ""groups"": ""Gamepad;Mouse and Keyboard"",
                     ""action"": ""Facing"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
