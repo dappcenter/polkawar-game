@@ -6,6 +6,7 @@ using Photon.Pun;
 public class PlayerMovementBehaviour : MonoBehaviourPun
 {
     public GameObject targetForCamera, lookAtTargetForCamera;
+    [SerializeField] private Camera mainCamera;
 
     [Header("Component References")]
     public Rigidbody playerRigidbody;
@@ -14,6 +15,7 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
     public float movementSpeed = 3f;
     public float turnSpeed = 0.1f;
 
+    private Vector3 movementDirection;
     private void Awake()
     {
         if (photonView.IsMine)
@@ -25,8 +27,6 @@ public class PlayerMovementBehaviour : MonoBehaviourPun
     }
 
     //Stored Values
-    [SerializeField] private Camera mainCamera;
-    private Vector3 movementDirection;
 
     public void SetupBehaviour() => SetGameplayCamera();
 
