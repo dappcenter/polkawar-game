@@ -15,11 +15,17 @@ public class PlayerWeaponSelector : MonoBehaviour
     {
         if (characterWeaponController == null)
             characterWeaponController = GetComponent<RPGCharacterWeaponController>();
-        else
-            StartCoroutine(AssignWeaponToPlayer());
+
+        //Call this function when network player spawns
+        AssignWeaponToPlayer();
     }
 
-    public IEnumerator AssignWeaponToPlayer()
+    public void AssignWeaponToPlayer()
+    {
+        StartCoroutine(AssignWeaponToPlayerRoutine());
+    }
+
+    public IEnumerator AssignWeaponToPlayerRoutine()
     {
         Debug.Log(" Before assigning weapon");
         yield return new WaitForSeconds(0.5f);
