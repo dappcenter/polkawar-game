@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RPGCharacterAnims
 {
-    public class RPGCharacterController:MonoBehaviour
+    public class RPGCharacterController : MonoBehaviour
     {
         //Components.
         [HideInInspector] public RPGCharacterMovementController rpgCharacterMovementController;
@@ -14,13 +14,13 @@ namespace RPGCharacterAnims
         public Weapon weapon = Weapon.RELAX;
         public GameObject target;
         private PerfectLookAt headLookController;
-		[Header("Head Look")]
-		public bool headLook = false;
+        [Header("Head Look")]
+        public bool headLook = false;
         private bool isHeadlook = false;
 
-		[HideInInspector] public bool isDead = false;
-		[HideInInspector] public bool canBlock = true;
-		[HideInInspector] public bool isBlocking = false;
+        [HideInInspector] public bool isDead = false;
+        [HideInInspector] public bool canBlock = true;
+        [HideInInspector] public bool isBlocking = false;
         [HideInInspector] public bool canAction = true;
         [HideInInspector] public bool isSitting = false;
         [HideInInspector] public bool isClimbing = false;
@@ -32,73 +32,73 @@ namespace RPGCharacterAnims
         [HideInInspector] public bool isFacing = false;
         [HideInInspector] public bool isTargeting = false;
         [HideInInspector] public bool injured;
-		[Header("Actions")]
-		public bool hipShooting = false;
+        [Header("Actions")]
+        public bool hipShooting = false;
         public int specialAttack = 0;
-		[Header("Directional Aiming")]
-		public float aimHorizontal;
+        [Header("Directional Aiming")]
+        public float aimHorizontal;
         public float aimVertical;
         public float bowPull;
-		[HideInInspector] public bool isAiming = false;
-		[Header("Conversations")]
-		public int numberOfConversationClips;
+        [HideInInspector] public bool isAiming = false;
+        [Header("Conversations")]
+        public int numberOfConversationClips;
         private int currentConversation;
         private float idleTimer;
         private float idleTrigger = 0f;
 
-		//Animation speed control. (doesn't affect lock timing)
-		public float animationSpeed = 1;
+        //Animation speed control. (doesn't affect lock timing)
+        public float animationSpeed = 1;
 
         #region Initialization
 
         private void Awake()
         {
-			//Initialize other RPG scripts.
+            //Initialize other RPG scripts.
             rpgCharacterInputController = gameObject.AddComponent<RPGCharacterInputController>();
-			rpgCharacterMovementController = GetComponent<RPGCharacterMovementController>();
+            rpgCharacterMovementController = GetComponent<RPGCharacterMovementController>();
             rpgCharacterWeaponController = GetComponent<RPGCharacterWeaponController>();
 
-			//Setup Animator, add AnimationEvents script.
-			animator = GetComponentInChildren<Animator>();
-			if(animator == null)
-			{
-				Debug.LogError("ERROR: THERE IS NO ANIMATOR COMPONENT ON CHILD OF CHARACTER.");
-				Time.timeScale = 0f;
-				Destroy(this);
-				return;
-			}
-			else if(!animator.isHuman)
-			{
-				Debug.LogError("ERROR: CHARACTER AVATAR RIG IS NOT HUMANOID.");
-				Time.timeScale = 0f;
-				Destroy(this);
-				return;
-			}
-			else
-			{
-				animator.gameObject.AddComponent<RPGCharacterAnimatorEvents>();
-				animator.GetComponent<RPGCharacterAnimatorEvents>().rpgCharacterController = this;
-				animator.gameObject.AddComponent<AnimatorParentMove>();
-				animator.GetComponent<AnimatorParentMove>().anim = animator;
-				animator.GetComponent<AnimatorParentMove>().rpgCharacterMovementController = rpgCharacterMovementController;
-				animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
-				animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
-			}
+            //Setup Animator, add AnimationEvents script.
+            animator = GetComponentInChildren<Animator>();
+            if (animator == null)
+            {
+                Debug.LogError("ERROR: THERE IS NO ANIMATOR COMPONENT ON CHILD OF CHARACTER.");
+                Time.timeScale = 0f;
+                Destroy(this);
+                return;
+            }
+            else if (!animator.isHuman)
+            {
+                Debug.LogError("ERROR: CHARACTER AVATAR RIG IS NOT HUMANOID.");
+                Time.timeScale = 0f;
+                Destroy(this);
+                return;
+            }
+            else
+            {
+                animator.gameObject.AddComponent<RPGCharacterAnimatorEvents>();
+                animator.GetComponent<RPGCharacterAnimatorEvents>().rpgCharacterController = this;
+                animator.gameObject.AddComponent<AnimatorParentMove>();
+                animator.GetComponent<AnimatorParentMove>().anim = animator;
+                animator.GetComponent<AnimatorParentMove>().rpgCharacterMovementController = rpgCharacterMovementController;
+                animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
+                animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
+            }
             //Find HeadLookController if applied.
             headLookController = GetComponent<PerfectLookAt>();
             ikHands = GetComponentInChildren<IKHands>();
             //Set for starting Unarmed state.
-            weapon = Weapon.UNARMED;
+            //weapon = Weapon.UNARMED;
             animator.SetInteger("Weapon", 0);
             animator.SetInteger("WeaponSwitch", -1);
             StartCoroutine(_ResetIdleTimer());
             //Turn off headlook in editor.
-			#if UNITY_EDITOR
-				headLook = false;
-			#endif
+#if UNITY_EDITOR
+            headLook = false;
+#endif
             isHeadlook = headLook;
-			
-		}
+
+        }
 
         #endregion
 
@@ -106,73 +106,73 @@ namespace RPGCharacterAnims
 
         private void Update()
         {
-			//Update Animator animation speed.
-			animator.SetFloat("AnimationSpeed", animationSpeed);
+            //Update Animator animation speed.
+            animator.SetFloat("AnimationSpeed", animationSpeed);
 
-			//Injury/Headlook/Slowtime/Pause toggles.
-			Toggles();
+            //Injury/Headlook/Slowtime/Pause toggles.
+            Toggles();
 
-			//If Grounded and not Swimming.
-			if(rpgCharacterMovementController.rpgCharacterState != RPGCharacterState.Swim && rpgCharacterMovementController.MaintainingGround())
-			{
-				if(canAction)
-				{
-					Blocking();
-					if(!isBlocking)
-					{
-						if(weapon != Weapon.RELAX)
-						{
-							Targeting();
-							DirectionalAiming();
-							Facing();
-							Rolling();
-							Attacking();
-							Jump();
-						}
-						RandomIdle();
-						SwitchWeapons();
-						//Hit.
-						if(rpgCharacterInputController.inputLightHit)
-						{
-							GetHit();
-						}
-						//Death.
-						if(rpgCharacterInputController.inputDeath)
-						{
-							if(!isDead)
-							{
-								Death();
-							}
-							else
-							{
-								Revive();
-							}
-						}
-						Click();
-					}
-				}
-				else if(isCasting)
-				{
-					CancelCasting();
-				}
-			}
-			//In Air.
-			else if(!rpgCharacterMovementController.MaintainingGround())
-			{
-				//Air Attacks.
-				if(rpgCharacterInputController.inputAttackL || rpgCharacterInputController.inputAttackR)
-				{
-					AirAttack();
-				}
-			}
+            //If Grounded and not Swimming.
+            if (rpgCharacterMovementController.rpgCharacterState != RPGCharacterState.Swim && rpgCharacterMovementController.MaintainingGround())
+            {
+                if (canAction)
+                {
+                    Blocking();
+                    if (!isBlocking)
+                    {
+                        if (weapon != Weapon.RELAX)
+                        {
+                            Targeting();
+                            DirectionalAiming();
+                            Facing();
+                            Rolling();
+                            Attacking();
+                            Jump();
+                        }
+                        RandomIdle();
+                        SwitchWeapons();
+                        //Hit.
+                        if (rpgCharacterInputController.inputLightHit)
+                        {
+                            GetHit();
+                        }
+                        //Death.
+                        if (rpgCharacterInputController.inputDeath)
+                        {
+                            if (!isDead)
+                            {
+                                Death();
+                            }
+                            else
+                            {
+                                Revive();
+                            }
+                        }
+                        Click();
+                    }
+                }
+                else if (isCasting)
+                {
+                    CancelCasting();
+                }
+            }
+            //In Air.
+            else if (!rpgCharacterMovementController.MaintainingGround())
+            {
+                //Air Attacks.
+                if (rpgCharacterInputController.inputAttackL || rpgCharacterInputController.inputAttackR)
+                {
+                    AirAttack();
+                }
+            }
         }
 
         private void LateUpdate()
         {
             //Headlook.
-            if(headLookController != null)
+            if (headLookController != null)
             {
-                if(canAction && isHeadlook == true && !isFacing)
+                if (canAction && isHeadlook == true && !isFacing)
                 {
                     headLookController.m_Weight += 0.03f;
                 }
@@ -180,130 +180,130 @@ namespace RPGCharacterAnims
                 {
                     headLookController.m_Weight -= 0.03f;
                 }
-                if(headLookController.m_Weight > 1)
+                if (headLookController.m_Weight > 1)
                 {
                     headLookController.m_Weight = 1;
                 }
-                else if(headLookController.m_Weight < 0)
+                else if (headLookController.m_Weight < 0)
                 {
                     headLookController.m_Weight = 0;
                 }
             }
         }
 
-		#endregion
+        #endregion
 
-		#region Aiming / Turning
+        #region Aiming / Turning
 
-		private void Targeting()
-		{
-			if(rpgCharacterInputController.inputTarget)
-			{
-				if(weapon != Weapon.RELAX)
-				{
-					animator.SetBool("Targeting", true);
-					isTargeting = true;
-				}
-			}
-			else
-			{
-				isTargeting = false;
-				animator.SetBool("Targeting", false);
-			}
-		}
+        private void Targeting()
+        {
+            if (rpgCharacterInputController.inputTarget)
+            {
+                if (weapon != Weapon.RELAX)
+                {
+                    animator.SetBool("Targeting", true);
+                    isTargeting = true;
+                }
+            }
+            else
+            {
+                isTargeting = false;
+                animator.SetBool("Targeting", false);
+            }
+        }
 
-		private void Facing()
-		{
-			if(rpgCharacterInputController.HasFacingInput() || rpgCharacterInputController.inputFace)
-			{
-				isFacing = true;
-				animator.SetBool("Facing", true);
-				if(!isFacing)
-				{
-				}
-			}
-			else
-			{
-				isFacing = false;
-				animator.SetBool("Facing", false);
-			}
-		}
+        private void Facing()
+        {
+            if (rpgCharacterInputController.HasFacingInput() || rpgCharacterInputController.inputFace)
+            {
+                isFacing = true;
+                animator.SetBool("Facing", true);
+                if (!isFacing)
+                {
+                }
+            }
+            else
+            {
+                isFacing = false;
+                animator.SetBool("Facing", false);
+            }
+        }
 
-		private void Click()
-		{
-			//Shooting / Navmesh.
-			if(UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
-			{
-				if(rpgCharacterMovementController.useMeshNav)
-				{
-					RaycastHit hit;
-					if(Physics.Raycast(Camera.main.ScreenPointToRay(rpgCharacterInputController.inputMouseFacing), out hit, 100))
-					{
-						rpgCharacterMovementController.navMeshAgent.destination = hit.point;
-					}
-				}
-				else if((weapon == Weapon.TWOHANDBOW || weapon == Weapon.TWOHANDCROSSBOW || weapon == Weapon.RIFLE) && isFacing)
-				{
-					animator.SetInteger("Action", 1);
-					if(weapon == Weapon.RIFLE && hipShooting == true)
-					{
-						animator.SetInteger("Action", 2);
-					}
-					animator.SetTrigger("AttackTrigger");
-				}
-			}
-		}
+        private void Click()
+        {
+            //Shooting / Navmesh.
+            if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                if (rpgCharacterMovementController.useMeshNav)
+                {
+                    RaycastHit hit;
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(rpgCharacterInputController.inputMouseFacing), out hit, 100))
+                    {
+                        rpgCharacterMovementController.navMeshAgent.destination = hit.point;
+                    }
+                }
+                else if ((weapon == Weapon.TWOHANDBOW || weapon == Weapon.TWOHANDCROSSBOW || weapon == Weapon.RIFLE) && isFacing)
+                {
+                    animator.SetInteger("Action", 1);
+                    if (weapon == Weapon.RIFLE && hipShooting == true)
+                    {
+                        animator.SetInteger("Action", 2);
+                    }
+                    animator.SetTrigger("AttackTrigger");
+                }
+            }
+        }
 
         /// <summary>
         /// Direcitonal aiming used by 2Handed Bow and Rifle.
         /// </summary>
         private void DirectionalAiming()
         {
-            if(rpgCharacterInputController.inputAiming.x > 0.1f)
+            if (rpgCharacterInputController.inputAiming.x > 0.1f)
             {
                 aimHorizontal -= 0.05f;
             }
-            if(rpgCharacterInputController.inputAiming.x < -0.1f)
-			{
+            if (rpgCharacterInputController.inputAiming.x < -0.1f)
+            {
                 aimHorizontal += 0.05f;
             }
-            if(rpgCharacterInputController.inputAiming.y > 0.1f)
-			{
+            if (rpgCharacterInputController.inputAiming.y > 0.1f)
+            {
                 aimVertical -= 0.05f;
             }
-            if(rpgCharacterInputController.inputAiming.y < -0.1f)
-			{
+            if (rpgCharacterInputController.inputAiming.y < -0.1f)
+            {
                 aimVertical += 0.05f;
             }
-            if(aimHorizontal >= 1)
+            if (aimHorizontal >= 1)
             {
                 aimHorizontal = 1;
             }
-            if(aimHorizontal <= -1)
+            if (aimHorizontal <= -1)
             {
                 aimHorizontal = -1;
             }
-            if(aimVertical >= 1)
+            if (aimVertical >= 1)
             {
                 aimVertical = 1;
             }
-            if(aimVertical <= -1)
+            if (aimVertical <= -1)
             {
                 aimVertical = -1;
             }
-            if(UnityEngine.InputSystem.Keyboard.current.bKey.wasPressedThisFrame)
-			{
+            if (UnityEngine.InputSystem.Keyboard.current.bKey.wasPressedThisFrame)
+            {
                 bowPull -= 0.05f;
             }
-			if(UnityEngine.InputSystem.Keyboard.current.nKey.wasPressedThisFrame)
-			{
+            if (UnityEngine.InputSystem.Keyboard.current.nKey.wasPressedThisFrame)
+            {
                 bowPull += 0.05f;
             }
-            if(bowPull >= 1)
+            if (bowPull >= 1)
             {
                 bowPull = 1;
             }
-            if(bowPull <= -1)
+            if (bowPull <= -1)
             {
                 bowPull = -1;
             }
@@ -313,33 +313,33 @@ namespace RPGCharacterAnims
             animator.SetFloat("BowPull", bowPull);
         }
 
-		/// <summary>
-		/// Turning.
-		/// </summary>
-		/// <param name="1">Left</param>
-		/// <param name="2">Right</param>
-		public void Turning(int direction)
+        /// <summary>
+        /// Turning.
+        /// </summary>
+        /// <param name="1">Left</param>
+        /// <param name="2">Right</param>
+        public void Turning(int direction)
         {
-			animator.SetInteger("Action", direction);
-			animator.SetTrigger("TurnTrigger");
+            animator.SetInteger("Action", direction);
+            animator.SetTrigger("TurnTrigger");
             Lock(true, true, true, 0, 0.55f);
         }
 
-		#endregion
+        #endregion
 
-		#region Combat
+        #region Combat
 
-		public bool Jump()
-		{
-			if(weapon != Weapon.RELAX)
-			{
-				return rpgCharacterInputController.inputJump;
-			}
-			else
-			{
-				return false;
-			}
-		}
+        public bool Jump()
+        {
+            if (weapon != Weapon.RELAX)
+            {
+                return rpgCharacterInputController.inputJump;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Dodge the specified direction.
@@ -348,7 +348,7 @@ namespace RPGCharacterAnims
         /// <param name="2">Right</param>
         public IEnumerator _Dodge(int direction)
         {
-            if(weapon == Weapon.RELAX)
+            if (weapon == Weapon.RELAX)
             {
                 weapon = Weapon.UNARMED;
                 animator.SetInteger("Weapon", 0);
@@ -359,140 +359,140 @@ namespace RPGCharacterAnims
             yield return null;
         }
 
-		private void Attacking()
-		{
-			//Attacks.
-			if(rpgCharacterInputController.inputAttackL)
-			{
-				Attack(1);
-			}
-			if(rpgCharacterInputController.inputAttackR)
-			{
-				Attack(2);
-			}
-			if(rpgCharacterInputController.inputLightHit)
-			{
-				GetHit();
-			}
-			if(rpgCharacterInputController.inputCastL)
-			{
-				Cast(1, "attack");
-			}
-			if(rpgCharacterInputController.inputCastR)
-			{
-				Cast(2, "attack");
-			}
-		}
+        private void Attacking()
+        {
+            //Attacks.
+            if (rpgCharacterInputController.inputAttackL)
+            {
+                Attack(1);
+            }
+            if (rpgCharacterInputController.inputAttackR)
+            {
+                Attack(2);
+            }
+            if (rpgCharacterInputController.inputLightHit)
+            {
+                GetHit();
+            }
+            if (rpgCharacterInputController.inputCastL)
+            {
+                Cast(1, "attack");
+            }
+            if (rpgCharacterInputController.inputCastR)
+            {
+                Cast(2, "attack");
+            }
+        }
 
         public void Attack(int attackSide)
         {
-			//0 = No side
-			//1 = Left
-			//2 = Right
-			//3 = Dual
-			//weaponNumber 0 = Unarmed
-			//weaponNumber 1 = 2H Sword
-			//weaponNumber 2 = 2H Spear
-			//weaponNumber 3 = 2H Axe
-			//weaponNumber 4 = 2H Bow
-			//weaponNumber 5 = 2H Crowwbow
-			//weaponNumber 6 = 2H Staff
-			//weaponNumber 7 = Shield
-			//weaponNumber 8 = L Sword
-			//weaponNumber 9 = R Sword
-			//weaponNumber 10 = L Mace
-			//weaponNumber 11 = R Mace
-			//weaponNumber 12 = L Dagger
-			//weaponNumber 13 = R Dagger
-			//weaponNumber 14 = L Item
-			//weaponNumber 15 = R Item
-			//weaponNumber 16 = L Pistol
-			//weaponNumber 17 = R Pistol
-			//weaponNumber 18 = Rifle
-			//weaponNumber 19 == Right Spear
+            //0 = No side
+            //1 = Left
+            //2 = Right
+            //3 = Dual
+            //weaponNumber 0 = Unarmed
+            //weaponNumber 1 = 2H Sword
+            //weaponNumber 2 = 2H Spear
+            //weaponNumber 3 = 2H Axe
+            //weaponNumber 4 = 2H Bow
+            //weaponNumber 5 = 2H Crowwbow
+            //weaponNumber 6 = 2H Staff
+            //weaponNumber 7 = Shield
+            //weaponNumber 8 = L Sword
+            //weaponNumber 9 = R Sword
+            //weaponNumber 10 = L Mace
+            //weaponNumber 11 = R Mace
+            //weaponNumber 12 = L Dagger
+            //weaponNumber 13 = R Dagger
+            //weaponNumber 14 = L Item
+            //weaponNumber 15 = R Item
+            //weaponNumber 16 = L Pistol
+            //weaponNumber 17 = R Pistol
+            //weaponNumber 18 = Rifle
+            //weaponNumber 19 == Right Spear
             int attackNumber = 0;
             //Stationary attack.
-            if(!rpgCharacterMovementController.isMoving)
+            if (!rpgCharacterMovementController.isMoving)
             {
-                if(weapon == Weapon.RELAX)
+                if (weapon == Weapon.RELAX)
                 {
                     weapon = Weapon.UNARMED;
                     animator.SetInteger("Weapon", 0);
                 }
                 //Armed or Unarmed.
-                if(weapon == Weapon.UNARMED || weapon == Weapon.ARMED || weapon == Weapon.ARMEDSHIELD)
+                if (weapon == Weapon.UNARMED || weapon == Weapon.ARMED || weapon == Weapon.ARMEDSHIELD)
                 {
                     int maxAttacks = 3;
                     //Left attacks.
-                    if(attackSide == 1)
+                    if (attackSide == 1)
                     {
                         animator.SetInteger("AttackSide", 1);
-						if(rpgCharacterWeaponController != null)
-						{
-							//Left sword has 6 attacks.
-							if(rpgCharacterWeaponController.leftWeapon == 8)
-							{
-								attackNumber = Random.Range(1, 8);
-							}
-							//Left item has 4 attacks.
-							else if(rpgCharacterWeaponController.leftWeapon == 14)
-							{
-								attackNumber = Random.Range(1, 5);
-							}
-							else
-							{
-								attackNumber = Random.Range(1, maxAttacks + 1);
-							}
-						}
+                        if (rpgCharacterWeaponController != null)
+                        {
+                            //Left sword has 6 attacks.
+                            if (rpgCharacterWeaponController.leftWeapon == 8)
+                            {
+                                attackNumber = Random.Range(1, 8);
+                            }
+                            //Left item has 4 attacks.
+                            else if (rpgCharacterWeaponController.leftWeapon == 14)
+                            {
+                                attackNumber = Random.Range(1, 5);
+                            }
+                            else
+                            {
+                                attackNumber = Random.Range(1, maxAttacks + 1);
+                            }
+                        }
                     }
                     //Right attacks.
-                    else if(attackSide == 2)
+                    else if (attackSide == 2)
                     {
                         animator.SetInteger("AttackSide", 2);
-						if(rpgCharacterWeaponController != null)
-						{
-							//Right sword has 6 attacks.
-							if(rpgCharacterWeaponController.rightWeapon == 9)
-							{
-								attackNumber = Random.Range(8, 15);
-							}
-							//Right item has 4 attacks.
-							else if(rpgCharacterWeaponController.rightWeapon == 15)
-							{
-								attackNumber = Random.Range(5, 9);
-							}
-							//Right spear has 7 attacks.
-							else if(rpgCharacterWeaponController.rightWeapon == 19)
-							{
-								attackNumber = Random.Range(1, 8);
-							}
-							else
-							{
-								attackNumber = Random.Range(4, maxAttacks + 4);
-							}
-						}
+                        if (rpgCharacterWeaponController != null)
+                        {
+                            //Right sword has 6 attacks.
+                            if (rpgCharacterWeaponController.rightWeapon == 9)
+                            {
+                                attackNumber = Random.Range(8, 15);
+                            }
+                            //Right item has 4 attacks.
+                            else if (rpgCharacterWeaponController.rightWeapon == 15)
+                            {
+                                attackNumber = Random.Range(5, 9);
+                            }
+                            //Right spear has 7 attacks.
+                            else if (rpgCharacterWeaponController.rightWeapon == 19)
+                            {
+                                attackNumber = Random.Range(1, 8);
+                            }
+                            else
+                            {
+                                attackNumber = Random.Range(4, maxAttacks + 4);
+                            }
+                        }
                     }
                     //Dual attacks.
-                    else if(attackSide == 3)
+                    else if (attackSide == 3)
                     {
                         attackNumber = Random.Range(1, maxAttacks + 1);
                     }
                     //Set the Locks.
-                    if(attackSide != 3)
+                    if (attackSide != 3)
                     {
-						if(rpgCharacterWeaponController != null)
-						{
-							if(rpgCharacterWeaponController.leftWeapon == 8 || rpgCharacterWeaponController.leftWeapon == 10 || rpgCharacterWeaponController.leftWeapon == 16
-								|| rpgCharacterWeaponController.rightWeapon == 9 || rpgCharacterWeaponController.rightWeapon == 11 || rpgCharacterWeaponController.rightWeapon == 17)
-							{
-								Lock(true, true, true, 0, 0.75f);
-							}
-							else
-							{
-								//Dagger and Item has longer attack time.
-								Lock(true, true, true, 0, 1f);
-							}
-						}
+                        if (rpgCharacterWeaponController != null)
+                        {
+                            if (rpgCharacterWeaponController.leftWeapon == 8 || rpgCharacterWeaponController.leftWeapon == 10 || rpgCharacterWeaponController.leftWeapon == 16
+                                || rpgCharacterWeaponController.rightWeapon == 9 || rpgCharacterWeaponController.rightWeapon == 11 || rpgCharacterWeaponController.rightWeapon == 17)
+                            {
+                                Lock(true, true, true, 0, 0.75f);
+                            }
+                            else
+                            {
+                                //Dagger and Item has longer attack time.
+                                Lock(true, true, true, 0, 1f);
+                            }
+                        }
                     }
                     //Dual attacks.
                     else
@@ -501,25 +501,25 @@ namespace RPGCharacterAnims
                     }
                 }
                 //Shield or 2Handed Weapons.
-                else if(weapon == Weapon.SHIELD)
+                else if (weapon == Weapon.SHIELD)
                 {
                     int maxAttacks = 1;
                     attackNumber = Random.Range(1, maxAttacks);
                     Lock(true, true, true, 0, 1.1f);
                 }
-                else if(weapon == Weapon.TWOHANDSPEAR)
+                else if (weapon == Weapon.TWOHANDSPEAR)
                 {
                     int maxAttacks = 10;
                     attackNumber = Random.Range(1, maxAttacks);
                     Lock(true, true, true, 0, 1.1f);
                 }
-                else if(weapon == Weapon.TWOHANDSWORD)
+                else if (weapon == Weapon.TWOHANDSWORD)
                 {
                     int maxAttacks = 11;
                     attackNumber = Random.Range(1, maxAttacks);
                     Lock(true, true, true, 0, 1.1f);
                 }
-                else if(weapon == Weapon.RIFLE)
+                else if (weapon == Weapon.RIFLE)
                 {
                     int maxAttacks = 3;
                     attackNumber = Random.Range(1, maxAttacks);
@@ -529,15 +529,15 @@ namespace RPGCharacterAnims
                 {
                     int maxAttacks = 6;
                     attackNumber = Random.Range(1, maxAttacks);
-                    if(weapon == Weapon.TWOHANDSWORD)
+                    if (weapon == Weapon.TWOHANDSWORD)
                     {
                         Lock(true, true, true, 0, 0.85f);
                     }
-                    else if(weapon == Weapon.TWOHANDAXE)
+                    else if (weapon == Weapon.TWOHANDAXE)
                     {
                         Lock(true, true, true, 0, 1.5f);
                     }
-                    else if(weapon == Weapon.STAFF)
+                    else if (weapon == Weapon.STAFF)
                     {
                         Lock(true, true, true, 0, 1f);
                     }
@@ -555,7 +555,7 @@ namespace RPGCharacterAnims
             }
             //Trigger the animation.
             animator.SetInteger("Action", attackNumber);
-            if(attackSide == 3)
+            if (attackSide == 3)
             {
                 animator.SetTrigger("AttackDualTrigger");
             }
@@ -567,29 +567,29 @@ namespace RPGCharacterAnims
 
         private void RunningAttack(int attackSide)
         {
-			if(rpgCharacterWeaponController != null)
-			{
-				if(attackSide == 1 && rpgCharacterWeaponController.HasLeftWeapon())
-				{
-					animator.SetInteger("Action", 1);
-					animator.SetTrigger("AttackTrigger");
-				}
-				else if(attackSide == 2 && rpgCharacterWeaponController.HasRightWeapon())
-				{
-					animator.SetInteger("Action", 4);
-					animator.SetTrigger("AttackTrigger");
-				}
-				else if(attackSide == 3 && rpgCharacterWeaponController.HasDualWeapons())
-				{
-					animator.SetInteger("Action", 1);
-					animator.SetTrigger("AttackDualTrigger");
-				}
-				else if(rpgCharacterWeaponController.HasTwoHandedWeapon())
-				{
-					animator.SetInteger("Action", 1);
-					animator.SetTrigger("AttackTrigger");
-				}
-			}
+            if (rpgCharacterWeaponController != null)
+            {
+                if (attackSide == 1 && rpgCharacterWeaponController.HasLeftWeapon())
+                {
+                    animator.SetInteger("Action", 1);
+                    animator.SetTrigger("AttackTrigger");
+                }
+                else if (attackSide == 2 && rpgCharacterWeaponController.HasRightWeapon())
+                {
+                    animator.SetInteger("Action", 4);
+                    animator.SetTrigger("AttackTrigger");
+                }
+                else if (attackSide == 3 && rpgCharacterWeaponController.HasDualWeapons())
+                {
+                    animator.SetInteger("Action", 1);
+                    animator.SetTrigger("AttackDualTrigger");
+                }
+                else if (rpgCharacterWeaponController.HasTwoHandedWeapon())
+                {
+                    animator.SetInteger("Action", 1);
+                    animator.SetTrigger("AttackTrigger");
+                }
+            }
         }
 
         private void AirAttack()
@@ -601,9 +601,9 @@ namespace RPGCharacterAnims
 
         public void AttackKick(int kickSide)
         {
-            if(rpgCharacterMovementController.MaintainingGround())
+            if (rpgCharacterMovementController.MaintainingGround())
             {
-                if(weapon == Weapon.RELAX)
+                if (weapon == Weapon.RELAX)
                 {
                     weapon = Weapon.UNARMED;
                     animator.SetInteger("Weapon", 0);
@@ -616,12 +616,12 @@ namespace RPGCharacterAnims
 
         public void Special(int special)
         {
-            if(weapon == Weapon.RELAX)
+            if (weapon == Weapon.RELAX)
             {
                 weapon = Weapon.UNARMED;
                 animator.SetInteger("Weapon", 0);
             }
-            if(specialAttack == 0)
+            if (specialAttack == 0)
             {
                 specialAttack = special;
                 animator.SetInteger("Action", special);
@@ -646,46 +646,46 @@ namespace RPGCharacterAnims
         /// </summary>
         public void Cast(int attackSide, string type)
         {
-            if(weapon == Weapon.RELAX)
+            if (weapon == Weapon.RELAX)
             {
                 weapon = Weapon.UNARMED;
                 animator.SetInteger("Weapon", 0);
             }
             //Cancel current casting.
-            if(attackSide == 0)
+            if (attackSide == 0)
             {
-				animator.SetTrigger("CastEndTrigger");
-				isCasting = false;
-				canAction = true;
-				Lock(true, true, true, 0, 0.1f);
-				return;
+                animator.SetTrigger("CastEndTrigger");
+                isCasting = false;
+                canAction = true;
+                Lock(true, true, true, 0, 0.1f);
+                return;
             }
             int maxAttacks = 3;
             //Set Left, Right, Dual for variable casts.
-            if(attackSide == 4)
+            if (attackSide == 4)
             {
-				if(rpgCharacterWeaponController != null)
-				{
-					if(rpgCharacterWeaponController.leftWeapon == 0 && rpgCharacterWeaponController.rightWeapon == 0)
-					{
-						animator.SetInteger("LeftRight", 3);
-					}
-					else if(rpgCharacterWeaponController.leftWeapon == 0)
-					{
-						animator.SetInteger("LeftRight", 1);
-					}
-					else if(rpgCharacterWeaponController.rightWeapon == 0)
-					{
-						animator.SetInteger("LeftRight", 2);
-					}
-				}
+                if (rpgCharacterWeaponController != null)
+                {
+                    if (rpgCharacterWeaponController.leftWeapon == 0 && rpgCharacterWeaponController.rightWeapon == 0)
+                    {
+                        animator.SetInteger("LeftRight", 3);
+                    }
+                    else if (rpgCharacterWeaponController.leftWeapon == 0)
+                    {
+                        animator.SetInteger("LeftRight", 1);
+                    }
+                    else if (rpgCharacterWeaponController.rightWeapon == 0)
+                    {
+                        animator.SetInteger("LeftRight", 2);
+                    }
+                }
             }
             else
             {
                 animator.SetInteger("LeftRight", attackSide);
             }
             //Cast Buffs, AOE, Summons.
-            if(weapon == Weapon.UNARMED || weapon == Weapon.STAFF || weapon == Weapon.ARMED)
+            if (weapon == Weapon.UNARMED || weapon == Weapon.STAFF || weapon == Weapon.ARMED)
             {
                 //Buff1 = 1
                 //Buff2 = 2
@@ -695,26 +695,26 @@ namespace RPGCharacterAnims
                 //Summon2 = 6
                 maxAttacks = 2;
                 int attackNumber = Random.Range(1, maxAttacks + 1);
-                if(rpgCharacterMovementController.MaintainingGround())
+                if (rpgCharacterMovementController.MaintainingGround())
                 {
-                    if(type == "buff")
+                    if (type == "buff")
                     {
                         animator.SetInteger("Action", attackNumber);
                     }
-                    else if(type == "AOE")
+                    else if (type == "AOE")
                     {
                         animator.SetInteger("Action", attackNumber + 2);
                     }
-                    else if(type == "summon")
+                    else if (type == "summon")
                     {
                         animator.SetInteger("Action", attackNumber + 4);
                     }
                 }
             }
             //Trigger Cast if character is grounded.
-            if(rpgCharacterMovementController.MaintainingGround())
+            if (rpgCharacterMovementController.MaintainingGround())
             {
-                if(type == "attack")
+                if (type == "attack")
                 {
                     animator.SetInteger("Action", Random.Range(1, maxAttacks + 1));
                     animator.SetTrigger("AttackCastTrigger");
@@ -729,62 +729,62 @@ namespace RPGCharacterAnims
             }
         }
 
-		private void CancelCasting()
-		{
-			if(rpgCharacterInputController.inputCastL || rpgCharacterInputController.inputCastR)
-			{
-				Cast(0, "");
-			}
-		}
+        private void CancelCasting()
+        {
+            if (rpgCharacterInputController.inputCastL || rpgCharacterInputController.inputCastR)
+            {
+                Cast(0, "");
+            }
+        }
 
         public void Blocking()
         {
-			if(canBlock)
-			{
-				if(!isBlocking)
-				{
-					if(rpgCharacterInputController.HasBlockInput() )
-					{
-						isBlocking = true;
-						animator.SetBool("Blocking", true);
-						rpgCharacterMovementController.canMove = false;
-						animator.SetTrigger("BlockTrigger");
-					}
-				}
-				else
-				{
-					if(!rpgCharacterInputController.HasBlockInput())
-					{
-						isBlocking = false;
-						animator.SetBool("Blocking", false);
-						rpgCharacterMovementController.canMove = true;
-					}
-				}
-			}
-		}
+            if (canBlock)
+            {
+                if (!isBlocking)
+                {
+                    if (rpgCharacterInputController.HasBlockInput())
+                    {
+                        isBlocking = true;
+                        animator.SetBool("Blocking", true);
+                        rpgCharacterMovementController.canMove = false;
+                        animator.SetTrigger("BlockTrigger");
+                    }
+                }
+                else
+                {
+                    if (!rpgCharacterInputController.HasBlockInput())
+                    {
+                        isBlocking = false;
+                        animator.SetBool("Blocking", false);
+                        rpgCharacterMovementController.canMove = true;
+                    }
+                }
+            }
+        }
 
         private void Rolling()
         {
-            if(!rpgCharacterMovementController.isRolling)
+            if (!rpgCharacterMovementController.isRolling)
             {
-                if(rpgCharacterInputController.inputRoll)
+                if (rpgCharacterInputController.inputRoll)
                 {
                     rpgCharacterMovementController.DirectionalRoll();
                 }
             }
         }
 
-		public void GetHit()
+        public void GetHit()
         {
-            if(weapon == Weapon.RELAX)
+            if (weapon == Weapon.RELAX)
             {
                 weapon = Weapon.UNARMED;
                 animator.SetInteger("Weapon", 0);
             }
-            if(weapon != Weapon.RIFLE || weapon != Weapon.TWOHANDCROSSBOW)
+            if (weapon != Weapon.RIFLE || weapon != Weapon.TWOHANDCROSSBOW)
             {
                 int hits = 5;
-                if(isBlocking)
+                if (isBlocking)
                 {
                     hits = 2;
                 }
@@ -792,25 +792,25 @@ namespace RPGCharacterAnims
                 animator.SetInteger("Action", hitNumber);
                 animator.SetTrigger("GetHitTrigger");
                 Lock(true, true, true, 0.1f, 0.4f);
-                if(isBlocking)
+                if (isBlocking)
                 {
                     StartCoroutine(rpgCharacterMovementController._Knockback(-transform.forward, 3, 3));
                     return;
                 }
                 //Apply directional knockback force.
-                if(hitNumber <= 1)
+                if (hitNumber <= 1)
                 {
                     StartCoroutine(rpgCharacterMovementController._Knockback(-transform.forward, 8, 4));
                 }
-                else if(hitNumber == 2)
+                else if (hitNumber == 2)
                 {
                     StartCoroutine(rpgCharacterMovementController._Knockback(transform.forward, 8, 4));
                 }
-                else if(hitNumber == 3)
+                else if (hitNumber == 3)
                 {
                     StartCoroutine(rpgCharacterMovementController._Knockback(transform.right, 8, 4));
                 }
-                else if(hitNumber == 4)
+                else if (hitNumber == 4)
                 {
                     StartCoroutine(rpgCharacterMovementController._Knockback(-transform.right, 8, 4));
                 }
@@ -842,7 +842,7 @@ namespace RPGCharacterAnims
         /// <param name="Climb-On-Bottom">6</param>
         public IEnumerator _ClimbLadder()
         {
-			//Turn off collision to allow character to move into ladder volume.
+            //Turn off collision to allow character to move into ladder volume.
             rpgCharacterMovementController.SwitchCollisionOff();
             //Get the direction of the ladder, and snap the character to the correct position and facing.
             Vector3 newVector = Vector3.Cross(ladder.transform.forward, ladder.transform.right);
@@ -859,16 +859,16 @@ namespace RPGCharacterAnims
 
         public IEnumerator _EndClimbingLadder(int side)
         {
-			if(side == 1)
-			{
-				yield return new WaitForSeconds(1f);
-			}
-			else if(side == 2)
-			{
-				yield return new WaitForSeconds(2.33f);
-			}
-			rpgCharacterMovementController.SwitchCollisionOn();
-			rpgCharacterMovementController.currentState = RPGCharacterState.Idle;
+            if (side == 1)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+            else if (side == 2)
+            {
+                yield return new WaitForSeconds(2.33f);
+            }
+            rpgCharacterMovementController.SwitchCollisionOn();
+            rpgCharacterMovementController.currentState = RPGCharacterState.Idle;
             rpgCharacterMovementController.rpgCharacterState = RPGCharacterState.Idle;
             isClimbing = false;
         }
@@ -905,14 +905,14 @@ namespace RPGCharacterAnims
         private void UnLock(bool movement, bool actions)
         {
             StartCoroutine(_ResetIdleTimer());
-            if(movement)
+            if (movement)
             {
                 rpgCharacterMovementController.UnlockMovement();
             }
-            if(actions)
+            if (actions)
             {
                 canAction = true;
-                if(headLook)
+                if (headLook)
                 {
                     isHeadlook = true;
                 }
@@ -941,12 +941,12 @@ namespace RPGCharacterAnims
         {
             isSitting = false;
             //Sitting.
-            if(animator.GetInteger("Action") == 0)
+            if (animator.GetInteger("Action") == 0)
             {
                 Lock(true, true, true, 0f, 1f);
             }
             //Laying down.
-            else if(animator.GetInteger("Action") == 1)
+            else if (animator.GetInteger("Action") == 1)
             {
                 Lock(true, true, true, 0f, 2f);
             }
@@ -1001,141 +1001,141 @@ namespace RPGCharacterAnims
             Lock(true, true, true, 0, 1f);
         }
 
-		private void SwitchWeapons()
-		{
-			if(rpgCharacterWeaponController != null)
-			{
-				if(rpgCharacterWeaponController.isSwitchingFinished)
-				{
-					if(rpgCharacterInputController.inputSwitchUp)
-					{
-						rpgCharacterWeaponController.SwitchWeaponTwoHand(0);
-					}
-					else if(rpgCharacterInputController.inputSwitchDown)
-					{
-						rpgCharacterWeaponController.SwitchWeaponTwoHand(1);
-					}
-					if(rpgCharacterInputController.inputSwitchLeft)
-					{
-						rpgCharacterWeaponController.SwitchWeaponLeftRight(0);
-					}
-					else if(rpgCharacterInputController.inputSwitchRight)
-					{
-						rpgCharacterWeaponController.SwitchWeaponLeftRight(1);
-					}
-					//Shield.
-					if(rpgCharacterInputController.inputShield)
-					{
-						StartCoroutine(rpgCharacterWeaponController._SwitchWeapon(7));
-					}
-					if(rpgCharacterInputController.inputRelax)
-					{
-						StartCoroutine(rpgCharacterWeaponController._SwitchWeapon(-1));
-					}
-				}
-			}
-			//Reset Switching.
-			if(!rpgCharacterInputController.inputSwitchLeft && !rpgCharacterInputController.inputSwitchRight && !rpgCharacterInputController.inputSwitchUp && !rpgCharacterInputController.inputSwitchDown)
-			{
-				if(rpgCharacterWeaponController != null)
-				{
-					rpgCharacterWeaponController.isSwitchingFinished = true;
-				}
-			}
-		}
-
-		#endregion
-
-		#region Toggles
-
-		public void Toggles()
-		{
-			//Injury toggle.
-			if(UnityEngine.InputSystem.Keyboard.current.iKey.wasPressedThisFrame)
-			{
-				if(injured == false)
-				{
-					injured = true;
-					animator.SetBool("Injured", true);
-				}
-				else
-				{
-					injured = false;
-					animator.SetBool("Injured", false);
-				}
-			}
-			//Head look toggle.
-			if(UnityEngine.InputSystem.Keyboard.current.lKey.wasPressedThisFrame)
-			{
-				if(headLook == false)
-				{
-					headLook = true;
-					isHeadlook = true;
-				}
-				else
-				{
-					headLook = false;
-					isHeadlook = false;
-				}
-			}
-			//Slow time toggle.
-			if(UnityEngine.InputSystem.Keyboard.current.tKey.wasPressedThisFrame)
-			{
-				if(Time.timeScale != 1)
-				{
-					Time.timeScale = 1;
-				}
-				else
-				{
-					Time.timeScale = 0.0125f;
-				}
-			}
-			//Pause toggle.
-			if(UnityEngine.InputSystem.Keyboard.current.pKey.wasPressedThisFrame)
-			{
-				if(Time.timeScale != 1)
-				{
-					Time.timeScale = 1;
-				}
-				else
-				{
-					Time.timeScale = 0f;
-				}
-			}
-		}
-
-		#endregion
-
-		#region Misc
-
-		/// <summary>
-		/// Plays random idle animation. Currently only Alert1 animation.
-		/// </summary>
-		private void RandomIdle()
+        private void SwitchWeapons()
         {
-			if(rpgCharacterWeaponController != null)
-			{
-				if(!rpgCharacterMovementController.isMoving && weapon != Weapon.RELAX && !isFacing && !rpgCharacterWeaponController.isWeaponSwitching && rpgCharacterMovementController.canMove)
-				{
-					idleTimer += 0.01f;
-					if(idleTimer > idleTrigger)
-					{
-						//Turn off IK Hands.
-						if(ikHands != null)
-						{
-							ikHands.canBeUsed = false;
-						}
-						animator.SetInteger("Action", 1);
-						animator.SetTrigger("IdleTrigger");
-						StartCoroutine(_ResetIdleTimer());
-						Lock(true, true, true, 0, 1.25f);
-						if(ikHands != null)
-						{
-							ikHands.canBeUsed = true;
-						}
-					}
-				}
-			}
+            if (rpgCharacterWeaponController != null)
+            {
+                if (rpgCharacterWeaponController.isSwitchingFinished)
+                {
+                    if (rpgCharacterInputController.inputSwitchUp)
+                    {
+                        rpgCharacterWeaponController.SwitchWeaponTwoHand(0);
+                    }
+                    else if (rpgCharacterInputController.inputSwitchDown)
+                    {
+                        rpgCharacterWeaponController.SwitchWeaponTwoHand(1);
+                    }
+                    if (rpgCharacterInputController.inputSwitchLeft)
+                    {
+                        rpgCharacterWeaponController.SwitchWeaponLeftRight(0);
+                    }
+                    else if (rpgCharacterInputController.inputSwitchRight)
+                    {
+                        rpgCharacterWeaponController.SwitchWeaponLeftRight(1);
+                    }
+                    //Shield.
+                    if (rpgCharacterInputController.inputShield)
+                    {
+                        StartCoroutine(rpgCharacterWeaponController._SwitchWeapon(7));
+                    }
+                    if (rpgCharacterInputController.inputRelax)
+                    {
+                        StartCoroutine(rpgCharacterWeaponController._SwitchWeapon(-1));
+                    }
+                }
+            }
+            //Reset Switching.
+            if (!rpgCharacterInputController.inputSwitchLeft && !rpgCharacterInputController.inputSwitchRight && !rpgCharacterInputController.inputSwitchUp && !rpgCharacterInputController.inputSwitchDown)
+            {
+                if (rpgCharacterWeaponController != null)
+                {
+                    rpgCharacterWeaponController.isSwitchingFinished = true;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Toggles
+
+        public void Toggles()
+        {
+            //Injury toggle.
+            if (UnityEngine.InputSystem.Keyboard.current.iKey.wasPressedThisFrame)
+            {
+                if (injured == false)
+                {
+                    injured = true;
+                    animator.SetBool("Injured", true);
+                }
+                else
+                {
+                    injured = false;
+                    animator.SetBool("Injured", false);
+                }
+            }
+            //Head look toggle.
+            if (UnityEngine.InputSystem.Keyboard.current.lKey.wasPressedThisFrame)
+            {
+                if (headLook == false)
+                {
+                    headLook = true;
+                    isHeadlook = true;
+                }
+                else
+                {
+                    headLook = false;
+                    isHeadlook = false;
+                }
+            }
+            //Slow time toggle.
+            if (UnityEngine.InputSystem.Keyboard.current.tKey.wasPressedThisFrame)
+            {
+                if (Time.timeScale != 1)
+                {
+                    Time.timeScale = 1;
+                }
+                else
+                {
+                    Time.timeScale = 0.0125f;
+                }
+            }
+            //Pause toggle.
+            if (UnityEngine.InputSystem.Keyboard.current.pKey.wasPressedThisFrame)
+            {
+                if (Time.timeScale != 1)
+                {
+                    Time.timeScale = 1;
+                }
+                else
+                {
+                    Time.timeScale = 0f;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Misc
+
+        /// <summary>
+        /// Plays random idle animation. Currently only Alert1 animation.
+        /// </summary>
+        private void RandomIdle()
+        {
+            if (rpgCharacterWeaponController != null)
+            {
+                if (!rpgCharacterMovementController.isMoving && weapon != Weapon.RELAX && !isFacing && !rpgCharacterWeaponController.isWeaponSwitching && rpgCharacterMovementController.canMove)
+                {
+                    idleTimer += 0.01f;
+                    if (idleTimer > idleTrigger)
+                    {
+                        //Turn off IK Hands.
+                        if (ikHands != null)
+                        {
+                            ikHands.canBeUsed = false;
+                        }
+                        animator.SetInteger("Action", 1);
+                        animator.SetTrigger("IdleTrigger");
+                        StartCoroutine(_ResetIdleTimer());
+                        Lock(true, true, true, 0, 1.25f);
+                        if (ikHands != null)
+                        {
+                            ikHands.canBeUsed = true;
+                        }
+                    }
+                }
+            }
         }
 
         private IEnumerator _ResetIdleTimer()
@@ -1169,21 +1169,21 @@ namespace RPGCharacterAnims
         //Timed -1 = infinite, 0 = no, 1 = yes.
         public IEnumerator _Lock(bool lockMovement, bool lockAction, bool timed, float delayTime, float lockTime)
         {
-            if(delayTime > 0)
+            if (delayTime > 0)
             {
                 yield return new WaitForSeconds(delayTime);
             }
-            if(lockMovement)
+            if (lockMovement)
             {
                 rpgCharacterMovementController.LockMovement();
             }
-            if(lockAction)
+            if (lockAction)
             {
                 LockAction();
             }
-            if(timed)
+            if (timed)
             {
-                if(lockTime > 0)
+                if (lockTime > 0)
                 {
                     yield return new WaitForSeconds(lockTime);
                 }
@@ -1203,25 +1203,25 @@ namespace RPGCharacterAnims
         {
             Debug.Log("SETANIMATOR: Weapon:" + weapon + " Weaponswitch:" + weaponSwitch + " Lweapon:" + Lweapon + " Rweapon:" + Rweapon + " Weaponside:" + weaponSide);
             //Set Weapon if applicable.
-            if(weapon != -2)
+            if (weapon != -2)
             {
                 animator.SetInteger("Weapon", weapon);
             }
             //Set WeaponSwitch if applicable.
-            if(weaponSwitch != -2)
+            if (weaponSwitch != -2)
             {
                 animator.SetInteger("WeaponSwitch", weaponSwitch);
             }
             //Set left weapon if applicable.
-            if(Lweapon != -1)
+            if (Lweapon != -1)
             {
-				if(rpgCharacterWeaponController != null)
-				{
-					rpgCharacterWeaponController.leftWeapon = Lweapon;
-				}
+                if (rpgCharacterWeaponController != null)
+                {
+                    rpgCharacterWeaponController.leftWeapon = Lweapon;
+                }
                 animator.SetInteger("LeftWeapon", Lweapon);
                 //Set Shield.
-                if(Lweapon == 7)
+                if (Lweapon == 7)
                 {
                     animator.SetBool("Shield", true);
                 }
@@ -1231,16 +1231,16 @@ namespace RPGCharacterAnims
                 }
             }
             //Set right weapon if applicable.
-            if(Rweapon != -1)
+            if (Rweapon != -1)
             {
-				if(rpgCharacterWeaponController != null)
-				{
-					rpgCharacterWeaponController.rightWeapon = Rweapon;
-				}
+                if (rpgCharacterWeaponController != null)
+                {
+                    rpgCharacterWeaponController.rightWeapon = Rweapon;
+                }
                 animator.SetInteger("RightWeapon", Rweapon);
             }
             //Set weapon side if applicable.
-            if(weaponSide != -1)
+            if (weaponSide != -1)
             {
                 animator.SetInteger("LeftRight", weaponSide);
             }
@@ -1249,66 +1249,66 @@ namespace RPGCharacterAnims
 
         public void SetWeaponState(int weaponNumber)
         {
-			if(rpgCharacterWeaponController != null)
-			{
-				if(weaponNumber == -1)
-				{
-					weapon = Weapon.RELAX;
-				}
-				else if(weaponNumber == 0)
-				{
-					weapon = Weapon.UNARMED;
-				}
-				else if(weaponNumber == 1)
-				{
-					weapon = Weapon.TWOHANDSWORD;
-				}
-				else if(weaponNumber == 2)
-				{
-					weapon = Weapon.TWOHANDSPEAR;
-				}
-				else if(weaponNumber == 3)
-				{
-					weapon = Weapon.TWOHANDAXE;
-				}
-				else if(weaponNumber == 4)
-				{
-					weapon = Weapon.TWOHANDBOW;
-				}
-				else if(weaponNumber == 5)
-				{
-					weapon = Weapon.TWOHANDCROSSBOW;
-				}
-				else if(weaponNumber == 6)
-				{
-					weapon = Weapon.STAFF;
-				}
-				else if(rpgCharacterWeaponController.Is1HandedWeapon(weaponNumber))
-				{
-					weapon = Weapon.ARMED;
-					if(animator.GetInteger("LeftWeapon") == 7)
-					{
-						if(animator.GetInteger("RightWeapon") != 0)
-						{
-							weapon = Weapon.ARMEDSHIELD;
-						}
-						else
-						{
-							weapon = Weapon.SHIELD;
-						}
-					}
-				}
-				else if(weaponNumber == 18)
-				{
-					weapon = Weapon.RIFLE;
-				}
-			}
+            if (rpgCharacterWeaponController != null)
+            {
+                if (weaponNumber == -1)
+                {
+                    weapon = Weapon.RELAX;
+                }
+                else if (weaponNumber == 0)
+                {
+                    weapon = Weapon.UNARMED;
+                }
+                else if (weaponNumber == 1)
+                {
+                    weapon = Weapon.TWOHANDSWORD;
+                }
+                else if (weaponNumber == 2)
+                {
+                    weapon = Weapon.TWOHANDSPEAR;
+                }
+                else if (weaponNumber == 3)
+                {
+                    weapon = Weapon.TWOHANDAXE;
+                }
+                else if (weaponNumber == 4)
+                {
+                    weapon = Weapon.TWOHANDBOW;
+                }
+                else if (weaponNumber == 5)
+                {
+                    weapon = Weapon.TWOHANDCROSSBOW;
+                }
+                else if (weaponNumber == 6)
+                {
+                    weapon = Weapon.STAFF;
+                }
+                else if (rpgCharacterWeaponController.Is1HandedWeapon(weaponNumber))
+                {
+                    weapon = Weapon.ARMED;
+                    if (animator.GetInteger("LeftWeapon") == 7)
+                    {
+                        if (animator.GetInteger("RightWeapon") != 0)
+                        {
+                            weapon = Weapon.ARMEDSHIELD;
+                        }
+                        else
+                        {
+                            weapon = Weapon.SHIELD;
+                        }
+                    }
+                }
+                else if (weaponNumber == 18)
+                {
+                    weapon = Weapon.RIFLE;
+                }
+            }
         }
 
         public void BlockBreak()
         {
             animator.SetTrigger("BlockBreakTrigger");
-			Lock(true, true, true, 0, 1f);
+            Lock(true, true, true, 0, 1f);
         }
 
         public void StartConversation()
@@ -1326,8 +1326,8 @@ namespace RPGCharacterAnims
             animator.SetInteger("Talking", 0);
             StopCoroutine("_PlayConversationClip");
             rpgCharacterMovementController.UnlockMovement();
-			canAction = true;
-		}
+            canAction = true;
+        }
 
         /// <summary>
         /// Plays a random conversation animation.
@@ -1335,7 +1335,7 @@ namespace RPGCharacterAnims
         /// <returns>The conversation clip.</returns>
         private IEnumerator _PlayConversationClip()
         {
-            if(currentConversation != 0)
+            if (currentConversation != 0)
             {
                 yield return new WaitForSeconds(2f);
                 animator.SetInteger("Talking", Random.Range(1, numberOfConversationClips + 1));
@@ -1354,8 +1354,8 @@ namespace RPGCharacterAnims
             Debug.Log("Moving: " + animator.GetBool("Moving"));
             Debug.Log("Targeting: " + animator.GetBool("Targeting"));
             Debug.Log("Facing: " + animator.GetBool("Facing"));
-			Debug.Log("Aiming: " + animator.GetBool("Aiming"));
-			Debug.Log("Stunned: " + animator.GetBool("Stunned"));
+            Debug.Log("Aiming: " + animator.GetBool("Aiming"));
+            Debug.Log("Stunned: " + animator.GetBool("Stunned"));
             Debug.Log("Shield: " + animator.GetBool("Shield"));
             Debug.Log("Swimming: " + animator.GetBool("Swimming"));
             Debug.Log("Blocking: " + animator.GetBool("Blocking"));
