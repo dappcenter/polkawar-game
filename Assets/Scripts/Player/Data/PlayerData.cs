@@ -2,20 +2,37 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
 public class PlayerData : SingletonMB<PlayerData>
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
-    public Root playerData = new Root();
+    public static Root playerData = new Root();
 
-    public bool isLoaded = false;
-    public bool hasData = false;
+    public static bool isLoaded = false;
+    public static bool hasData = false;
 
-    //private void Start()
-    //{
-    //    GetDataOfWallet(PlayerPrefs.GetString("Account", "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448"), null);
-    //}
+    public UnityEvent OnDataoaded;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        playerData = null;
+        isLoaded = false;
+        hasData = false;
+    }
+
+    IEnumerator Start()
+    {
+        while (!PlayerPrefs.HasKey("Account"))
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
+        GetDataOfWallet(PlayerPrefs.GetString("Account", "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448"), null);
+    }
 
     [ContextMenu("GetDataOfWallet")]
     public void TestPlayerData()
@@ -57,6 +74,8 @@ public class PlayerData : SingletonMB<PlayerData>
 
 
         isLoaded = true;
+
+        OnDataoaded.Invoke();
         onComplete?.Invoke();
     }
 
