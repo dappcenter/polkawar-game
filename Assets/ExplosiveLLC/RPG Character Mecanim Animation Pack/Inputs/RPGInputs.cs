@@ -317,7 +317,7 @@ namespace RPGCharacterAnims
                 {
                     ""name"": """",
                     ""id"": ""49d9ee54-833f-4704-9579-a66ccde8c535"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
