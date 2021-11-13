@@ -2,6 +2,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RoomPrefab : MonoBehaviour
@@ -15,5 +16,10 @@ public class RoomPrefab : MonoBehaviour
     {
         RoomInfo = roomInfo;
         text.text = "("+ roomInfo.PlayerCount + "/"+ roomInfo.MaxPlayers + ") , " + roomInfo.Name;
+    }
+
+    public void JoinRoom()
+    {
+        SceneManager.LoadScene("GamePlay");
     }
 }
