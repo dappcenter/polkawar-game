@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Sirenix.OdinInspector;
+using RPGCharacterAnims;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public string playerName;
     public GameObject player = null;
@@ -14,14 +15,29 @@ public class GameManager : MonoBehaviour
     private int index = 0;
 
 
-    private void Start() => NetworkManager.Instance.OnRoomJoinedEvent.AddListener(OnRoomJoined);
 
-    public void OnRoomJoined()
+    private void Start()
+    {
+        InitializePlayer();
+    }
+
+    public void InitializePlayer()
     {
         player = PhotonNetwork.Instantiate("RPG-Character", spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
 
-        player.GetComponent<PlayerController>()?.SetPlayerName(playerName);
+        //player.GetComponent<>()?.SetPlayerName(playerName);
 
+        IncreaseIndex();
+    }
+
+    private void IncreaseIndex()
+    {
+        photonView.RPC("IncreaseIndexRPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void IncreaseIndexRPC()
+    {
         index++;
     }
 }
