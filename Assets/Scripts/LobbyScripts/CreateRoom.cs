@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
+
 public class CreateRoom : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
@@ -25,6 +27,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Created room Success ", this);
+        SceneManager.LoadScene("GamePlay");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
