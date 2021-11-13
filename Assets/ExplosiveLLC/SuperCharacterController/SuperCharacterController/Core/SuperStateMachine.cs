@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-
+using Photon.Pun;
 /// <summary>
 /// State machine model that recieves SuperUpdate messages from the SuperCharacterController
 /// </summary>
-public class SuperStateMachine : MonoBehaviour
+public class SuperStateMachine : MonoBehaviourPun
 {
     protected float timeEnteredState;
 
