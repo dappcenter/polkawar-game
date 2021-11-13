@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ public class RoomPrefab : MonoBehaviour
 
     public void JoinRoom()
     {
-        SceneManager.LoadScene("GamePlay");
+        PhotonNetwork.JoinRoom(RoomInfo.Name);
+        //SceneManager.LoadScene("GamePlay");
     }
 }
