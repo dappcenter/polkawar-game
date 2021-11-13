@@ -12,22 +12,16 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     [SerializeField]
     private Text roomName;
 
-
     public void OnCreateRoomClick()
     {
         if (!PhotonNetwork.IsConnected)
         {
             return;
         }
+
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom(roomName.text, options, TypedLobby.Default);
-    }
-
-    public override void OnCreatedRoom()
-    {
-        Debug.Log("Created room Success ", this);
-        SceneManager.LoadScene("GamePlay");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

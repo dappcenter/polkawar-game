@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField, ReadOnly]
     private int index = 0;
 
-
-
     private void Start()
     {
         InitializePlayer();
@@ -23,10 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void InitializePlayer()
     {
-        player = PhotonNetwork.Instantiate("RPG-Character", spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
-
+        player = PhotonNetwork.Instantiate(player.name, spawnPositions[index].transform.position, spawnPositions[index].transform.rotation);
         //player.GetComponent<>()?.SetPlayerName(playerName);
-
         IncreaseIndex();
     }
 

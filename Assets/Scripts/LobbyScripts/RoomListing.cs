@@ -5,13 +5,13 @@ using Photon.Pun;
 using Photon.Realtime;
 public class RoomListing : MonoBehaviourPunCallbacks
 {
-
     [SerializeField]
     private Transform content;
     [SerializeField]
     private RoomPrefab roomListing;
 
-    private List<RoomPrefab> listings = new List<RoomPrefab>();
+    [SerializeField] private List<RoomPrefab> listings = new List<RoomPrefab>();
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach(RoomInfo info in roomList)
@@ -34,7 +34,6 @@ public class RoomListing : MonoBehaviourPunCallbacks
                     listings.Add(listing);
                 }
             }
-   
         }
     }
 }

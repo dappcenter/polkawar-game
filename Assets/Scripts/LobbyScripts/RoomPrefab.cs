@@ -21,7 +21,8 @@ public class RoomPrefab : MonoBehaviour
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(RoomInfo.Name);
+        //PhotonNetwork.JoinRoom(RoomInfo.Name);
+        UIController.Instance.JoinTheRoom(RoomInfo);
         //SceneManager.LoadScene("GamePlay");
     }
 }
