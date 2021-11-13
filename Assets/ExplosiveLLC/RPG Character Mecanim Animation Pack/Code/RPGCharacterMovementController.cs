@@ -77,11 +77,10 @@ namespace RPGCharacterAnims
 
         private void Awake()
         {
-            // if (photonView.IsMine)
+            if (photonView.IsMine)
             {
-                //mainCamera = FollowObject.Instance.GetComponent<Camera>();
-                //FollowObject.Instance.Target = targetForCamera;
-                //FollowObject.Instance.LookAt = lookAtTargetForCamera;
+                mainCamera = CameraController.Instance.GetComponent<Camera>();
+                CameraController.Instance.cameraTarget = targetForCamera;
             }
         }
 
@@ -135,6 +134,9 @@ namespace RPGCharacterAnims
         //Put any code in here you want to run AFTER the state's update function.  This is run regardless of what state you're in.
         protected override void LateGlobalSuperUpdate()
         {
+            //check if photon view is myself
+            if (!photonView.IsMine) return;
+
             //Move the player by our velocity every frame.
             transform.position += currentVelocity * superCharacterController.deltaTime;
             //If using Navmesh nagivation, update values.
