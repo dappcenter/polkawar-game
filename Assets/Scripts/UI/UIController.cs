@@ -9,6 +9,8 @@ public class UIController : MonoBehaviourPunCallbacks
 {
     public static UIController Instance;
 
+    public GameObject loadingPanel;
+
     private void Awake()
     {
         Instance = this;
@@ -16,6 +18,7 @@ public class UIController : MonoBehaviourPunCallbacks
 
     public void JoinTheRoom(RoomInfo roomInfo)
     {
+        UIController.Instance.loadingPanel.SetActive(true);
         PhotonNetwork.JoinRoom(roomInfo.Name);
     }
 
