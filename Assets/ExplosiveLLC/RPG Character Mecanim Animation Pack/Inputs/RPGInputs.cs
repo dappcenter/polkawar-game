@@ -179,6 +179,14 @@ namespace RPGCharacterAnims
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""e4fd55db-bd6d-4a22-af71-fd5fd125971a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -522,6 +530,17 @@ namespace RPGCharacterAnims
                     ""action"": ""Aiming"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d28909b-28b8-48ce-8b9c-f2f8eed86e18"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -572,6 +591,7 @@ namespace RPGCharacterAnims
             m_RPGCharacter_WeaponLeft = m_RPGCharacter.FindAction("WeaponLeft", throwIfNotFound: true);
             m_RPGCharacter_WeaponRight = m_RPGCharacter.FindAction("WeaponRight", throwIfNotFound: true);
             m_RPGCharacter_Aiming = m_RPGCharacter.FindAction("Aiming", throwIfNotFound: true);
+            m_RPGCharacter_Look = m_RPGCharacter.FindAction("Look", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -641,6 +661,7 @@ namespace RPGCharacterAnims
         private readonly InputAction m_RPGCharacter_WeaponLeft;
         private readonly InputAction m_RPGCharacter_WeaponRight;
         private readonly InputAction m_RPGCharacter_Aiming;
+        private readonly InputAction m_RPGCharacter_Look;
         public struct RPGCharacterActions
         {
             private @RPGInputs m_Wrapper;
@@ -665,6 +686,7 @@ namespace RPGCharacterAnims
             public InputAction @WeaponLeft => m_Wrapper.m_RPGCharacter_WeaponLeft;
             public InputAction @WeaponRight => m_Wrapper.m_RPGCharacter_WeaponRight;
             public InputAction @Aiming => m_Wrapper.m_RPGCharacter_Aiming;
+            public InputAction @Look => m_Wrapper.m_RPGCharacter_Look;
             public InputActionMap Get() { return m_Wrapper.m_RPGCharacter; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -734,6 +756,9 @@ namespace RPGCharacterAnims
                     @Aiming.started -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnAiming;
                     @Aiming.performed -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnAiming;
                     @Aiming.canceled -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnAiming;
+                    @Look.started -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnLook;
+                    @Look.performed -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnLook;
+                    @Look.canceled -= m_Wrapper.m_RPGCharacterActionsCallbackInterface.OnLook;
                 }
                 m_Wrapper.m_RPGCharacterActionsCallbackInterface = instance;
                 if (instance != null)
@@ -798,6 +823,9 @@ namespace RPGCharacterAnims
                     @Aiming.started += instance.OnAiming;
                     @Aiming.performed += instance.OnAiming;
                     @Aiming.canceled += instance.OnAiming;
+                    @Look.started += instance.OnLook;
+                    @Look.performed += instance.OnLook;
+                    @Look.canceled += instance.OnLook;
                 }
             }
         }
@@ -842,6 +870,7 @@ namespace RPGCharacterAnims
             void OnWeaponLeft(InputAction.CallbackContext context);
             void OnWeaponRight(InputAction.CallbackContext context);
             void OnAiming(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
         }
     }
 }
