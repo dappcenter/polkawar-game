@@ -19,6 +19,8 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             return;
         }
 
+        UIController.Instance.loadingPanel.SetActive(true);
+
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom(roomName.text, options, TypedLobby.Default);
