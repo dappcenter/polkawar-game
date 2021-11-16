@@ -61,6 +61,11 @@ namespace RPGCharacterAnims
             StartCoroutine(_HideAllWeapons(false, false));
         }
 
+        private void Start()
+        {
+            
+        }
+
         //0 = No side
         //1 = Left
         //2 = Right

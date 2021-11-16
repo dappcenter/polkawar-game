@@ -50,6 +50,8 @@ namespace RPGCharacterAnims
         //Animation speed control. (doesn't affect lock timing)
         public float animationSpeed = 1;
 
+        public bool canAssignInputController = true;
+
         public UnityEvent OnTakeDamage;
 
         #region Initialization
@@ -57,7 +59,8 @@ namespace RPGCharacterAnims
         private void Awake()
         {
             //Initialize other RPG scripts.
-            rpgCharacterInputController = gameObject.AddComponent<RPGCharacterInputController>();
+            if(canAssignInputController)
+                rpgCharacterInputController = gameObject.AddComponent<RPGCharacterInputController>();
             rpgCharacterMovementController = GetComponent<RPGCharacterMovementController>();
             rpgCharacterWeaponController = GetComponent<RPGCharacterWeaponController>();
 

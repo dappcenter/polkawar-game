@@ -1821,6 +1821,10 @@ MonoBehaviour:
   isAiming: 0
   numberOfConversationClips: 8
   animationSpeed: 1
+  canAssignInputController: 1
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4195526270344074886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4993,7 +4997,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5102788589110437041, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
       propertyPath: m_text
-      value: warrior
+      value: Doe
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788589110437041, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5102788589110437041, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
       propertyPath: m_fontStyle
