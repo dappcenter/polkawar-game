@@ -880,7 +880,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior0Enemy2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5225463100478032192, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
 --- !u!1 &1634648429
 GameObject:

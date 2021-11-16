@@ -958,6 +958,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior0Enemy2
       objectReference: {fileID: 0}
+    - target: {fileID: 1275834590124516831, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1275834590124516831, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 366ae973f8f1141efac97c6186c6bff4, type: 3}
+    - target: {fileID: 2165762881283110642, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bd822fe2366ff4c479740a6ea6329a95, type: 3}
     m_RemovedComponents:
     - {fileID: 381362300680910179, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
     - {fileID: 381362300680910176, guid: 831543cda864747dcacee14e41fb7fb8, type: 3}
