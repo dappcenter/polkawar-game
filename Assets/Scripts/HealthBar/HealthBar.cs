@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField]
     private Image foregroundImage;
 
@@ -28,16 +27,15 @@ public class HealthBar : MonoBehaviour
     {
         StopAllCoroutines();
 
-        if(fillAmountTween != null)
+        if (fillAmountTween != null)
         {
             LeanTween.cancel(fillAmountTween.uniqueId);
         }
 
-
         fillAmountTween = LeanTween.value(foregroundImage.fillAmount, (float)health.CurrentHealth / health.MaxHealth, 0.25f).setOnUpdate((float val) =>
         {
             foregroundImage.fillAmount = val;
-        }).setOnComplete(()=> { fillAmountTween = null; });
+        }).setOnComplete(() => { fillAmountTween = null; });
 
         //StartCoroutine(ChangeToPct());
     }

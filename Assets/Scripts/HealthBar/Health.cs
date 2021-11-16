@@ -23,9 +23,9 @@ public class Health : MonoBehaviour, IDamagable
     [SerializeField, ReadOnly]
     private bool isAlive = true;
 
-
     [SerializeField]
     private TextMeshProUGUI decreasingHP;
+
     private void OnEnable()
     {
         Reset();
@@ -36,6 +36,7 @@ public class Health : MonoBehaviour, IDamagable
         currentHealth = maxHealth;
     }
 
+    [Button]
     public void TakeDamage(int damage)
     {
         if (!isAlive) return;
@@ -61,16 +62,13 @@ public class Health : MonoBehaviour, IDamagable
     {
         yield return new WaitForSeconds(2);
         decreasingHP.enabled = false;
-
     }
-
 
     private void Die()
     {
-        throw new NotImplementedException();
+        Debug.Log("Die function called");
     }
 }
-
 
 public interface IDamagable
 {
