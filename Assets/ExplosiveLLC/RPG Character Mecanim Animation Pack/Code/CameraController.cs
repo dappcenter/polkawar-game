@@ -31,10 +31,6 @@ public class CameraController : SingletonMB<CameraController>
         if (cameraTarget == null)
             return;
 
-        turn.x += Input.GetAxis("Mouse X") * rotateSpeed;
-        turn.y += Input.GetAxis("Mouse Y") * rotateSpeed;
-
-
         if (UnityEngine.InputSystem.Keyboard.current.fKey.wasPressedThisFrame)
         {
             if (following)
@@ -65,14 +61,10 @@ public class CameraController : SingletonMB<CameraController>
             transform.position = new Vector3(Mathf.Lerp(lastPosition.x, cameraTarget.transform.position.x + offset.x, smoothing * Time.deltaTime),
                 Mathf.Lerp(lastPosition.y, cameraTarget.transform.position.y + offset.y, smoothing * Time.deltaTime),
                 Mathf.Lerp(lastPosition.z, cameraTarget.transform.position.z + offset.z, smoothing * Time.deltaTime));
-        
-            transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0);
         }
         else
         {
             transform.position = lastPosition;
-            transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0);
-
         }
         transform.LookAt(cameraTarget.transform.position);
     }
