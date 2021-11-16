@@ -25,5 +25,7 @@ public class GameObjectEvents : MonoBehaviour
     private void OnDisable()
     {
         onDisable.Invoke();
+
+        Michsky.UI.FSC.FSTDemoManager.ShowTransition();
     }
 }
