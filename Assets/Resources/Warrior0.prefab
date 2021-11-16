@@ -1835,7 +1835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rpgCharacterState: 0
   mainCamera: {fileID: 0}
-  targetForCamera: {fileID: 4300710027428483774}
+  targetForCamera: {fileID: 8530236638530138782}
   lookAtTargetForCamera: {fileID: 8530236638959880291}
   navMeshAgent: {fileID: 0}
   useMeshNav: 0
@@ -4297,8 +4297,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8530236638530138782}
-  m_LocalRotation: {x: -0, y: 0.92387956, z: -0, w: 0.38268343}
-  m_LocalPosition: {x: -5.6992803, y: 3.68, z: 5.6992817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4300710027428253342}
@@ -4735,6 +4735,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6913cbf32d8a495da197816a404a784, type: 3}
   m_PrefabInstance: {fileID: 1154274427}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4812604769121918010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 543450652554146704}
+    m_Modifications:
+    - target: {fileID: 1641814547671648629, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_Name
+      value: trails_weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641814547671648630, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: abea72e83d50c094f9cb6644bf30dcbc, type: 3}
 --- !u!1001 &7602636806957664206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4833,6 +4890,10 @@ PrefabInstance:
     - target: {fileID: 5102788588800686089, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102788588800686090, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5102788588800686092, guid: 5ce7787c7416165439fac9c7fdc24149, type: 3}
       propertyPath: OnCharacterDie.m_PersistentCalls.m_Calls.Array.size
