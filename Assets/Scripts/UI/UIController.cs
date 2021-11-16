@@ -24,6 +24,6 @@ public class UIController : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        SceneManager.LoadScene("GamePlay");
+        SceneManager.LoadScene("GamePlay 1");
     }
 }
