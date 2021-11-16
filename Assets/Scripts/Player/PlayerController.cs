@@ -58,13 +58,13 @@ public class PlayerController : MonoBehaviourPun
 
     public void SetPlayerName(string newName)
     {
-        if (photonView.IsMine)
-        {
-            photonView.RPC("SetPlayerNameRPC", RpcTarget.AllBuffered, newName);
-        }
+        //if (photonView.IsMine)
+        //{
+        //    photonView.RPC("SetPlayerNameRPC", RpcTarget.AllBuffered, newName);
+        //}
     }
 
-    [PunRPC]
+   // [PunRPC]
     public void SetPlayerNameRPC(string newName)
     {
         playerNameDisplayer.SetName(newName);
@@ -72,10 +72,10 @@ public class PlayerController : MonoBehaviourPun
 
     public void TakeDamage(int damage)
     {
-        photonView.RPC("TakeDamageRPC", RpcTarget.AllBuffered, damage);
+     //   photonView.RPC("TakeDamageRPC", RpcTarget.AllBuffered, damage);
     }
 
-    [PunRPC]
+  //  [PunRPC]
     public void TakeDamageRPC(int damage)
     {
         playerHealth.TakeDamage(damage);
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviourPun
 
     public void OnMovement(InputAction.CallbackContext value)
     {
-        if (!photonView.IsMine) return;
+      //  if (!photonView.IsMine) return;
 
         if (attackCooldown <= 0)
         {
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviourPun
     //This is called from PlayerInput, when a button has been pushed, that corresponds with the 'Attack' action
     public void OnAttack(InputAction.CallbackContext value)
     {
-        if (!photonView.IsMine) return;
+     //   if (!photonView.IsMine) return;
 
         if (value.started)
         {

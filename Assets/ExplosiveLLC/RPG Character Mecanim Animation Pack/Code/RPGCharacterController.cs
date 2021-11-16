@@ -166,6 +166,7 @@ namespace RPGCharacterAnims
             else if (!rpgCharacterMovementController.MaintainingGround())
             {
                 //Air Attacks.
+                if(rpgCharacterInputController)
                 if (rpgCharacterInputController.inputAttackL || rpgCharacterInputController.inputAttackR)
                 {
                     AirAttack();

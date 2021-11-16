@@ -77,11 +77,12 @@ namespace RPGCharacterAnims
 
         private void Awake()
         {
-            if (photonView.IsMine)
-            {
-                mainCamera = CameraController.Instance.GetComponent<Camera>();
-                CameraController.Instance.cameraTarget = targetForCamera;
-            }
+            //if (photonView.IsMine)
+            //{
+            //    //mainCamera = CameraController.Instance.GetComponent<Camera>();
+            //    if (CameraController.Instance.cameraTarget != null)
+            //        CameraController.Instance.cameraTarget = targetForCamera;
+            //}
         }
 
         private void Start()
@@ -135,7 +136,7 @@ namespace RPGCharacterAnims
         protected override void LateGlobalSuperUpdate()
         {
             //check if photon view is myself
-            if (!photonView.IsMine) return;
+            //if (!photonView.IsMine) return;
 
             //Move the player by our velocity every frame.
             transform.position += currentVelocity * superCharacterController.deltaTime;
@@ -226,8 +227,8 @@ namespace RPGCharacterAnims
 
         public bool MaintainingGround()
         {
-            if(superCharacterController)
-            return superCharacterController.currentGround.IsGrounded(true, 0.5f);
+            if (superCharacterController)
+                return superCharacterController.currentGround.IsGrounded(true, 0.5f);
 
             return false;
         }

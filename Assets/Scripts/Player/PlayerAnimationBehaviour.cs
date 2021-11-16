@@ -24,9 +24,9 @@ public class PlayerAnimationBehaviour : MonoBehaviourPun
 
     public void UpdateMovementAnimation(float movementBlendValue)
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
-        playerAnimator.SetFloat("Movement", movementBlendValue);
+        //playerAnimator.SetFloat("Movement", movementBlendValue);
     }
     public void PlayAttackAnimation() => playerAnimator.SetTrigger("Attack");
 
