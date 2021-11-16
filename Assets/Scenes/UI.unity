@@ -911,6 +911,7 @@ GameObject:
   - component: {fileID: 113421596}
   - component: {fileID: 113421595}
   - component: {fileID: 113421598}
+  - component: {fileID: 113421599}
   m_Layer: 0
   m_Name: CreateOrJoinRoom
   m_TagString: Untagged
@@ -1015,6 +1016,19 @@ MonoBehaviour:
   warrior: {fileID: 21300000, guid: 03b5e182102a542618ab206840636b29, type: 3}
   archer: {fileID: 21300000, guid: 891b756d8419f42d49971110b9029d90, type: 3}
   magician: {fileID: 21300000, guid: 1497f23a669d74dbbbe07b90e28682ba, type: 3}
+--- !u!114 &113421599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113421593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10be6a82ff3f426ea1325d00f7421a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGO: {fileID: 1780573483}
 --- !u!1 &142216439
 GameObject:
   m_ObjectHideFlags: 0
@@ -5045,6 +5059,7 @@ GameObject:
   - component: {fileID: 821181513}
   - component: {fileID: 821181512}
   - component: {fileID: 821181515}
+  - component: {fileID: 821181516}
   m_Layer: 0
   m_Name: StatsPage
   m_TagString: Untagged
@@ -5146,6 +5161,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTypeName: {fileID: 74340022}
+--- !u!114 &821181516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821181510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10be6a82ff3f426ea1325d00f7421a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGO: {fileID: 795633167}
 --- !u!1 &851683667
 GameObject:
   m_ObjectHideFlags: 0
@@ -6485,10 +6513,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 795633167}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 821181516}
+        m_TargetAssemblyTypeName: GameObjectExtensions, Assembly-CSharp
+        m_MethodName: DisableGameObjectWithDelay
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 159023082}
+        m_TargetAssemblyTypeName: Michsky.UI.FSC.FSTDemoManager, Assembly-CSharp
+        m_MethodName: ShowTransition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8303,10 +8343,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1780573483}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 113421599}
+        m_TargetAssemblyTypeName: GameObjectExtensions, Assembly-CSharp
+        m_MethodName: DisableGameObjectWithDelay
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 159023082}
+        m_TargetAssemblyTypeName: Michsky.UI.FSC.FSTDemoManager, Assembly-CSharp
+        m_MethodName: ShowTransition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10085,6 +10137,7 @@ GameObject:
   - component: {fileID: 1691459621}
   - component: {fileID: 1691459620}
   - component: {fileID: 1691459624}
+  - component: {fileID: 1691459625}
   m_Layer: 5
   m_Name: WalletConnect
   m_TagString: Untagged
@@ -10188,10 +10241,22 @@ MonoBehaviour:
   OnDataoaded:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 269856139}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1691459625}
+        m_TargetAssemblyTypeName: GameObjectExtensions, Assembly-CSharp
+        m_MethodName: DisableGameObjectWithDelay
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 159023082}
+        m_TargetAssemblyTypeName: Michsky.UI.FSC.FSTDemoManager, Assembly-CSharp
+        m_MethodName: ShowTransition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10200,6 +10265,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1691459625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691459619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10be6a82ff3f426ea1325d00f7421a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGO: {fileID: 269856139}
 --- !u!1001 &1698690178
 PrefabInstance:
   m_ObjectHideFlags: 0
