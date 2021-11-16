@@ -32,6 +32,7 @@ public class PlayerAnimationBehaviour : MonoBehaviourPun
 
     public void PlayDeathAnimation() => playerAnimator.SetTrigger("IsDead");
 
+    [ContextMenu("PlayOnHitAnimation")]
     public void PlayOnHitAnimation() => playerAnimator.SetTrigger("IsHit");
 
 

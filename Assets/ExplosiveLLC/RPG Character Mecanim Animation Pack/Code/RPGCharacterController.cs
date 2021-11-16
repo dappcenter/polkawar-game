@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPGCharacterAnims
 {
@@ -48,6 +49,8 @@ namespace RPGCharacterAnims
 
         //Animation speed control. (doesn't affect lock timing)
         public float animationSpeed = 1;
+
+        public UnityEvent OnTakeDamage;
 
         #region Initialization
 
@@ -386,6 +389,14 @@ namespace RPGCharacterAnims
 
         public void Attack(int attackSide)
         {
+            if (Physics.SphereCast(transform.position, 0.5f, transform.forward, out RaycastHit raycastHit, 5f))
+            {
+                if (raycastHit.collider.GetComponent<RPGCharacterController>())
+                {
+                    raycastHit.collider.GetComponent<RPGCharacterController>().GetHit();
+                }
+            }
+
             //0 = No side
             //1 = Left
             //2 = Right
@@ -774,6 +785,7 @@ namespace RPGCharacterAnims
             }
         }
 
+        [ContextMenu("GetHit")]
         public void GetHit()
         {
             if (weapon == Weapon.RELAX)
@@ -815,6 +827,8 @@ namespace RPGCharacterAnims
                     StartCoroutine(rpgCharacterMovementController._Knockback(-transform.right, 8, 4));
                 }
             }
+
+            OnTakeDamage.Invoke();
         }
 
         public void Death()

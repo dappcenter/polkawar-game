@@ -226,7 +226,10 @@ namespace RPGCharacterAnims
 
         public bool MaintainingGround()
         {
+            if(superCharacterController)
             return superCharacterController.currentGround.IsGrounded(true, 0.5f);
+
+            return false;
         }
 
         public void RotateGravity(Vector3 up)
